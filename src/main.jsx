@@ -9,7 +9,7 @@ import { AuthProviderWrapper } from "@context";
 window.name = "MemoReel";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <Router>
+  <Router basename="/projects/memoreel">
     <AuthProviderWrapper>
       <App />
     </AuthProviderWrapper>
