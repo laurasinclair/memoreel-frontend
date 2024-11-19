@@ -10,22 +10,28 @@ Memoreel is a full-stack journal app developed for daily note-taking. It allows 
 
 ## Features
 
-- User authentication and authorization
-- Note creation in multiple formats
-- Organized note storage by boards
-- Cloudinary integration for media uploads
+-  User authentication and secure authorization
+-  Note creation in multiple formats:
+   -  Text-based notes
+   -  Photos captured directly with your device camera
+   -  Voice recordings
+   -  YouTube videos embed
+   -  Upload and store images
+-  Board storage by date
+-  Manage and update user profile
 
 ## Technologies Used
 
-- MongoDB
-- Express
-- React
-- Node.js
-- Mongoose
-- JSON Web Tokens (JWT)
-- Cloudinary
-- Multer
-- Cors
+-  Express
+-  React
+-  Node.js
+-  MongoDB
+-  Mongoose
+-  Axios
+-  JSON Web Tokens (JWT)
+-  Cloudinary integration for media uploads
+-  Multer
+-  Cors
 
 ## API Endpoints
 
