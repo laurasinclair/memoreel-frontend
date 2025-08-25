@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 import uploadService from 'services/file-upload.service';
 import assetsService from 'services/assets.service';
@@ -6,9 +6,10 @@ import boardsService from 'services/boards.service';
 import usersService from 'services/users.service';
 import type { AssetProps, MediaFormProps, Status } from "types";
 
-import { WebcamCapture, AudioCapture, EditButtons } from 'components';
+import { WebcamCapture, AudioCapture, EditButtons, Loading } from 'components';
 import styles from './index.module.sass';
-import loadingGif from 'images/loading.gif';
+import { useOnClickOutside } from 'src/hooks/useOnClickOutside';
+import { validateContent } from 'src/utils';
 
 function MediaForm({
 	assetType,
@@ -19,14 +20,19 @@ function MediaForm({
 	setIsEditing,
 	deleteAsset,
 	setAllAssets,
-	setOpenPopUp,
 	setOpenMediaForm,
 	userId,
 }: MediaFormProps) {
-	const [newAssetContent, setNewAssetContent] = useState<AssetProps>(initialContent);
-	const [mediaFormStatus, setMediaFormStatus] = useState<Status>({state: "idle"})
-	const [touched, setTouched] = useState(false);
-	const [currentBoardId, setCurrentBoardId] = useState("");
+	const [newAssetContent, setNewAssetContent] =
+		useState<AssetProps>(initialContent);
+	const [mediaFormStatus, setMediaFormStatus] = useState<Status>({
+		state: "idle",
+	});
+	const [touched, setTouched] = useState<boolean>(false);
+	const [currentBoardId, setCurrentBoardId] = useState<string | null>(null);
+	
+	const popUpRef = useRef(null);
+	useOnClickOutside(popUpRef, () => setOpenMediaForm(false));
 
 	useEffect(() => {
 		setNewAssetContent(initialContent || "");
@@ -34,7 +40,6 @@ function MediaForm({
 
 	useEffect(() => {
 		const fetchCurrentBoard = async () => {
-			setMediaFormStatus({ state: "loading" });
 			const currentDate = new Date().toISOString().slice(0, 10);
 			if (userId) {
 				try {
@@ -42,44 +47,33 @@ function MediaForm({
 						userId,
 						currentDate
 					);
-					if (res.data.length !== 0) {
-						setCurrentBoardId(res.data[0]._id);
-						console.log(
-							"Existing board found. BoardID:",
-							res.data[0]._id
-						);
-					} else {
-						console.log("No current board found");
-						setCurrentBoardId(null);
-					}
+					if (!res.data.length) throw new Error("No current board found");
+					setCurrentBoardId(res.data[0]._id);
 				} catch (error) {
-					console.error("Error fetching current board:", error);
+					setCurrentBoardId(null);
+					setMediaFormStatus({
+						state: "error",
+						message: `Error fetching current board: ${error}`,
+					});
 				} finally {
-					setMediaFormStatus({state: "idle"});
+					setMediaFormStatus({ state: "idle" });
 				}
 			}
 		};
 		fetchCurrentBoard();
 	}, [userId]);
 
-	const validateContent = (content) => {
-		if (!content) return false;
-		if (assetType === "youtubeURL") {
-			const youtubeUrlRegex =
-				/^(http(s)??\:\/\/)?(www\.)?((youtube\.com\/watch\?v=)|(youtu.be\/))([a-zA-Z0-9\-_])+$/;
-			return youtubeUrlRegex.test(content);
-		}
-		return true;
-	};
-
 	const handleUploadFile = async (file) => {
 		try {
-			setMediaFormStatus({ state: "loading" });
+			// setMediaFormStatus({ state: "loading" });
 			const fileUrl = await uploadService.uploadFile(file);
 			setNewAssetContent(fileUrl);
 			return fileUrl;
 		} catch (error) {
-			setMediaFormStatus({ state: "error", message: error });
+			setMediaFormStatus({
+				state: "error",
+				message: `Error uploading file: ${error}`,
+			});
 		} finally {
 			setMediaFormStatus({ state: "idle" });
 		}
@@ -94,11 +88,10 @@ function MediaForm({
 
 	const handleSave = () => {
 		saveEdit ? saveEdit(newAssetContent) : addNewAsset();
-		setIsEditing ? setIsEditing(false) : setOpenMediaForm(false);
+		isEditing ? setIsEditing(false) : setOpenMediaForm(false);
 	};
 
 	const addNewAsset = async () => {
-		console.log("current id", currentBoardId);
 		try {
 			let boardId = currentBoardId;
 
@@ -117,12 +110,68 @@ function MediaForm({
 
 			const response = await assetsService.post(newAsset);
 			const createdAsset = response.data;
-			setAllAssets((prevAssets: AssetProps[]) => [...prevAssets, createdAsset]);
+			setAllAssets((prevAssets: AssetProps[]) => [
+				...prevAssets,
+				createdAsset,
+			]);
 			setNewAssetContent("");
-			setOpenPopUp(false);
 			setOpenMediaForm(false);
 		} catch (error) {
 			console.error("Error adding asset:", error);
+		}
+	};
+
+	const renderForm = (assetType: string) => {
+		switch (assetType) {
+			case "text":
+				return (
+					<textarea
+						placeholder="What's on your mind today?"
+						onChange={(e) => {
+							setNewAssetContent(e.target.value);
+							setTouched(true);
+						}}
+						value={newAssetContent}
+						className={styles.mediaForm_input}
+					/>
+				);
+			case "image":
+				return (
+					<input
+						type="file"
+						accept="image/*"
+						onChange={handleFileChange}
+						className={styles.mediaForm_input}
+					/>
+				);
+			case "youtubeURL":
+				return (
+					<input
+						type="text"
+						onChange={(e) => {
+							setNewAssetContent(e.target.value);
+							setTouched(true);
+						}}
+						value={newAssetContent}
+						placeholder="Paste Youtube URL here"
+						className={styles.mediaForm_input}
+					/>
+				);
+			case "camImage":
+				return (
+					<WebcamCapture
+						handleUploadFile={handleUploadFile}
+						loading={mediaFormStatus}
+						setLoading={setMediaFormStatus}
+					/>
+				);
+			case "audio":
+				return (
+					<AudioCapture
+						handleUploadFile={handleUploadFile}
+						setLoading={setMediaFormStatus}
+					/>
+				);
 		}
 	};
 
@@ -145,58 +194,13 @@ function MediaForm({
 
 	return (
 		<div className={styles.mediaForm}>
-			<div className={styles.mediaForm_bgr}>
+			<div className={styles.mediaForm_popUp} ref={popUpRef}>
 				<div className={styles.mediaForm_inputs}>
-					{assetType === "text" && (
-						<textarea
-							placeholder="What's on your mind today?"
-							onChange={(e) => {
-								setNewAssetContent(e.target.value);
-								setTouched(true);
-							}}
-							value={newAssetContent}
-							className={styles.mediaForm_input}
-						/>
-					)}
-					{assetType === "image" && (
-						<input
-							type="file"
-							accept="image/*"
-							onChange={handleFileChange}
-							className={styles.mediaForm_input}
-						/>
-					)}
-					{assetType === "youtubeURL" && (
-						<input
-							type="text"
-							onChange={(e) => {
-								setNewAssetContent(e.target.value);
-								setTouched(true);
-							}}
-							value={newAssetContent}
-							placeholder="Paste Youtube URL here"
-							className={styles.mediaForm_input}
-						/>
-					)}
-					{assetType === "camImage" && (
-						<WebcamCapture
-							handleUploadFile={handleUploadFile}
-							loading={mediaFormStatus}
-							setLoading={setMediaFormStatus}
-						/>
-					)}
-					{assetType === "audio" && (
-						<AudioCapture
-							handleUploadFile={handleUploadFile}
-							setLoading={setMediaFormStatus}
-						/>
-					)}
+					
+					{renderForm(assetType)}
+					
 					{mediaFormStatus.state === "loading" ? (
-						<img
-							src={loadingGif}
-							alt="Loading..."
-							style={{ width: "30px", height: "30px" }}
-						/>
+						<Loading size={30} style={{marginTop: "20px"}} />
 					) : (
 						editButtons()
 					)}

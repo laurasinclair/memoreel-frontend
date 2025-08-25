@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
 import { Pen, CheckLg, Trash, XLg } from 'react-bootstrap-icons';
 import classNames from 'classnames';
-
 import styles from './index.module.sass';
+import { Button } from 'components';
 
 const EditButtons = ({
 	handleSave,
@@ -24,17 +23,17 @@ const EditButtons = ({
 				validateContent={validateContent}
 				newAssetContent={newAssetContent}
 			/>
-			<CancelButton
-				isEditing={isEditing}
-				setIsEditing={setIsEditing}
-				setOpenMediaForm={setOpenMediaForm}
-			/>
 			<DeleteButton
 				assetId={assetId}
 				deleteAsset={deleteAsset}
 				setOpenMediaForm={setOpenMediaForm}
 			/>
-			{touched && !validateContent(newAssetContent) && <p>Invalid content</p>}
+			<CloseBtn
+				isEditing={isEditing}
+				setIsEditing={setIsEditing}
+				setOpenMediaForm={setOpenMediaForm}
+			/>
+			{/* {touched && !validateContent(newAssetContent) && <p>Invalid content</p>} // TODO: better error display */}
 		</div>
 	);
 };
@@ -48,42 +47,36 @@ export const SaveButton = ({
 	validateContent,
 	newAssetContent,
 	className,
-	bgcolor,
 }) => {
 	return (
-		<button
+		<Button
 			onClick={handleSave}
 			disabled={!validateContent(newAssetContent)}
-			className={classNames(styles.editButtons_button, className)}
+			className={classNames(className, "button-primary")}
 			style={{
 				display: isEditing && assetType === 'camImage' ? 'none' : 'flex',
-				backgroundColor: bgcolor || '#FFF791',
 			}}>
 			<CheckLg size='20' />
-		</button>
+		</Button>
 	);
 };
 
-export const CancelButton = ({
+export const CloseBtn = ({
 	isEditing,
 	setIsEditing,
 	setOpenMediaForm,
-	className,
 	bgcolor,
 }) => {
 	return (
 		<button
 			onClick={() => {
-				setIsEditing ? setIsEditing(false) : setOpenMediaForm(false);
+				isEditing ? setIsEditing(false) : setOpenMediaForm(false);
 			}}
 			style={{
-				backgroundColor: bgcolor || '#FFF791',
+				backgroundColor: bgcolor || "#FFF791",
 			}}
-			className={classNames({
-				[styles.editButtons_button]: isEditing,
-				[styles.editButtons_button_close]: !isEditing,
-				className,
-			})}>
+			className={styles.editButtons_closeBtn}
+		>
 			<XLg />
 		</button>
 	);
@@ -93,32 +86,28 @@ export const DeleteButton = ({
 	assetId,
 	deleteAsset,
 	setOpenMediaForm,
-	className,
-	bgcolor,
 }) => {
 	return (
-		<button
-			onClick={() => (assetId ? deleteAsset(assetId) : setOpenMediaForm(false))}
-			className={classNames(styles.editButtons_button, className)}
-			style={{
-				backgroundColor: bgcolor || '#FFF791',
-			}}>
+		<Button
+			onClick={() =>
+				assetId ? deleteAsset(assetId) : setOpenMediaForm(false)
+			}
+			style="primary"
+		>
 			<Trash />
-		</button>
+		</Button>
 	);
 };
 
 export const EditButton = ({ setIsEditing, className, bgcolor }) => {
 	return (
-		<button
-			className={classNames(styles.editButtons_button, className)}
+		<Button
+			className={className}
 			onClick={() => {
-				setIsEditing((prev) => !prev);
+				setIsEditing((prev: boolean) => !prev);
 			}}
-			style={{
-				backgroundColor: bgcolor || '#FFF791'
-			}}>
+			style="primary">
 			<Pen size={16} />
-		</button>
+		</Button>
 	);
 };

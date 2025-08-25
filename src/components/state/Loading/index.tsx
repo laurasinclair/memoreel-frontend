@@ -4,11 +4,11 @@ import classNames from 'classnames';
 
 function Loading() {
 	return (
-		<div className={styles.loading}>
+		<div>
 			<img
 				src={flower}
 				alt="Loading..."
-				className={classNames(styles.loading_image, "mb-3")}
+				className={classNames(styles.loading_image)}
 			/>
 		</div>
 	);

@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import styles from './index.module.sass';
 import classNames from 'classnames';
 import { ButtonProps } from 'src/types';
 import Loading from 'src/components/state/Loading';
@@ -19,13 +18,13 @@ export default function Button({
 }: ButtonProps) {
 	const buttonClasses = classNames(
 		className,
-		styles["button"],
-		styles[`button-${style}${outline ? "-outline" : ""}`],
+		"button",
+		`button-${style}${outline ? "-outline" : ""}`,
 		{
-			[styles["button-loading"]]: loading,
-			[styles["full-width"]]: fullWidth,
-			[styles["icon-left"]]: iconLeft,
-			[styles["icon-right"]]: iconRight,
+			"button-loading": loading,
+			"full-width": fullWidth,
+			"icon-left": iconLeft,
+			"icon-right": iconRight,
 		}
 	);
 

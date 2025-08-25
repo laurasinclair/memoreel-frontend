@@ -11,7 +11,7 @@ export default function MediaItem({
 	deleteAsset,
 	enableEditing,
 }: MediaItemProps) {
-	const [isEditing, setIsEditing] = useState(false);
+	const [isEditing, setIsEditing] = useState<boolean>(false);
 	const [assetContent, setAssetContent] = useState(asset.content);
 
 	const saveEdit = (newContent) => {
@@ -19,8 +19,6 @@ export default function MediaItem({
 		setIsEditing(false);
 		setAssetContent(newContent);
 	};
-
-	console.log(asset);
 
 	const renderContent = () => {
 		switch (asset.type) {

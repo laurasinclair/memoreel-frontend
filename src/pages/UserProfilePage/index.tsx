@@ -6,6 +6,7 @@ import usersService from 'services/users.service.ts';
 import uploadService from 'services/file-upload.service.ts';
 import styles from './index.module.sass';
 import { Loading, InfoMessage } from 'components';
+import { Status } from 'src/types';
 
 function UserProfilePage() {
 	const [nameInput, setNameInput] = useState('');
@@ -14,9 +15,9 @@ function UserProfilePage() {
 	const [initialName, setInitialName] = useState('');
 	const [initialEmail, setInitialEmail] = useState('');
 	const [initialProfileImg, setInitialProfileImg] = useState('');
-	const [loading, setLoading] = useState(false);
 	const { user, handleDeleteAccount } = useContext(AuthContext);
-	const [errorMessage, setErrorMessage] = useState(undefined);
+	const [userProfileState, setUserProfileState] = useState<Status>({state: "idle"});
+
 	const [infoMessage, setInfoMessage] = useState(undefined);
 	const fileInputRef = useRef(null);
 
@@ -34,38 +35,34 @@ function UserProfilePage() {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
-			if (user) {
-				const response = await usersService.put(user._id, {
-					name: nameInput,
-					email: emailInput,
-					profileImg: profileImg,
-				});
-				if (response.status === 200) {
-					setInfoMessage(true);
-					setInitialName(nameInput);
-					setInitialEmail(emailInput);
-					setInitialProfileImg(profileImg);
-				}
-			} else {
-				setErrorMessage('User not logged in');
-			}
+			if (!user) throw new Error("User not logged in");
+			const response = await usersService.put(user._id, {
+				name: nameInput,
+				email: emailInput,
+				profileImg: profileImg,
+			});
+			if (response.status !== 200) throw new Error("Problem with db");
+			setInfoMessage(true);
+			setInitialName(nameInput);
+			setInitialEmail(emailInput);
+			setInitialProfileImg(profileImg);
 		} catch (error) {
-			setErrorMessage(error.response.data.message);
-			console.log(error);
+			setUserProfileState({ state: "error", message: error });
 		}
 	};
 
 	const handleFileChange = async (e) => {
 		const file = e.target.files[0];
 		if (file) {
+			setUserProfileState({ state: "loading" });
 			try {
-				setLoading(true);
 				const fileUrl = await uploadService.uploadFile(file);
 				setProfileImg(fileUrl);
-				setLoading(false);
+				setUserProfileState({ state: "success" });
 			} catch (error) {
-				console.error('Error uploading file:', error);
-				setLoading(false);
+				setUserProfileState({ state: "error", message: error });
+			} finally {
+				setUserProfileState({ state: "idle" });
 			}
 		}
 	};
@@ -82,10 +79,10 @@ function UserProfilePage() {
 		);
 	};
 
-	if (errorMessage) return <div>{errorMessage}</div>;
+	if (userProfileState.state === "error") return <div>{userProfileState.message}</div>;
 	if (infoMessage) return <InfoMessage />;
-
-	if (loading) return <Loading />;
+	if (userProfileState.state === "loading")
+		return <Loading />;
 
 	return (
 		<div className={styles.userProfile}>

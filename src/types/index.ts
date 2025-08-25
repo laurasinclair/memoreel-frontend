@@ -12,7 +12,8 @@ export type User = {
 export type Status =
 	| { state: "idle" }
 	| { state: "loading" }
-	| { state: "error"; message: string };
+	| { state: "error"; message?: string }
+	| { state: "success"; message?: string };
 
 export type ChildrenProps = {
 	children: ReactNode;
@@ -64,8 +65,15 @@ export type AddMediaButtonProps = {
 }
 
 export type BoardProps = {
-	assets: AssetProps[];
-	className: string;
+	board: {
+		assets: AssetProps[];
+		userId: string;
+		_id?: string;
+		createdAt?: Date;
+		__v?: number;
+	};
+	className?: string;
+	isToday?: boolean;
 };
 
 export type UserContextProps = {

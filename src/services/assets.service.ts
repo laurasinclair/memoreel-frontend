@@ -19,11 +19,11 @@ class AssetsService {
     return this.api.post("/assets", requestBody);
   };
 
-  put = (id, requestBody) => {
+  put = (id: string, requestBody) => {
     return this.api.put(`/assets/${id}`, requestBody);
   };
 
-  delete = (id) => {
+  delete = (id: string) => {
     return this.api.delete(`/assets/${id}`);
   };
 }

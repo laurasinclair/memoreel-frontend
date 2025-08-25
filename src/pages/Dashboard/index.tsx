@@ -1,84 +1,36 @@
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext } from 'react';
 import {
 	AddMediaButtons, 
 	AddMediaButton,
 	MediaForm,
-	MediaItem,
 	Marquee,
-	Loading,
 	Board,
 } from "components";
+import { useAssets } from "src/hooks/useAssets";
 import { AuthContext } from 'context';
-import assetsService from 'services/assets.service';
-import usersService from 'services/users.service';
 import styles from './index.module.sass';
-import boardStyles from 'components/media/ui/Board/index.module.sass';
-import type { AssetProps, Status } from "types";
+import { Container } from 'react-bootstrap';
 
 const Dashboard = () => {
 	const { user } = useContext(AuthContext);
 	const [addMediaIsOpen, setAddMediaIsOpen] = useState(false);
 	const [openMediaForm, setOpenMediaForm] = useState(false);
 	const [assetType, setAssetType] = useState(null);
-	const [allAssets, setAllAssets] = useState([]);
-	const [dashboardState, setDashboardState] = useState<Status>({state: "idle"});
 
-	const deleteAsset = (assetId: string) => {
-		assetsService
-			.delete(assetId)
-			.then((res) => {
-				setAllAssets((prevAssets) =>
-					prevAssets.filter((asset) => asset._id !== assetId)
-				);
-			})
-			.catch((err) => {
-				console.error('Error deleting asset', err);
-			});
-	};
-
-	const editAsset = (assetId: string, editedContent: AssetProps) => {
-		assetsService
-			.put(assetId, {
-				content: editedContent,
-			})
-			.then((res) => {
-				const updatedAsset = res.data;
-				setAllAssets((prevAssets) =>
-					prevAssets.map((asset: AssetProps) =>
-						asset._id === assetId ? updatedAsset : asset
-					)
-				);
-			})
-			.catch((err) => {
-				console.error("Error updating asset", err);
-			});
-	};
+	const {
+		status,
+		deleteAsset,
+		setAllAssets,
+		editAsset,
+		todaysBoard,
+	} = useAssets(user?._id);
 
 	const handleAddMediaIsOpen = () => {
 		setAddMediaIsOpen(!addMediaIsOpen);
 	};
 
-	useEffect(() => {
-		const currentDate = new Date().toISOString().slice(0, 10);
-		if (user) {
-			usersService
-				.getCurrentBoard(user._id, currentDate)
-				.then((res) => {
-					if (res.data.length !== 0) {
-						setAllAssets(res.data[0].assets);
-						setDashboardState({ state: "idle" });
-					}
-				})
-				.catch((err) => {
-					setDashboardState({ state: "error", message: err });
-				})
-			};
-	}, [user]);
-
-	return dashboardState.state === "loading" ? (
-		<Loading />
-	) : (
-		<>
+	return (
+		<Container fluid>
 			{openMediaForm && (
 				<MediaForm
 					assetType={assetType}
@@ -89,6 +41,7 @@ const Dashboard = () => {
 					userId={user._id}
 				/>
 			)}
+
 			<section className={styles.dashboard}>
 				<Marquee
 					phrases={[
@@ -99,7 +52,6 @@ const Dashboard = () => {
 						"What made you laugh today?",
 					]}
 				/>
-
 				<div className={styles.dashboard_addMedia}>
 					<AddMediaButton
 						onClick={() => {
@@ -118,27 +70,20 @@ const Dashboard = () => {
 						/>
 					)}
 				</div>
-
-				{allAssets.length ? (
-					<div className={boardStyles.board_content}>
-						{allAssets
-							.slice()
-							.reverse()
-							.map((asset: AssetProps) => (
-								<MediaItem
-									key={asset._id}
-									asset={asset}
-									editAsset={editAsset}
-									deleteAsset={deleteAsset}
-									enableEditing={true}
-								/>
-							))}
-					</div>
+				{status.state === "success" && todaysBoard.assets.length ? (
+					<Board
+						board={todaysBoard}
+						editAsset={editAsset}
+						deleteAsset={deleteAsset}
+						enableEditing
+						isToday
+						isLoading={status.state}
+					/>
 				) : (
 					<div className="message">Create content for today!</div>
 				)}
 			</section>
-		</>
+		</Container>
 	);
 };
 

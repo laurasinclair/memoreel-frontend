@@ -53,48 +53,32 @@ export default function AddMediaButtons({
 		}
 	}, [openMediaForm]);
 
+	const mediaButtons = [
+		{ type: "image", icon: <Images size={30} />, label: "add image" },
+		{ type: "text", icon: <Stickies size={30} />, label: "add text" },
+		{
+			type: "youtubeURL",
+			icon: <PlayBtn size={30} />,
+			label: "add Youtube video",
+		},
+		{ type: "camImage", icon: <Camera size={30} />, label: "take selfie" },
+		{ type: "audio", icon: <Mic size={28} />, label: "add audio" },
+	];
+
 	return (
 		<>
-			<button
-				onClick={() => handleOnClick('image')}
-				className={`${styles.addMediaButton_assetTypeButton} ${
-					activeButton === 'image' ? styles.active : ''
-				}`}>
-				<Images size='30' />
-				<span>add image</span>
-			</button>
-			<button
-				onClick={() => handleOnClick('text')}
-				className={`${styles.addMediaButton_assetTypeButton} ${
-					activeButton === 'text' ? styles.active : ''
-				}`}>
-				<Stickies size='30' />
-				<span>add text</span>
-			</button>
-			<button
-				onClick={() => handleOnClick('youtubeURL')}
-				className={`${styles.addMediaButton_assetTypeButton} ${
-					activeButton === 'youtubeURL' ? styles.active : ''
-				}`}>
-				<PlayBtn size='30' />
-				<span>add Youtube video</span>
-			</button>
-			<button
-				onClick={() => handleOnClick('camImage')}
-				className={`${styles.addMediaButton_assetTypeButton} ${
-					activeButton === 'camImage' ? styles.active : ''
-				}`}>
-				<Camera size='30' />
-				<span>take selfie</span>
-			</button>
-			<button
-				onClick={() => handleOnClick('audio')}
-				className={`${styles.addMediaButton_assetTypeButton} ${
-					activeButton === 'audio' ? styles.active : ''
-				}`}>
-				<Mic size='28' />
-				<span>add audio</span>
-			</button>
+			{mediaButtons.map(({ type, icon, label }) => (
+				<button
+					key={type}
+					onClick={() => handleOnClick(type)}
+					className={`${styles.addMediaButton_assetTypeButton} ${
+						activeButton === type ? styles.active : ""
+					}`}
+				>
+					{icon}
+					<span>{label}</span>
+				</button>
+			))}
 		</>
 	);
 }
