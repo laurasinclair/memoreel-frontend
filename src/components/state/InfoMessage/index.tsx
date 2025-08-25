@@ -4,6 +4,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 
 import { AuthContext } from 'context';
 import { Button } from 'components';
+import { paths } from 'src/router/paths';
 
 function InfoMessage() {
 	const navigate = useNavigate();
@@ -25,7 +26,7 @@ function InfoMessage() {
 						<Button
 							onClick={() => {
 								logOutUser();
-								navigate('/login');
+								navigate(paths.login);
 							}}>
 							Login
 						</Button>

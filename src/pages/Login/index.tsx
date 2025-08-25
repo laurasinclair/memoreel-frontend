@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from 'context';
 import authService from 'services/auth.service';
 import loginStyles from './index.module.sass';
+import { paths } from 'router/paths';
 
 function Login() {
 	const [email, setEmail] = useState('');
@@ -26,7 +27,7 @@ function Login() {
 			.then((response) => {
 				storeToken(response.data.authToken);
 				authenticateUser();
-				navigate('/dashboard');
+				navigate(paths.dashboard);
 			})
 			.catch((error) => {
 				console.error(error);
@@ -88,7 +89,7 @@ function Login() {
 						)}
 						<p className=''>
 							Don&apos;t have an account yet?{' '}
-							<Link to={'/signup'}> Sign Up</Link>
+							<Link to={paths.signup}>Sign Up</Link>
 						</p>
 					</div>
 				</Col>

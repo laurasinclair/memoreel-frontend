@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import authService from "../../services/auth.service";
 import loginStyles from "../Login/index.module.sass";
+import { paths } from "src/router/paths";
 
 function SignupPage() {
   const [email, setEmail] = useState("");
@@ -21,10 +22,9 @@ function SignupPage() {
     authService
       .signup(requestBody)
       .then(() => {
-        navigate("/login");
+        navigate(paths.login);
       })
       .catch((error) => {
-        console.log(error);
         const errorDescription = error.response
           ? error.response.data.message
           : error.message;
@@ -84,7 +84,7 @@ function SignupPage() {
       </form>
       {errorMessage && <p className="error-message">{errorMessage}</p>}
       <p className="mt-10 mb-2">
-        Already have an account?<Link to={"/login"}> Log in</Link>
+        Already have an account? <Link to={paths.login}>Log in</Link>
       </p>
     </div>
   );

@@ -5,6 +5,7 @@ import { AuthContext } from "context";
 import landingslide1 from "images/landingpage-slideshow/landingslide1.png";
 import landingslide2 from "images/landingpage-slideshow/landingslide2.png";
 import { Button, Marquee } from "components";
+import { paths } from "src/router/paths";
 
 export default function LandingPage() {
 	const { user, isLoggedIn } = useContext(AuthContext);
@@ -41,7 +42,7 @@ export default function LandingPage() {
 					<p>
 						{isLoggedIn ? (`Welcome back, ${user.name}!`) : "Memoreel is a journaling app designed for daily note-taking."}
 					</p>
-					<Button to={isLoggedIn ? "/dashboard" : "/login"}>
+					<Button to={isLoggedIn ? paths.dashboard : paths.login} className="button-primary">
 						Highlight Your Day!
 					</Button>
 				</Row>
