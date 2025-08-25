@@ -26,7 +26,7 @@ export type MarqueeProps = {
 };
 
 export type LogoProps = {
-	size: string;
+	size?: number;
 	color: string;
 };
 
