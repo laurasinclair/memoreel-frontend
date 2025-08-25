@@ -19,6 +19,7 @@ function History() {
 				.getAllBoards(user._id)
 				.then((res) => {
 					setAllboards(res.data);
+					setHistoryStatus({ state: "success" });
 				})
 				.catch((error) =>
 					setHistoryStatus({
@@ -39,10 +40,24 @@ function History() {
 			{historyStatus.state === "loading" ? (
 				<Loading center />
 			) : (
-				<div className="center-all">
-					<p>No board created yet!</p>
-					<Button to="/dashboard">Highlight Your Day!</Button>
-				</div>
+				allBoards &&
+				(allBoards.length === 0 ? (
+					<div>
+						<p>No board created yet!</p>
+						<Button to="/dashboard">Highlight Your Day!</Button>
+					</div>
+				) : (
+					allBoards
+						.slice()
+						.reverse()
+						.map((board: BoardProps) => {
+							return (
+								board.assets.length !== 0 && (
+									<Board key={board._id} board={board} />
+								)
+							);
+						})
+				))
 			)}
 		</Container>
 	);
