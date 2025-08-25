@@ -1,5 +1,5 @@
 import { useContext, useState, useEffect } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from 'context';
 import { LogoFull, LogoSquare } from 'components';
 import styles from './index.module.sass';
@@ -7,12 +7,15 @@ import placeholder from 'images/placeholder.jpg';
 import { BoxArrowRight, EmojiSmile } from 'react-bootstrap-icons';
 import { Button } from 'components';
 import { useMediaPredicate } from 'react-media-hook';
+import type { UserContextProps } from "types";
+import { paths } from "router/paths";
 
 function NavBar() {
-	const { isLoggedIn, logOutUser, user } = useContext(AuthContext);
+	const { isLoggedIn, logOutUser, user } = useContext<UserContextProps>(AuthContext);
 	const location = useLocation();
 	const mobileViewport = useMediaPredicate('(max-width: 578px)');
 	const [isSpinning, setIsSpinning] = useState<Boolean>(true);
+	const navigate = useNavigate()
 
 	useEffect(() => {
 		const timer = setTimeout(() => {
@@ -26,7 +29,7 @@ function NavBar() {
 		if (location.pathname === '/dashboard') size = '210px';
 
 		return (
-			<NavLink to='/'>
+			<NavLink to={paths.base}>
 				{mobileViewport ? (
 					<LogoSquare
 						color='#B087F4'
@@ -44,12 +47,14 @@ function NavBar() {
 
 	const renderAuthLinks = () => (
 		<div className={styles.topRight}>
-			{location.pathname !== "/login" && <Button to="/login">Login</Button>}
-			{location.pathname !== "/signup" && (
-				<Button to="/signup">Signup</Button>
+			{location.pathname !== paths.login && (
+				<Button to={paths.login}>Login</Button>
 			)}
-			{location.pathname !== "/about" && (
-				<Button to="/about" className={styles.aboutBtn}>
+			{location.pathname !== paths.signup && (
+				<Button to={paths.signup}>Signup</Button>
+			)}
+			{location.pathname !== paths.about && (
+				<Button to={paths.about} className={styles.aboutBtn}>
 					<EmojiSmile className={isSpinning ? styles.spin : ""} />
 				</Button>
 			)}
@@ -58,19 +63,22 @@ function NavBar() {
 
 	const renderNavLinks = () => (
 		<div className={styles.navbarButtons}>
-			{location.pathname === "/dashboard" && (
-				<Button to="/dashboard/history">History</Button>
+			{location.pathname === paths.dashboard && (
+				<Button to={paths.history}>History</Button>
 			)}
-			{location.pathname !== "/dashboard" && (
-				<Button to="/dashboard">Dashboard</Button>
+			{location.pathname !== paths.dashboard && (
+				<Button to={paths.dashboard}>Dashboard</Button>
 			)}
-			{location.pathname !== "/about" && (
-				<Button to="/about">
+			{location.pathname !== paths.about && (
+				<Button to={paths.about}>
 					<EmojiSmile className={isSpinning ? styles.spin : ""} />
 				</Button>
 			)}
-			{location.pathname === "/profile" && (
-				<Button to="/" onClick={logOutUser}>
+			{location.pathname === paths.userProfile && (
+				<Button onClick={() => {
+					logOutUser()
+					navigate(paths.base)
+				}}>
 					{<BoxArrowRight size="20" />}
 				</Button>
 			)}

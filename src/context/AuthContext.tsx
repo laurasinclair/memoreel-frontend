@@ -1,10 +1,10 @@
-import { useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import authService from "services/auth.service";
 import usersService from "services/users.service.ts";
 import boardsService from "services/boards.service.ts";
 import assetsService from "services/assets.service.ts";
 import type { Status, ChildrenProps, User } from "types";
+import { paths } from "router/paths";
 
 const AuthContext = React.createContext(undefined);
 
@@ -12,8 +12,6 @@ function AuthProviderWrapper({ children }: ChildrenProps) {
 	const [isLoggedIn, setIsLoggedIn] = useState<Boolean>(false);
 	const [user, setUser] = useState<User | null>(null);
 	const [authStatus, setAuthStatus] = useState<Status>({ state: "idle" });
-
-	const navigate = useNavigate();
 
 	const storeToken = (token) => {
 		localStorage.setItem("authToken", token);
@@ -76,12 +74,11 @@ function AuthProviderWrapper({ children }: ChildrenProps) {
 				setIsLoggedIn(false);
 				setAuthStatus({ state: "idle" });
 				setUser(null);
-				navigate("/login");
 			}
 		} catch (error) {
 			setAuthStatus({
 				state: "error",
-				message: `"Error deleting account:", error`,
+				message: `Error deleting account: ${error}`,
 			});
 		}
 	};

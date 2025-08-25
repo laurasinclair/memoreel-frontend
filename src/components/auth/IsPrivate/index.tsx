@@ -1,18 +1,16 @@
 import { useContext } from 'react';
-import { Navigate } from 'react-router-dom';
+import { useNavigate, Navigate } from "react-router-dom";
 import { AuthContext } from 'context';
 import { Loading } from 'components';
+import { paths } from 'router/paths';
+import type { ChildrenProps, UserContextProps } from "types";
 
-function IsPrivate({ children }) {
-	const { isLoggedIn, isLoading } = useContext(AuthContext);
+function IsPrivate({ children }: ChildrenProps) {
+	const { isLoggedIn, authStatus } = useContext<UserContextProps>(AuthContext);
+	const navigate = useNavigate();
 
-	if (isLoading) return <Loading />;
-
-	if (!isLoggedIn) {
-		return <Navigate to='/login' />;
-	} else {
-		return children;
-	}
+	if (authStatus.state === "loading") return <Loading />;
+	return !isLoggedIn ? <Navigate to={paths.login} /> : children;
 }
 
 export default IsPrivate;

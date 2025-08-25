@@ -1,17 +1,16 @@
-import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter as Router } from 'react-router-dom';
-
-import App from './App.tsx';
+import { RouterProvider } from "react-router-dom";
+import Router from "router";
 import './styles/index.sass';
-import { AuthProviderWrapper } from 'context';
+import React from 'react';
+import { AuthProviderWrapper } from './context';
 
 window.name = 'MemoReel';
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-	<Router basename='/projects/memoreel'>
+ReactDOM.createRoot(document.getElementById("root")).render(
+	<React.StrictMode>
 		<AuthProviderWrapper>
-			<App />
+			<RouterProvider router={Router} />
 		</AuthProviderWrapper>
-	</Router>
+	</React.StrictMode>
 );

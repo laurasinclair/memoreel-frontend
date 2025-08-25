@@ -58,3 +58,9 @@ type BoardProps = {
 	assets: AssetProps[];
 	className: string;
 };
+
+type UserContextProps = {
+	isLoggedIn: boolean;
+	authStatus: Status;
+	user: User;
+};

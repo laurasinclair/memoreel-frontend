@@ -1,18 +1,18 @@
+import { useEffect, useRef, useState } from "react";
 import { Asterisk } from "react-bootstrap-icons";
 import classNames from "classnames";
 import styles from "./index.module.sass";
 import type { MarqueeProps } from "types";
-import { useEffect, useRef, useState } from "react";
 
 function Marquee({ phrases, className, gap = 30, speed = 0.5 }: MarqueeProps) {
-  if (!phrases) return;
+	if (!phrases) return;
 
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [offset, setOffset] = useState<number>(0);
+	const containerRef = useRef<HTMLDivElement>(null);
+	const [offset, setOffset] = useState<number>(0);
 
 	const duplicatedPhrases = phrases ? Array(10).fill(phrases).flat() : [[""]];
 
-  useEffect(() => {
+	useEffect(() => {
 		let animationFrame: number;
 
 		const scroll = () => {
@@ -24,15 +24,15 @@ function Marquee({ phrases, className, gap = 30, speed = 0.5 }: MarqueeProps) {
 
 		animationFrame = requestAnimationFrame(scroll);
 		return () => cancelAnimationFrame(animationFrame);
-  }, [speed, phrases]);
+	}, [speed, phrases]);
 
-  return (
+	return (
 		<div className={classNames(styles.marquee, className)}>
 			<div
 				className={styles.marquee_content}
 				ref={containerRef}
 				style={{
-					transform: `translateX(-${offset}px)`
+					transform: `translateX(-${offset}px)`,
 				}}
 			>
 				{duplicatedPhrases.map((phrase, index) => {
@@ -53,7 +53,7 @@ function Marquee({ phrases, className, gap = 30, speed = 0.5 }: MarqueeProps) {
 				})}
 			</div>
 		</div>
-  );
+	);
 }
 
 export default Marquee;

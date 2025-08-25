@@ -2,6 +2,7 @@ import { useContext } from 'react';
 import { AuthContext } from 'context';
 import { Navigate } from 'react-router-dom';
 import { Loading } from 'components';
+import { paths } from 'router/paths';
 
 function IsAnon({ children }) {
 	const { isLoggedIn, isLoading } = useContext(AuthContext);
@@ -9,7 +10,7 @@ function IsAnon({ children }) {
 	if (isLoading) return <Loading />;
 
 	if (isLoggedIn) {
-		return <Navigate to='/dashboard' />;
+		return <Navigate to={paths.dashboard} />;
 	} else {
 		return children;
 	}
