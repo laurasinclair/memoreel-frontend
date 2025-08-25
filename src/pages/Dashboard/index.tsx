@@ -6,13 +6,14 @@ import {
 	MediaItem,
 	Marquee,
 	Loading,
+	Board,
 } from "components";
 import { AuthContext } from 'context';
 import assetsService from 'services/assets.service';
 import usersService from 'services/users.service';
 import styles from './index.module.sass';
 import boardStyles from 'components/media/ui/Board/index.module.sass';
-import type { Status } from "types";
+import type { AssetProps, Status } from "types";
 
 const Dashboard = () => {
 	const { user } = useContext(AuthContext);
@@ -22,7 +23,7 @@ const Dashboard = () => {
 	const [allAssets, setAllAssets] = useState([]);
 	const [dashboardState, setDashboardState] = useState<Status>({state: "idle"});
 
-	const deleteAsset = (assetId) => {
+	const deleteAsset = (assetId: string) => {
 		assetsService
 			.delete(assetId)
 			.then((res) => {
@@ -35,7 +36,7 @@ const Dashboard = () => {
 			});
 	};
 
-	const editAsset = (assetId, editedContent) => {
+	const editAsset = (assetId: string, editedContent: AssetProps) => {
 		assetsService
 			.put(assetId, {
 				content: editedContent,
@@ -43,13 +44,13 @@ const Dashboard = () => {
 			.then((res) => {
 				const updatedAsset = res.data;
 				setAllAssets((prevAssets) =>
-					prevAssets.map((asset) =>
+					prevAssets.map((asset: AssetProps) =>
 						asset._id === assetId ? updatedAsset : asset
 					)
 				);
 			})
 			.catch((err) => {
-				console.error('Error updating asset', err);
+				console.error("Error updating asset", err);
 			});
 	};
 
@@ -123,7 +124,7 @@ const Dashboard = () => {
 						{allAssets
 							.slice()
 							.reverse()
-							.map((asset) => (
+							.map((asset: AssetProps) => (
 								<MediaItem
 									key={asset._id}
 									asset={asset}

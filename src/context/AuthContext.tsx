@@ -4,7 +4,6 @@ import usersService from "services/users.service.ts";
 import boardsService from "services/boards.service.ts";
 import assetsService from "services/assets.service.ts";
 import type { Status, ChildrenProps, User } from "types";
-import { paths } from "router/paths";
 
 const AuthContext = React.createContext(undefined);
 

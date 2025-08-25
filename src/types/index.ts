@@ -1,66 +1,101 @@
-import { ReactNode } from "react";
+import { Dispatch, ReactNode, SetStateAction } from "react";
 
-type User = {
+export type User = {
 	_id: string;
 	email: string;
 	name: string;
 	iat: number | undefined;
 	exp: number | undefined;
+	profileImg?: string;
 };
 
-type Status =
+export type Status =
 	| { state: "idle" }
 	| { state: "loading" }
 	| { state: "error"; message: string };
 
-type ChildrenProps = {
+export type ChildrenProps = {
 	children: ReactNode;
 };
 
-type MarqueeProps = {
+export type MarqueeProps = {
 	phrases: string[];
-	className: string;
+	className?: string;
 	gap?: number;
 	speed?: number;
 };
 
-type LogoProps = {
+export type LogoProps = {
 	size: string;
 	color: string;
 };
 
-type AssetProps = {
+export type AssetProps = {
 	boardId: string;
 	content: string;
 	type: string;
 	userId: string;
+	test: string; // TODO: remove
 	_id?: string;
 	__v?: number;
 	createdAt?: string;
 };
 
-type MediaFormProps = {
+export type MediaFormProps = {
 	assetType: string;
 	initialContent: AssetProps;
 	isEditing: boolean;
-	setIsEditing: boolean;
+	setIsEditing: Dispatch<SetStateAction<boolean>>;
 	assetId: string;
-	saveEdit: Function;
-	deleteAsset: Function;
+	saveEdit: (newContent: string) => void; // TODO: newContent might not be string
+	deleteAsset: (assetId: string) => void;
 };
 
-type AddMediaButtonProps = {
+export type MediaItemProps = {
+	asset: AssetProps;
+	editAsset: (assetId: string, editedContent: AssetProps) => void;
+	deleteAsset: (assetId: string) => void;
+	enableEditing: boolean;
+};
+
+export type AddMediaButtonProps = {
 	onClick: Function,
 	AddMediaIsOpen: boolean
 }
 
-type BoardProps = {
+export type BoardProps = {
 	assets: AssetProps[];
 	className: string;
 };
 
-type UserContextProps = {
+export type UserContextProps = {
 	isLoggedIn: boolean;
 	authStatus: Status;
 	user: User;
+};
+
+export type AboutType = {
+	name: string;
+	description: string;
+	color: string;
+	image: string;
+	social: {
+		github: string;
+		linkedin: string;
+	}
+}
+
+export type ButtonProps = {
+	children: ReactNode;
+	to?: string;
+	style?: "primary" | "secondary";
+	type?: "button" | "submit" | "reset" | undefined;
+	outline?: boolean;
+	className?: string;
+	fullWidth?: boolean;
+	iconRight?: ReactNode;
+	iconLeft?: ReactNode;
+	disabled?: boolean;
+	onClick?: React.MouseEventHandler<HTMLElement>;
+	loading?: boolean;
 };

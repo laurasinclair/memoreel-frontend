@@ -3,13 +3,14 @@ import ReactPlayer from 'react-player/youtube';
 import MediaForm from 'components/media/ui/MediaForm';
 import { EditButton } from 'components/media/ui/EditButtons';
 import styles from './index.module.sass';
+import { AssetProps, MediaItemProps } from 'src/types';
 
 export default function MediaItem({
 	asset,
 	editAsset,
 	deleteAsset,
 	enableEditing,
-}) {
+}: MediaItemProps) {
 	const [isEditing, setIsEditing] = useState(false);
 	const [assetContent, setAssetContent] = useState(asset.content);
 

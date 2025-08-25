@@ -63,9 +63,8 @@ function MediaForm({
 	}, [userId]);
 
 	const validateContent = (content) => {
-		if (!content.trim()) {
-			return false;
-		} else if (assetType === "youtubeURL") {
+		if (!content) return false;
+		if (assetType === "youtubeURL") {
 			const youtubeUrlRegex =
 				/^(http(s)??\:\/\/)?(www\.)?((youtube\.com\/watch\?v=)|(youtu.be\/))([a-zA-Z0-9\-_])+$/;
 			return youtubeUrlRegex.test(content);
