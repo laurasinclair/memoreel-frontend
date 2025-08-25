@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import {
 	AddMediaButtons, 
 	AddMediaButton,
@@ -12,6 +12,7 @@ import assetsService from 'services/assets.service';
 import usersService from 'services/users.service';
 import styles from './index.module.sass';
 import boardStyles from 'components/media/ui/Board/index.module.sass';
+import type { Status } from "types";
 
 const Dashboard = () => {
 	const { user } = useContext(AuthContext);
@@ -19,7 +20,7 @@ const Dashboard = () => {
 	const [openMediaForm, setOpenMediaForm] = useState(false);
 	const [assetType, setAssetType] = useState(null);
 	const [allAssets, setAllAssets] = useState([]);
-	const [loading, setLoading] = useState(true);
+	const [dashboardState, setDashboardState] = useState<Status>({state: "idle"});
 
 	const deleteAsset = (assetId) => {
 		assetsService
@@ -59,18 +60,21 @@ const Dashboard = () => {
 	useEffect(() => {
 		const currentDate = new Date().toISOString().slice(0, 10);
 		if (user) {
-			usersService.getCurrentBoard(user._id, currentDate).then((res) => {
-				if (res.data.length !== 0) {
-					setAllAssets(res.data[0].assets);
-					setLoading(false);
-				} else {
-					setLoading(false);
-				}
-			});
-		}
+			usersService
+				.getCurrentBoard(user._id, currentDate)
+				.then((res) => {
+					if (res.data.length !== 0) {
+						setAllAssets(res.data[0].assets);
+						setDashboardState({ state: "idle" });
+					}
+				})
+				.catch((err) => {
+					setDashboardState({ state: "error", message: err });
+				})
+			};
 	}, [user]);
 
-	return loading ? (
+	return dashboardState.state === "loading" ? (
 		<Loading />
 	) : (
 		<>
@@ -87,11 +91,11 @@ const Dashboard = () => {
 			<section className={styles.dashboard}>
 				<Marquee
 					phrases={[
-						'For days worth remembering',
+						"For days worth remembering",
 						user
 							? `What's on your mind, ${user.name} ?`
 							: "What's on your mind?",
-						'What made you laugh today?',
+						"What made you laugh today?",
 					]}
 				/>
 
@@ -114,7 +118,7 @@ const Dashboard = () => {
 					)}
 				</div>
 
-				{allAssets.length > 0 ? (
+				{allAssets.length ? (
 					<div className={boardStyles.board_content}>
 						{allAssets
 							.slice()
@@ -130,7 +134,7 @@ const Dashboard = () => {
 							))}
 					</div>
 				) : (
-					<div className='message'>Create content for today!</div>
+					<div className="message">Create content for today!</div>
 				)}
 			</section>
 		</>

@@ -5,14 +5,14 @@ import { LogoFull, LogoSquare } from 'components';
 import styles from './index.module.sass';
 import placeholder from 'images/placeholder.jpg';
 import { BoxArrowRight, EmojiSmile } from 'react-bootstrap-icons';
-import Button from '../../elements/Button';
+import { Button } from 'components';
 import { useMediaPredicate } from 'react-media-hook';
 
 function NavBar() {
 	const { isLoggedIn, logOutUser, user } = useContext(AuthContext);
 	const location = useLocation();
 	const mobileViewport = useMediaPredicate('(max-width: 578px)');
-	const [isSpinning, setIsSpinning] = useState(true);
+	const [isSpinning, setIsSpinning] = useState<Boolean>(true);
 
 	useEffect(() => {
 		const timer = setTimeout(() => {

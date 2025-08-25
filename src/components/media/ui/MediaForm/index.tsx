@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 import uploadService from 'services/file-upload.service';
 import assetsService from 'services/assets.service';
 import boardsService from 'services/boards.service';
 import usersService from 'services/users.service';
+import type { AssetProps, MediaFormProps, Status } from "types";
 
 import { WebcamCapture, AudioCapture, EditButtons } from 'components';
 import styles from './index.module.sass';
@@ -21,18 +22,19 @@ function MediaForm({
 	setOpenPopUp,
 	setOpenMediaForm,
 	userId,
-}) {
-	const [newAssetContent, setNewAssetContent] = useState(initialContent || '');
-	const [loading, setLoading] = useState(false);
+}: MediaFormProps) {
+	const [newAssetContent, setNewAssetContent] = useState<AssetProps>(initialContent);
+	const [mediaFormStatus, setMediaFormStatus] = useState<Status>({state: "idle"})
 	const [touched, setTouched] = useState(false);
-	const [currentBoardId, setCurrentBoardId] = useState('');
+	const [currentBoardId, setCurrentBoardId] = useState("");
 
 	useEffect(() => {
-		setNewAssetContent(initialContent || '');
+		setNewAssetContent(initialContent || "");
 	}, [initialContent]);
 
 	useEffect(() => {
 		const fetchCurrentBoard = async () => {
+			setMediaFormStatus({ state: "loading" });
 			const currentDate = new Date().toISOString().slice(0, 10);
 			if (userId) {
 				try {
@@ -43,17 +45,17 @@ function MediaForm({
 					if (res.data.length !== 0) {
 						setCurrentBoardId(res.data[0]._id);
 						console.log(
-							'Existing board found. BoardID:',
+							"Existing board found. BoardID:",
 							res.data[0]._id
 						);
 					} else {
-						console.log('No current board found');
+						console.log("No current board found");
 						setCurrentBoardId(null);
 					}
 				} catch (error) {
-					console.error('Error fetching current board:', error);
+					console.error("Error fetching current board:", error);
 				} finally {
-					setLoading(false);
+					setMediaFormStatus({state: "idle"});
 				}
 			}
 		};
@@ -63,7 +65,7 @@ function MediaForm({
 	const validateContent = (content) => {
 		if (!content.trim()) {
 			return false;
-		} else if (assetType === 'youtubeURL') {
+		} else if (assetType === "youtubeURL") {
 			const youtubeUrlRegex =
 				/^(http(s)??\:\/\/)?(www\.)?((youtube\.com\/watch\?v=)|(youtu.be\/))([a-zA-Z0-9\-_])+$/;
 			return youtubeUrlRegex.test(content);
@@ -73,14 +75,14 @@ function MediaForm({
 
 	const handleUploadFile = async (file) => {
 		try {
-			setLoading(true);
+			setMediaFormStatus({ state: "loading" });
 			const fileUrl = await uploadService.uploadFile(file);
 			setNewAssetContent(fileUrl);
 			return fileUrl;
 		} catch (error) {
-			console.error('Error uploading file:', error);
+			setMediaFormStatus({ state: "error", message: error });
 		} finally {
-			setLoading(false);
+			setMediaFormStatus({ state: "idle" });
 		}
 	};
 
@@ -97,7 +99,7 @@ function MediaForm({
 	};
 
 	const addNewAsset = async () => {
-		console.log('current id', currentBoardId);
+		console.log("current id", currentBoardId);
 		try {
 			let boardId = currentBoardId;
 
@@ -105,10 +107,9 @@ function MediaForm({
 				const boardResp = await boardsService.post({ userId });
 				boardId = boardResp.data._id;
 				setCurrentBoardId(boardId);
-				console.log('New board created, this id:', boardId);
 			}
 
-			const newAsset = {
+			const newAsset: AssetProps = {
 				type: assetType,
 				content: newAssetContent,
 				userId: userId,
@@ -117,12 +118,12 @@ function MediaForm({
 
 			const response = await assetsService.post(newAsset);
 			const createdAsset = response.data;
-			setAllAssets((prevAssets) => [...prevAssets, createdAsset]);
-			setNewAssetContent('');
+			setAllAssets((prevAssets: AssetProps[]) => [...prevAssets, createdAsset]);
+			setNewAssetContent("");
 			setOpenPopUp(false);
 			setOpenMediaForm(false);
 		} catch (error) {
-			console.error('Error adding asset:', error);
+			console.error("Error adding asset:", error);
 		}
 	};
 
@@ -147,7 +148,7 @@ function MediaForm({
 		<div className={styles.mediaForm}>
 			<div className={styles.mediaForm_bgr}>
 				<div className={styles.mediaForm_inputs}>
-					{assetType === 'text' && (
+					{assetType === "text" && (
 						<textarea
 							placeholder="What's on your mind today?"
 							onChange={(e) => {
@@ -158,44 +159,44 @@ function MediaForm({
 							className={styles.mediaForm_input}
 						/>
 					)}
-					{assetType === 'image' && (
+					{assetType === "image" && (
 						<input
-							type='file'
-							accept='image/*'
+							type="file"
+							accept="image/*"
 							onChange={handleFileChange}
 							className={styles.mediaForm_input}
 						/>
 					)}
-					{assetType === 'youtubeURL' && (
+					{assetType === "youtubeURL" && (
 						<input
-							type='text'
+							type="text"
 							onChange={(e) => {
 								setNewAssetContent(e.target.value);
 								setTouched(true);
 							}}
 							value={newAssetContent}
-							placeholder='Paste Youtube URL here'
+							placeholder="Paste Youtube URL here"
 							className={styles.mediaForm_input}
 						/>
 					)}
-					{assetType === 'camImage' && (
+					{assetType === "camImage" && (
 						<WebcamCapture
 							handleUploadFile={handleUploadFile}
-							loading={loading}
-							setLoading={setLoading}
+							loading={mediaFormStatus}
+							setLoading={setMediaFormStatus}
 						/>
 					)}
-					{assetType === 'audio' && (
+					{assetType === "audio" && (
 						<AudioCapture
 							handleUploadFile={handleUploadFile}
-							setLoading={setLoading}
+							setLoading={setMediaFormStatus}
 						/>
 					)}
-					{loading ? (
+					{mediaFormStatus.state === "loading" ? (
 						<img
 							src={loadingGif}
-							alt='Loading...'
-							style={{ width: '30px', height: '30px' }}
+							alt="Loading..."
+							style={{ width: "30px", height: "30px" }}
 						/>
 					) : (
 						editButtons()

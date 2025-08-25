@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react';
 
 import { Images, PlayBtn, Camera, Stickies, Mic, PlusLg } from 'react-bootstrap-icons';
 import classNames from 'classnames';
+import type { AddMediaButtonProps } from "types";
 
 import styles from './index.module.sass';
 
-export function AddMediaButton({onClick, addMediaIsOpen}) {
+export function AddMediaButton({onClick, addMediaIsOpen}: AddMediaButtonProps) {
 	return (
 		<button
-      onClick={onClick}
+			onClick={onClick}
 			className={classNames(styles.addMediaButton_addButton, {
 				[styles.addMediaButton_addButton_on]: addMediaIsOpen,
 			})}>
@@ -34,8 +35,8 @@ export default function AddMediaButtons({
 }) {
 	const [activeButton, setActiveButton] = useState(null);
 
-	const handleOnClick = (type) => {
-		setOpenMediaForm((prev) => {
+	const handleOnClick = (type: string) => {
+		setOpenMediaForm((prev: boolean) => {
 			if (prev && assetType === type) {
 				return false;
 			} else {

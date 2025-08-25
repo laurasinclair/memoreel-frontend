@@ -2,8 +2,8 @@ import { useEffect, useState, useContext, useRef } from 'react';
 import { Pen } from 'react-bootstrap-icons';
 
 import { AuthContext } from 'context';
-import usersService from 'services/users.service.js';
-import uploadService from 'services/file-upload.service.js';
+import usersService from 'services/users.service.ts';
+import uploadService from 'services/file-upload.service.ts';
 import styles from './index.module.sass';
 import { Loading, InfoMessage } from 'components';
 
