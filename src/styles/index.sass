@@ -78,6 +78,8 @@ h1, h2, h3, h4, h5, h6
 
 .App
 	min-height: 100vh
+	display: flex
+	flex-direction: column
 
 .profilePic
 	display: block
@@ -99,10 +101,22 @@ h1, h2, h3, h4, h5, h6
 	text-align: center
 	margin-top: 100px
 
-.infoMessage
+.flex-col 
 	display: flex
 	flex-direction: column
+
+.center-all
 	justify-content: center
 	align-items: center
 	text-align: center
+
+.flex-1
+	flex: 1
+
+.infoMessage
+	@extend .center-all
 	color: $indigo
+
+main, section
+	@extend .flex-1
+	@extend .flex-col

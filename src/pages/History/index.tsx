@@ -31,28 +31,18 @@ function History() {
 	}, [user]);
 
 	return (
-		<Container fluid>
+		<Container
+			fluid
+			className="center-all flex-col flex-1"
+			style={{ marginBottom: "100px" }}
+		>
 			{historyStatus.state === "loading" ? (
-				<Loading />
+				<Loading center />
 			) : (
-				allBoards &&
-				(allBoards.length === 0 ? (
-					<div>
-						No board created yet!
-						<Button to="/dashboard">Highlight Your Day!</Button>
-					</div>
-				) : (
-					allBoards
-						.slice()
-						.reverse()
-						.map((board: BoardProps) => {
-							return (
-								board.assets.length !== 0 && (
-									<Board key={board._id} board={board} />
-								)
-							);
-						})
-				))
+				<div className="center-all">
+					<p>No board created yet!</p>
+					<Button to="/dashboard">Highlight Your Day!</Button>
+				</div>
 			)}
 		</Container>
 	);

@@ -5,6 +5,7 @@ import {
 	MediaForm,
 	Marquee,
 	Board,
+	Loading,
 } from "components";
 import { useAssets } from "src/hooks/useAssets";
 import { AuthContext } from 'context';
@@ -30,7 +31,7 @@ const Dashboard = () => {
 	};
 
 	return (
-		<Container fluid>
+		<>
 			{openMediaForm && (
 				<MediaForm
 					assetType={assetType}
@@ -52,38 +53,41 @@ const Dashboard = () => {
 						"What made you laugh today?",
 					]}
 				/>
-				<div className={styles.dashboard_addMedia}>
-					<AddMediaButton
-						onClick={() => {
-							handleAddMediaIsOpen();
-							setOpenMediaForm((prev) => (prev ? false : false));
-						}}
-						addMediaIsOpen={addMediaIsOpen}
-					/>
-
-					{addMediaIsOpen && (
-						<AddMediaButtons
-							assetType={assetType}
-							setAssetType={setAssetType}
-							setOpenMediaForm={setOpenMediaForm}
-							openMediaForm={openMediaForm}
+				<Container fluid className="flex-col center-all flex-1">
+					<div className={styles.dashboard_addMedia}>
+						{addMediaIsOpen && (
+							<AddMediaButtons
+								assetType={assetType}
+								setAssetType={setAssetType}
+								setOpenMediaForm={setOpenMediaForm}
+								openMediaForm={openMediaForm}
+							/>
+						)}
+						<AddMediaButton
+							onClick={() => {
+								handleAddMediaIsOpen();
+								setOpenMediaForm((prev) => (prev ? false : false));
+							}}
+							addMediaIsOpen={addMediaIsOpen}
 						/>
+					</div>
+					{status.state === "success" && todaysBoard.assets.length ? (
+						<Board
+							board={todaysBoard}
+							editAsset={editAsset}
+							deleteAsset={deleteAsset}
+							enableEditing
+							isToday
+							isLoading={status.state}
+						/>
+					) : status.state === "loading" ? (
+						<Loading center />
+					) : (
+						<div className="message">Create content for today!</div>
 					)}
-				</div>
-				{status.state === "success" && todaysBoard.assets.length ? (
-					<Board
-						board={todaysBoard}
-						editAsset={editAsset}
-						deleteAsset={deleteAsset}
-						enableEditing
-						isToday
-						isLoading={status.state}
-					/>
-				) : (
-					<div className="message">Create content for today!</div>
-				)}
+				</Container>
 			</section>
-		</Container>
+		</>
 	);
 };
 

@@ -3,9 +3,11 @@ import { Outlet } from 'react-router-dom';
 
 function App() {
 	return (
-		<div className='App'>
+		<div className="App">
 			<NavBar />
-			<Outlet />
+			<main>
+				<Outlet />
+			</main>
 		</div>
 	);
 }
