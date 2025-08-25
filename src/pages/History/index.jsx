@@ -1,9 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { Container } from "react-bootstrap";
 
 import { AuthContext } from 'context';
-import { Loading, Board } from 'components';
+import { Loading, Board, Button } from "components";
 import usersService from 'services/users.service';
 import styles from './index.module.sass';
+
 
 function History() {
 	const { user } = useContext(AuthContext);
@@ -22,13 +24,16 @@ function History() {
 	}, [user]);
 
 	return (
-		<div className={styles.history}>
+		<Container className={styles.history}>
 			{loading ? (
 				<Loading />
 			) : (
 				allBoards &&
 				(allBoards.length === 0 ? (
-					<div id='errorMessage'>No boards created yet!</div>
+					<div>
+						No board created yet!
+						<Button to="/dashboard">Highlight Your Day!</Button>
+					</div>
 				) : (
 					allBoards
 						.slice()
@@ -36,18 +41,13 @@ function History() {
 						.map((board) => {
 							return (
 								board.assets.length !== 0 && (
-									<>
-										<Board
-											key={board._id}
-											board={board}
-										/>
-									</>
+									<Board key={board._id} board={board} />
 								)
 							);
 						})
 				))
 			)}
-		</div>
+		</Container>
 	);
 }
 

@@ -1,29 +1,30 @@
-// Basics
-import Button from './Button';
+// Basic elements
+import Button from './elements/Button';
 
 // Layout
-import NavBar from './NavBar';
-import Marquee from './Marquee';
+import NavBar from './layout/NavBar';
+import Marquee from "./layout/Marquee";
+import { LogoFull, LogoSquare } from "./layout/Logo";
 
 // Displaying media
-import Board from './Board';
-import MediaItem from './MediaItem';
+import Board from './media/ui/Board';
+import MediaItem from './media/ui/MediaItem';
+import EditButtons from "./media/ui/EditButtons";
+import MediaForm from "./media/ui/MediaForm";
+import AddMediaButtons, { AddMediaButton } from "./media/ui/AddMediaButtons";
 
 // Uploading content
-import MediaForm from './MediaForm';
-import AddMediaButtons from './AddMediaButtons';
-import WebcamCapture from './WebcamCapture';
-import AudioCapture from './AudioCapture';
-import ImagePreviewer from './ImagePreviewer';
-import EditButtons from './EditButtons';
+import WebcamCapture from './media/upload/WebcamCapture';
+import AudioCapture from './media/upload/AudioCapture';
+import ImagePreviewer from './media/upload/ImagePreviewer';
 
 // State
-import Loading from './Loading';
-import InfoMessage from './InfoMessage';
+import Loading from "./state/Loading";
+import InfoMessage from './state/InfoMessage';
 
 // Auth
-import IsPrivate from './IsPrivate';
-import IsAnon from './IsAnon';
+import IsPrivate from './auth/IsPrivate';
+import IsAnon from './auth/IsAnon';
 
 export {
 	Button,
@@ -32,7 +33,10 @@ export {
 	MediaForm,
 	MediaItem,
 	AddMediaButtons,
+	AddMediaButton,
 	Loading,
+	LogoFull,
+	LogoSquare,
 	Marquee,
 	IsPrivate,
 	IsAnon,

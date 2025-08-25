@@ -1,20 +1,18 @@
-// src/components/IsAnon.jsx
-
 import { useContext } from 'react';
-import { AuthContext } from 'context';
 import { Navigate } from 'react-router-dom';
+import { AuthContext } from 'context';
 import { Loading } from 'components';
 
-function IsAnon({ children }) {
+function IsPrivate({ children }) {
 	const { isLoggedIn, isLoading } = useContext(AuthContext);
 
 	if (isLoading) return <Loading />;
 
-	if (isLoggedIn) {
-		return <Navigate to='/dashboard' />;
+	if (!isLoggedIn) {
+		return <Navigate to='/login' />;
 	} else {
 		return children;
 	}
 }
 
-export default IsAnon;
+export default IsPrivate;

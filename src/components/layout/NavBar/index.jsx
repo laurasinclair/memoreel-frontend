@@ -1,11 +1,11 @@
-import React, { useContext, useState, useEffect } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { AuthContext } from 'context';
-import { LogoFull, LogoSquare } from 'components/Logo';
+import { LogoFull, LogoSquare } from 'components';
 import styles from './index.module.sass';
 import placeholder from 'images/placeholder.jpg';
 import { BoxArrowRight, EmojiSmile } from 'react-bootstrap-icons';
-import Button from '../Button';
+import Button from '../../elements/Button';
 import { useMediaPredicate } from 'react-media-hook';
 
 function NavBar() {
@@ -22,9 +22,8 @@ function NavBar() {
 	}, []);
 
 	const renderLogo = () => {
-		let size = '300px';
-		if (location.pathname === '/dashboard') size = '450px';
-		if (location.pathname === '/') size = '400px';
+		let size = '280px';
+		if (location.pathname === '/dashboard') size = '210px';
 
 		return (
 			<NavLink to='/'>
@@ -45,15 +44,34 @@ function NavBar() {
 
 	const renderAuthLinks = () => (
 		<div className={styles.topRight}>
-			{location.pathname !== '/login' && <Button to='/login'>Login</Button>}
-			{location.pathname !== '/signup' && (
-				<Button to='/signup'>Signup</Button>
+			{location.pathname !== "/login" && <Button to="/login">Login</Button>}
+			{location.pathname !== "/signup" && (
+				<Button to="/signup">Signup</Button>
 			)}
-			{location.pathname === '/' && (
-				<Button
-					to='/about'
-					className={styles.aboutBtn}>
-					<EmojiSmile className={isSpinning ? styles.spin : ''} />
+			{location.pathname !== "/about" && (
+				<Button to="/about" className={styles.aboutBtn}>
+					<EmojiSmile className={isSpinning ? styles.spin : ""} />
+				</Button>
+			)}
+		</div>
+	);
+
+	const renderNavLinks = () => (
+		<div className={styles.navbarButtons}>
+			{location.pathname === "/dashboard" && (
+				<Button to="/dashboard/history">History</Button>
+			)}
+			{location.pathname !== "/dashboard" && (
+				<Button to="/dashboard">Dashboard</Button>
+			)}
+			{location.pathname !== "/about" && (
+				<Button to="/about">
+					<EmojiSmile className={isSpinning ? styles.spin : ""} />
+				</Button>
+			)}
+			{location.pathname === "/profile" && (
+				<Button to="/" onClick={logOutUser}>
+					{<BoxArrowRight size="20" />}
 				</Button>
 			)}
 		</div>
@@ -63,46 +81,19 @@ function NavBar() {
 		<div>
 			<div
 				className={
-					location.pathname === '/dashboard'
+					location.pathname === "/dashboard"
 						? styles.centerLogo
 						: styles.navbar
-				}>
+				}
+			>
 				<div>{renderLogo()}</div>
-				<div>{!isLoggedIn && renderAuthLinks()}</div>
-				{isLoggedIn && (
-					<div className={styles.navbarButtons}>
-						{location.pathname === '/dashboard' && (
-							<Button
-								to='/dashboard/history'
-								type='primary'
-								className={styles.navlink}>
-								History
-							</Button>
-						)}
-						{(location.pathname === '/dashboard/history' ||
-							location.pathname === '/profile') && (
-							<Button to='/dashboard'>Dashboard</Button>
-						)}
-						{location.pathname === '/' && (
-							<Button to='/about'>
-								<EmojiSmile className={isSpinning ? styles.spin : ''} />
-							</Button>
-						)}
-						<Button
-							to='/'
-							onClick={logOutUser}>
-							{<BoxArrowRight size='20' />}
-						</Button>
-					</div>
-				)}
+				{isLoggedIn ? renderNavLinks() : renderAuthLinks()}
 			</div>
 			{isLoggedIn && (
 				<div className={styles.navbar_bottom}>
 					<div>
 						{user.profileImg ? (
-							<NavLink
-								to='/profile'
-								className='user-picture'>
+							<NavLink to="/profile" className="user-picture">
 								<img
 									src={user.profileImg}
 									onError={(e) => {
@@ -113,7 +104,7 @@ function NavBar() {
 								/>
 							</NavLink>
 						) : (
-							<Button to='/profile'>{user.name.trim().charAt(0)}</Button>
+							<Button to="/profile">{user.name.trim().charAt(0)}</Button>
 						)}
 					</div>
 				</div>

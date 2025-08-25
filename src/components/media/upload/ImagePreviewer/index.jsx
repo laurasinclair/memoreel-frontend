@@ -1,5 +1,4 @@
-import React from 'react';
-import { Polaroid } from 'components/MediaItem';
+import { Polaroid } from 'components/media/ui/MediaItem';
 
 function ImagePreviewer({ url }) {
 	return url ? (
