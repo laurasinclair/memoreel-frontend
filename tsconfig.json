@@ -14,7 +14,27 @@
 		"resolveJsonModule": true,
 		"isolatedModules": true,
 		"noEmit": true,
-		"jsx": "react-jsx"
+		"noImplicitAny": true,
+		"strictNullChecks": true,
+		"jsx": "react-jsx",
+		"baseUrl": ".",
+		"paths": {
+			"src/*": ["src/*"],
+			"assets/*": ["src/assets/*"],
+			"components": ["src/components/index.tsx"],
+			"components/*": ["src/components/*"],
+			"context": ["src/context/index.tsx"],
+			"images/*": ["src/assets/images/*"],
+			"pages": ["src/pages/index.tsx"],
+			"pages/*": ["src/pages/*"],
+			"paths": ["src/router/paths.tsx"],
+			"router": ["src/router/index.tsx"],
+			"router/*": ["src/router/*"],
+			"services/*": ["src/services/*"],
+			"types": ["src/types/index.tsx"],
+			"types/*": ["src/types/*"],
+			"utils/*": ["src/utils/*"]
+		}
 	},
-	"include": ["src"]
+	"include": ["src"],
 }
