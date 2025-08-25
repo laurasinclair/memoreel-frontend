@@ -25,8 +25,8 @@ function NavBar() {
 	}, []);
 
 	const renderLogo = () => {
-		let size = '280px';
-		if (location.pathname === '/dashboard') size = '210px';
+		let size = 280;
+		if (location.pathname === paths.dashboard) size = 210;
 
 		return (
 			<NavLink to={paths.base}>
@@ -48,13 +48,17 @@ function NavBar() {
 	const renderAuthLinks = () => (
 		<div className={styles.topRight}>
 			{location.pathname !== paths.login && (
-				<NavLink href={paths.login} className="button-primary">Login</NavLink>
+				<NavLink to={paths.login} className="button-primary">
+					Login
+				</NavLink>
 			)}
 			{location.pathname !== paths.signup && (
-				<NavLink href={paths.signup}>Signup</NavLink>
+				<NavLink to={paths.signup} className="button-primary">
+					Signup
+				</NavLink>
 			)}
 			{location.pathname !== paths.about && (
-				<NavLink href={paths.about} className={styles.aboutBtn}>
+				<NavLink to={paths.about} className="button-primary">
 					<EmojiSmile className={isSpinning ? styles.spin : ""} />
 				</NavLink>
 			)}
@@ -64,17 +68,17 @@ function NavBar() {
 	const renderNavLinks = () => (
 		<div className={styles.navbarButtons}>
 			{location.pathname === paths.dashboard && (
-				<NavLink href={paths.history} className="button-primary">
+				<NavLink to={paths.history} className="button-primary">
 					History
 				</NavLink>
 			)}
 			{location.pathname !== paths.dashboard && (
-				<NavLink href={paths.dashboard} className="button-primary">
+				<NavLink to={paths.dashboard} className="button-primary">
 					Dashboard
 				</NavLink>
 			)}
 			{location.pathname !== paths.about && (
-				<NavLink href={paths.about} className="button-primary">
+				<NavLink to={paths.about} className="button-primary">
 					<EmojiSmile className={isSpinning ? styles.spin : ""} />
 				</NavLink>
 			)}
@@ -105,26 +109,27 @@ function NavBar() {
 			</div>
 			{isLoggedIn && (
 				<div className={styles.navbar_bottom}>
-					<div className={styles.navbar_bottom_userIcon}>
-						{user.profileImg ? (
-							<NavLink
-								to={paths.userProfile}
-								className="user-picture"
-							>
-								<img
-									src={user.profileImg}
-									onError={(e) => {
-										e.target.src = placeholder;
-									}}
-									alt={user.name}
-								/>
-							</NavLink>
-						) : (
-							<NavLink to={paths.userProfile}>
-								{user.name.trim().charAt(0)}
-							</NavLink>
-						)}
-					</div>
+					{user.profileImg ? (
+						<NavLink
+							to={paths.userProfile}
+							className={styles.navbar_bottom_userIcon}
+						>
+							<img
+								src={user.profileImg}
+								onError={(e) => {
+									e.target.src = placeholder;
+								}}
+								alt={user.name}
+							/>
+						</NavLink>
+					) : (
+						<NavLink
+							to={paths.userProfile}
+							className={styles.navbar_bottom_userIcon}
+						>
+							{user.name.trim().charAt(0)}
+						</NavLink>
+					)}
 				</div>
 			)}
 		</div>

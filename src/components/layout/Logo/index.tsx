@@ -2,14 +2,14 @@ import styles from "./index.module.sass";
 import classNames from "classnames";
 import type { LogoProps } from "types";
 
-export function LogoFull({ size = "250px", color = "#fff" }: LogoProps) {
+export function LogoFull({ size = 250, color = "#fff" }: LogoProps) {
   return (
     <div className={classNames(styles.logo, size)} style={{ maxWidth: size }}>
       <LogoFullSvg color={color} />
     </div>
   );
 }
-export function LogoSquare({ size = "100px", color = "#fff" }) {
+export function LogoSquare({ size = 100, color = "#fff" }) {
   return (
     <div
       className={classNames(styles.logo, size)}
@@ -23,8 +23,8 @@ export function LogoSquare({ size = "100px", color = "#fff" }) {
 const LogoSquareSvg = ({ size, color }: LogoProps) => {
 	return (
 		<svg
-			width="244"
-			height="244"
+			width={`${size}px`}
+			height={`${size}px`}
 			viewBox="0 0 244 244"
 			fill="none"
 			xmlns="http://www.w3.org/2000/svg"
