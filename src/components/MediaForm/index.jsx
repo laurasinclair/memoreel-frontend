@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 
-import uploadService from '@services/file-upload.service';
-import assetsService from '@services/assets.service';
-import boardsService from '@services/boards.service';
-import usersService from '@services/users.service';
+import uploadService from 'services/file-upload.service';
+import assetsService from 'services/assets.service';
+import boardsService from 'services/boards.service';
+import usersService from 'services/users.service';
 
-import { WebcamCapture, AudioCapture, EditButtons } from '@components';
+import { WebcamCapture, AudioCapture, EditButtons } from 'components';
 import styles from './index.module.sass';
-import loadingGif from '@images/loading.gif';
+import loadingGif from 'images/loading.gif';
 
 function MediaForm({
 	assetType,
@@ -36,10 +36,16 @@ function MediaForm({
 			const currentDate = new Date().toISOString().slice(0, 10);
 			if (userId) {
 				try {
-					const res = await usersService.getCurrentBoard(userId, currentDate);
+					const res = await usersService.getCurrentBoard(
+						userId,
+						currentDate
+					);
 					if (res.data.length !== 0) {
 						setCurrentBoardId(res.data[0]._id);
-						console.log('Existing board found. BoardID:', res.data[0]._id);
+						console.log(
+							'Existing board found. BoardID:',
+							res.data[0]._id
+						);
 					} else {
 						console.log('No current board found');
 						setCurrentBoardId(null);

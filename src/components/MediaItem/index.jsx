@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import ReactPlayer from 'react-player/youtube';
 import { Pen } from 'react-bootstrap-icons';
 
-import MediaForm from '@components/MediaForm';
-import { EditButton } from '@components/EditButtons';
+import MediaForm from 'components/MediaForm';
+import { EditButton } from 'components/EditButtons';
 import styles from './index.module.sass';
 
 export default function MediaItem({

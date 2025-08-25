@@ -1,9 +1,9 @@
 // src/components/IsAnon.jsx
 
 import { useContext } from 'react';
-import { AuthContext } from '@context';
+import { AuthContext } from 'context';
 import { Navigate } from 'react-router-dom';
-import { Loading } from '@components';
+import { Loading } from 'components';
 
 function IsAnon({ children }) {
 	const { isLoggedIn, isLoading } = useContext(AuthContext);

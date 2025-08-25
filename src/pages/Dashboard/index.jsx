@@ -1,16 +1,11 @@
 import React, { useState, useContext, useEffect } from 'react';
-import {
-	MediaForm,
-	MediaItem,
-	Marquee,
-	Loading,
-} from '@components';
-import AddMediaButtons, { AddMediaButton } from '@components/AddMediaButtons';
-import { AuthContext } from '@context';
+import { MediaForm, MediaItem, Marquee, Loading } from 'components';
+import AddMediaButtons, { AddMediaButton } from 'components/AddMediaButtons';
+import { AuthContext } from 'context';
 import assetsService from '../../services/assets.service';
 import usersService from '../../services/users.service';
 import styles from './index.module.sass';
-import boardStyles from '@components/Board/index.module.sass';
+import boardStyles from 'components/Board/index.module.sass';
 
 const Dashboard = () => {
 	const { user } = useContext(AuthContext);

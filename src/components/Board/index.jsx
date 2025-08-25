@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { MediaItem } from '@components';
+import { MediaItem } from 'components';
 import classNames from 'classnames';
 
 import styles from './index.module.sass';
@@ -18,7 +18,6 @@ function Board({ board, assets, className }) {
 		<div
 			key={board._id}
 			className={styles.board}>
-			
 			<p className={styles.board_date}>{formatDate(board.createdAt)}</p>
 
 			<div className={styles.board_content}>

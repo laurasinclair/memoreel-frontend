@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { AudioRecorder } from 'react-audio-voice-recorder';
 
-import { VoiceNote } from '@components/MediaItem';
+import { VoiceNote } from 'components/MediaItem';
 import './index.sass';
 
 function AudioCapture({ handleUploadFile, setLoading }) {
