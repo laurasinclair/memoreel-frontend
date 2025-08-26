@@ -11,7 +11,7 @@ import Board from './media/ui/Board';
 import MediaItem from './media/ui/MediaItem';
 import EditButtons from "./media/ui/EditButtons";
 import MediaForm from "./media/ui/MediaForm";
-import AddMediaButtons, { AddMediaButton } from "./media/ui/AddMediaButtons";
+import AddMediaAllButtons from "./media/ui/AddMediaButtons";
 
 // Uploading content
 import WebcamCapture from './media/upload/WebcamCapture';
@@ -32,8 +32,7 @@ export {
 	Board,
 	MediaForm,
 	MediaItem,
-	AddMediaButtons,
-	AddMediaButton,
+	AddMediaAllButtons,
 	Loading,
 	LogoFull,
 	LogoSquare,

@@ -1,6 +1,6 @@
-import React, { useState, useContext } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import authService from "../../services/auth.service";
+import authService from "services/auth.service";
 import loginStyles from "../Login/index.module.sass";
 import { paths } from "src/router/paths";
 
@@ -33,60 +33,62 @@ function SignupPage() {
   };
 
   return (
-    <div className={loginStyles.login}>
-      <form onSubmit={handleSignupSubmit}>
-        <fieldset>
-          <label htmlFor="name" className="">
-            Username
-          </label>
-          <input
-            type="text"
-            name="name"
-            id="name"
-            value={name}
-            onChange={handleName}
-            className=""
-            autoComplete="off"
-          />
-        </fieldset>
+		<div className={loginStyles.login}>
+			<form onSubmit={handleSignupSubmit}>
+				<fieldset>
+					<label htmlFor="name" className="">
+						Username
+					</label>
+					<input
+						type="text"
+						name="name"
+						id="name"
+						value={name}
+						onChange={handleName}
+						className=""
+						autoComplete="off"
+					/>
+				</fieldset>
 
-        <fieldset>
-          <label htmlFor="email" className="">
-            Email
-          </label>
-          <input
-            type="email"
-            name="email"
-            id="email"
-            value={email}
-            onChange={handleEmail}
-            className=""
-            autoComplete="off"
-          />
-        </fieldset>
+				<fieldset>
+					<label htmlFor="email" className="">
+						Email
+					</label>
+					<input
+						type="email"
+						name="email"
+						id="email"
+						value={email}
+						onChange={handleEmail}
+						className=""
+						autoComplete="off"
+					/>
+				</fieldset>
 
-        <fieldset>
-          <label htmlFor="password" className="">
-            Password
-          </label>
-          <input
-            type="password"
-            name="password"
-            id="password"
-            value={password}
-            onChange={handlePassword}
-            className=""
-            autoComplete="off"
-          />
-        </fieldset>
+				<fieldset>
+					<label htmlFor="password" className="">
+						Password
+					</label>
+					<input
+						type="password"
+						name="password"
+						id="password"
+						value={password}
+						onChange={handlePassword}
+						className=""
+						autoComplete="off"
+					/>
+				</fieldset>
 
-        <button type="submit">Sign up</button>
-      </form>
-      {errorMessage && <p className="error-message">{errorMessage}</p>}
-      <p className="mt-10 mb-2">
-        Already have an account? <Link to={paths.login}>Log in</Link>
-      </p>
-    </div>
+				<button type="submit" className="button-primary">
+					Sign up
+				</button>
+			</form>
+			{errorMessage && <p className="error-message">{errorMessage}</p>}
+			<p className="mt-10 mb-2">
+				Already have an account? <Link to={paths.login} className="underline">Log in</Link>
+			</p>
+		</div>
   );
 }
 

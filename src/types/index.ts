@@ -36,14 +36,20 @@ export type AssetProps = {
 	content: string;
 	type: string;
 	userId: string;
-	test: string; // TODO: remove
 	_id?: string;
 	__v?: number;
 	createdAt?: string;
 };
 
+export type MediaUploadProps = {
+	isPopUpOpen: boolean;
+	assetType: AssetTypeProps;
+};
+
+export type AssetTypeProps = "text" | "image" | "youtubeURL" | "camImage" | "audio" | null
+
 export type MediaFormProps = {
-	assetType: string;
+	assetType: AssetTypeProps;
 	initialContent: AssetProps;
 	isEditing: boolean;
 	setIsEditing: Dispatch<SetStateAction<boolean>>;
@@ -54,15 +60,30 @@ export type MediaFormProps = {
 
 export type MediaItemProps = {
 	asset: AssetProps;
+	mediaUpload: MediaUploadProps;
 	editAsset: (assetId: string, editedContent: AssetProps) => void;
 	deleteAsset: (assetId: string) => void;
 	enableEditing: boolean;
 };
 
+export type AddMediaAllButtonsProps = {
+	mediaUpload: MediaUploadProps;
+	setMediaUpload: AddMediaAllButtonsProps;
+};
+
+export type SetMediaUploadProps = {
+	setMediaUpload: Dispatch<SetStateAction<MediaUploadProps>>;
+};
+
 export type AddMediaButtonProps = {
-	onClick: Function,
-	AddMediaIsOpen: boolean
-}
+	toggleMenu: () => void;
+	isMenuOpen: boolean;
+};
+
+export type MediaTypeButtonProps = {
+	mediaUpload: MediaUploadProps;
+	setMediaUpload: Dispatch<SetStateAction<MediaUploadProps>>;
+};
 
 export type BoardProps = {
 	board: {

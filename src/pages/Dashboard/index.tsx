@@ -1,7 +1,6 @@
 import { useState, useContext } from 'react';
 import {
-	AddMediaButtons, 
-	AddMediaButton,
+	AddMediaAllButtons,
 	MediaForm,
 	Marquee,
 	Board,
@@ -11,34 +10,27 @@ import { useAssets } from "src/hooks/useAssets";
 import { AuthContext } from 'context';
 import styles from './index.module.sass';
 import { Container } from 'react-bootstrap';
+import { MediaUploadProps } from 'src/types';
 
 const Dashboard = () => {
 	const { user } = useContext(AuthContext);
-	const [addMediaIsOpen, setAddMediaIsOpen] = useState(false);
-	const [openMediaForm, setOpenMediaForm] = useState(false);
-	const [assetType, setAssetType] = useState(null);
+	const [mediaUpload, setMediaUpload] = useState<MediaUploadProps>({
+		isPopUpOpen: false,
+		assetType: null,
+	});
 
-	const {
-		status,
-		deleteAsset,
-		setAllAssets,
-		editAsset,
-		todaysBoard,
-	} = useAssets(user?._id);
+	const handleAddMediaIsOpen = () => setMediaUpload((prev) => ({...prev, isPopUpOpen: true}));
 
-	const handleAddMediaIsOpen = () => {
-		setAddMediaIsOpen(!addMediaIsOpen);
-	};
+	const { todaysBoard, todaysBoardStatus } = useAssets(user._id);
 
 	return (
 		<>
-			{openMediaForm && (
+			{mediaUpload.isPopUpOpen && (
 				<MediaForm
-					assetType={assetType}
-					setAddMediaIsOpen={setAddMediaIsOpen}
-					setOpenMediaForm={setOpenMediaForm}
-					setAllAssets={setAllAssets}
-					deleteAsset={deleteAsset}
+					mediaUpload={mediaUpload}
+					// setAllAssets={setAllAssets}
+					// deleteAsset={deleteAsset}
+					setMediaUpload={setMediaUpload}
 					userId={user._id}
 				/>
 			)}
@@ -55,32 +47,21 @@ const Dashboard = () => {
 				/>
 				<Container fluid className="flex-col flex-1">
 					<div className={styles.dashboard_addMedia}>
-						{addMediaIsOpen && (
-							<AddMediaButtons
-								assetType={assetType}
-								setAssetType={setAssetType}
-								setOpenMediaForm={setOpenMediaForm}
-								openMediaForm={openMediaForm}
-							/>
-						)}
-						<AddMediaButton
-							onClick={() => {
-								handleAddMediaIsOpen();
-								setOpenMediaForm((prev) => (prev ? false : false));
-							}}
-							addMediaIsOpen={addMediaIsOpen}
+						<AddMediaAllButtons
+							mediaUpload={mediaUpload}
+							setMediaUpload={setMediaUpload}
 						/>
 					</div>
-					{status.state === "success" && todaysBoard.assets.length ? (
+
+					{todaysBoardStatus === "success" ? (
 						<Board
 							board={todaysBoard}
-							editAsset={editAsset}
-							deleteAsset={deleteAsset}
+							mediaUpload={mediaUpload}
 							enableEditing
 							isToday
-							isLoading={status.state}
+							isLoading={todaysBoardStatus}
 						/>
-					) : status.state === "loading" ? (
+					) : todaysBoardStatus === "pending" ? (
 						<Loading center />
 					) : (
 						<div className="message">Create content for today!</div>

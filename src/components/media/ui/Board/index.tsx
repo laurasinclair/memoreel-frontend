@@ -3,7 +3,16 @@ import type { AssetProps, BoardProps } from "types";
 import styles from './index.module.sass';
 import { formatDate } from 'src/utils';
 
-function Board({ board, isToday, isLoading, editAsset, deleteAsset, enableEditing, ...rest}: BoardProps) {
+function Board({
+	board,
+	isToday,
+	isLoading,
+	mediaUpload, 
+	editAsset,
+	deleteAsset,
+	enableEditing,
+	...rest
+}: BoardProps) {
 	return (
 		<div className={styles.board} {...rest}>
 			<p className={styles.board_date}>
@@ -20,6 +29,7 @@ function Board({ board, isToday, isLoading, editAsset, deleteAsset, enableEditin
 						.map((asset: AssetProps) => (
 							<div key={asset._id}>
 								<MediaItem
+									mediaUpload={mediaUpload}
 									asset={asset}
 									editAsset={editAsset}
 									enableEditing={enableEditing}
@@ -30,6 +40,7 @@ function Board({ board, isToday, isLoading, editAsset, deleteAsset, enableEditin
 				</div>
 			)}
 		</div>
-	);}
+	);
+}
 
 export default Board;

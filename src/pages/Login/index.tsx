@@ -45,51 +45,47 @@ function Login() {
 					<div className={loginStyles.login}>
 						<form onSubmit={handleLoginSubmit}>
 							<fieldset>
-								<label
-									htmlFor='email'
-									className=''>
+								<label htmlFor="email" className="">
 									E-mail
 								</label>
 								<input
-									type='text'
-									name='email'
-									id='email'
+									type="text"
+									name="email"
+									id="email"
 									value={email}
 									onChange={handleEmail}
-									className=''
-									autoComplete='off'
+									className=""
+									autoComplete="off"
 								/>
 							</fieldset>
 
 							<fieldset>
-								<label
-									htmlFor='password'
-									className=''>
+								<label htmlFor="password" className="">
 									Password
 								</label>
 								<input
-									type='password'
-									name='password'
-									id='password'
+									type="password"
+									name="password"
+									id="password"
 									value={password}
 									onChange={handlePassword}
-									className=''
-									autoComplete='off'
+									className=""
+									autoComplete="off"
 								/>
 							</fieldset>
 
-							<button
-								type='submit'
-								className=''>
+							<button type="submit" className="button-primary">
 								Login
 							</button>
 						</form>
 						{errorMessage && (
-							<p className='error-message'>{errorMessage}</p>
+							<p className="error-message">{errorMessage}</p>
 						)}
-						<p className=''>
-							Don&apos;t have an account yet?{' '}
-							<Link to={paths.signup}>Sign Up</Link>
+						<p className="">
+							Don&apos;t have an account yet?{" "}
+							<Link to={paths.signup} className="underline">
+								Sign up
+							</Link>
 						</p>
 					</div>
 				</Col>

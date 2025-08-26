@@ -1,26 +1,27 @@
 import { useState, useEffect, useRef } from 'react';
-
 import uploadService from 'services/file-upload.service';
 import assetsService from 'services/assets.service';
 import boardsService from 'services/boards.service';
 import usersService from 'services/users.service';
-import type { AssetProps, MediaFormProps, Status } from "types";
+import type { AssetProps, AssetTypeProps, MediaFormProps, MediaUploadProps, SetMediaUploadProps, Status } from "types";
 
+import { XLg } from "react-bootstrap-icons";
 import { WebcamCapture, AudioCapture, EditButtons, Loading } from 'components';
 import styles from './index.module.sass';
 import { useOnClickOutside } from 'src/hooks/useOnClickOutside';
 import { validateContent } from 'src/utils';
 
 function MediaForm({
-	assetType,
+	mediaUpload,
+	setMediaUpload,
 	assetId,
 	initialContent,
 	saveEdit,
 	isEditing,
 	setIsEditing,
-	deleteAsset,
-	setAllAssets,
-	setOpenMediaForm,
+	// deleteAsset,
+	// setAllAssets,
+	// setIsAddMediaOpen,
 	userId,
 }: MediaFormProps) {
 	const [newAssetContent, setNewAssetContent] =
@@ -30,9 +31,11 @@ function MediaForm({
 	});
 	const [touched, setTouched] = useState<boolean>(false);
 	const [currentBoardId, setCurrentBoardId] = useState<string | null>(null);
-	
+
 	const popUpRef = useRef(null);
-	useOnClickOutside(popUpRef, () => setOpenMediaForm(false));
+	useOnClickOutside(popUpRef, () => closePopUp());
+
+	const closePopUp = () => setMediaUpload((prev: MediaUploadProps) => ({...prev, isPopUpOpen: false}))
 
 	useEffect(() => {
 		setNewAssetContent(initialContent || "");
@@ -88,7 +91,9 @@ function MediaForm({
 
 	const handleSave = () => {
 		saveEdit ? saveEdit(newAssetContent) : addNewAsset();
-		isEditing ? setIsEditing(false) : setOpenMediaForm(false);
+		isEditing
+			? setIsEditing(false)
+			: setMediaUpload((prev: MediaUploadProps) => ({ ...prev, isPopUpOpen: false }));;
 	};
 
 	const addNewAsset = async () => {
@@ -102,7 +107,7 @@ function MediaForm({
 			}
 
 			const newAsset: AssetProps = {
-				type: assetType,
+				type: mediaUpload.assetType,
 				content: newAssetContent,
 				userId: userId,
 				boardId: boardId,
@@ -115,13 +120,13 @@ function MediaForm({
 				createdAsset,
 			]);
 			setNewAssetContent("");
-			setOpenMediaForm(false);
+			setMediaUpload((prev: MediaUploadProps) => ({...prev, isPopUpOpen: false}));
 		} catch (error) {
 			console.error("Error adding asset:", error);
 		}
 	};
 
-	const renderForm = (assetType: string) => {
+	const renderForm = (assetType: AssetTypeProps) => {
 		switch (assetType) {
 			case "text":
 				return (
@@ -183,31 +188,41 @@ function MediaForm({
 				newAssetContent={newAssetContent}
 				isEditing={isEditing}
 				setIsEditing={setIsEditing}
-				deleteAsset={deleteAsset}
+				// deleteAsset={deleteAsset}
 				touched={touched}
-				assetType={assetType}
+				assetType={mediaUpload.assetType}
 				assetId={assetId}
-				setOpenMediaForm={setOpenMediaForm}
+				setMediaUpload={setMediaUpload}
 			/>
 		);
 	};
 
 	return (
-		<div className={styles.mediaForm}>
+		<div className={styles.mediaForm_overlay}>
 			<div className={styles.mediaForm_popUp} ref={popUpRef}>
-				<div className={styles.mediaForm_inputs}>
-					
-					{renderForm(assetType)}
-					
-					{mediaFormStatus.state === "loading" ? (
-						<Loading size={30} style={{marginTop: "20px"}} />
-					) : (
-						editButtons()
-					)}
-				</div>
+				<CloseBtn closePopUp={closePopUp} />
+
+				{renderForm(mediaUpload.assetType)}
+
+				{mediaFormStatus.state === "loading" ? (
+					<Loading size={30} style={{ marginTop: "20px" }} />
+				) : (
+					editButtons()
+				)}
 			</div>
 		</div>
 	);
 }
+
+export const CloseBtn = ({ closePopUp }) => {
+	return (
+		<button
+			onClick={closePopUp}
+			className={styles.closeBtn}
+		>
+			<XLg />
+		</button>
+	);
+};
 
 export default MediaForm;

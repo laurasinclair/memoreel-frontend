@@ -1,4 +1,4 @@
-import { Pen, CheckLg, Trash, XLg } from 'react-bootstrap-icons';
+import { Pen, CheckLg, Trash } from 'react-bootstrap-icons';
 import classNames from 'classnames';
 import styles from './index.module.sass';
 import { Button } from 'components';
@@ -28,11 +28,6 @@ const EditButtons = ({
 				deleteAsset={deleteAsset}
 				setOpenMediaForm={setOpenMediaForm}
 			/>
-			<CloseBtn
-				isEditing={isEditing}
-				setIsEditing={setIsEditing}
-				setOpenMediaForm={setOpenMediaForm}
-			/>
 			{/* {touched && !validateContent(newAssetContent) && <p>Invalid content</p>} // TODO: better error display */}
 		</div>
 	);
@@ -58,27 +53,6 @@ export const SaveButton = ({
 			}}>
 			<CheckLg size='20' />
 		</Button>
-	);
-};
-
-export const CloseBtn = ({
-	isEditing,
-	setIsEditing,
-	setOpenMediaForm,
-	bgcolor,
-}) => {
-	return (
-		<button
-			onClick={() => {
-				isEditing ? setIsEditing(false) : setOpenMediaForm(false);
-			}}
-			style={{
-				backgroundColor: bgcolor || "#FFF791",
-			}}
-			className={styles.editButtons_closeBtn}
-		>
-			<XLg />
-		</button>
 	);
 };
 

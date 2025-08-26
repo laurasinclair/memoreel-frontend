@@ -13,17 +13,30 @@ label
 
 input,
 textarea
+	// layout
+	width: 100%
+	padding: 20px 30px
+	border-radius: 6px
+	resize: none
+	
+	// colours
+	background-color: $white
+	border: 2px solid $indigo
+	color: $indigo
+
+	// fonts
 	font-family: $font-family-sans-serif
-	padding: 13px 18px
 	font-weight: 600
 	font-size: 1rem
-	border-radius: 6px
-	border: 1px solid $dark
-	background-color: $indigo
-	color: $green
-	resize: none
+	line-height: 1.4rem
 	&:focus
-		outline: 1px solid $purple
+		border-color: $purple
+		outline: none
+	&:is(textarea)
+		height: 350px
+	&::placeholder
+		color: color.adjust($indigo, $alpha: -0.6)
+		font-style: italic
 
 @mixin color($color, $theme: dark)
 	@extend .button

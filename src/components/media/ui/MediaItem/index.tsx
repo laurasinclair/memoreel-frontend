@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactPlayer from 'react-player/youtube';
 import MediaForm from 'components/media/ui/MediaForm';
 import { EditButton } from 'components/media/ui/EditButtons';
@@ -9,6 +9,7 @@ export default function MediaItem({
 	asset,
 	editAsset,
 	deleteAsset,
+	mediaUpload,
 	enableEditing,
 }: MediaItemProps) {
 	const [isEditing, setIsEditing] = useState<boolean>(false);
@@ -19,6 +20,12 @@ export default function MediaItem({
 		setIsEditing(false);
 		setAssetContent(newContent);
 	};
+
+	useEffect(() => {
+		if (mediaUpload) {
+			if (!mediaUpload.isPopUpOpen) setIsEditing(false);
+		}
+	}, [mediaUpload]);
 
 	const renderContent = () => {
 		switch (asset.type) {

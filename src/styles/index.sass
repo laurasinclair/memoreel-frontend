@@ -59,12 +59,23 @@ p
 a, a:visited
 	font-weight: 600
 	text-decoration: inherit
-	color: $red
+	color: $indigo
+	// border-bottom: 2px solid
+	position: relative
 	&:hover,
 	&:focus,
 	&:active
-		color: color.adjust($red, $lightness: -10%)
+		color: color.adjust($indigo, $lightness: 5%)
 		outline: none
+	&.underline
+		&::after
+			content: ''
+			position: absolute
+			width: 100%
+			height: 0
+			left: 0
+			bottom: 1px
+			border-bottom: 2px solid color.adjust($indigo, $alpha: -0.5)
 
 h1, h2, h3, h4, h5, h6
 	line-height: 1.2
