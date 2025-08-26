@@ -1,9 +1,8 @@
 @use "sass:color"
 @use '/src/styles/_variables.sass' as *
-
-@import '_form-fields.sass'
-@import '_font-human-sans.sass'
-@import '_font-roboto-mono.sass'
+@use '_form-fields.sass' as *
+@use '_font-human-sans.sass'
+@use '_font-roboto-mono.sass'
 
 :root
 	line-height: 1.5
@@ -64,7 +63,7 @@ a, a:visited
 	&:hover,
 	&:focus,
 	&:active
-		color: darken($red, 10%)
+		color: color.adjust($red, $lightness: -10%)
 		outline: none
 
 h1, h2, h3, h4, h5, h6

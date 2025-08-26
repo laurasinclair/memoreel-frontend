@@ -37,10 +37,6 @@
 			padding-bottom: 200px
 	&_date
 		font-size: 1rem
-		@include bootstrap.media-breakpoint-up(sm)
-			font-size: 1.2rem
-		@include bootstrap.media-breakpoint-up(md)
-			font-size: 1.6rem
 		font-weight: 400
 		writing-mode: vertical-rl
 		transform: rotate(180deg)
@@ -51,3 +47,7 @@
 		margin: 0 15px 0 0
 		border-left: 1px solid $dark
 		font-family: $font-family-monospace
+		@include bootstrap.media-breakpoint-up(sm)
+			font-size: 1.2rem
+		@include bootstrap.media-breakpoint-up(md)
+			font-size: 1.6rem

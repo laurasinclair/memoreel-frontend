@@ -66,8 +66,8 @@ button,
 		background-color: $green
 		color: $dark !important
 	&:disabled
-		background-color: darken($offwhite, 20%)
-		border: 1px solid darken($offwhite, 20%)
+		background-color: color.adjust($offwhite, $lightness: -20%)
+		border: 1px solid color.adjust($offwhite, $lightness: -20%)
 
 	&-primary
 		@include color($lemon)
