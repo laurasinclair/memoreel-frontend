@@ -1,5 +1,5 @@
-@import 'bootstrap/scss/bootstrap-grid.scss'
-@import '/src/styles/_variables.sass'
+@use '/src/styles/_variables.sass' as *
+@use 'bootstrap/scss/bootstrap-grid.scss' as bootstrap
 
 .landingPage
 	border-bottom: 1px solid transparent
@@ -30,18 +30,18 @@
 
 	&_slideshow_item_front
 		margin-top: 60px
-		@include media-breakpoint-up(sm)
+		transform: rotate(-4deg) scale(2)
+		@include bootstrap.media-breakpoint-up(sm)
 			margin-top: 100px
 			margin-bottom: -50px
-		@include media-breakpoint-up(md)
+		@include bootstrap.media-breakpoint-up(md)
 			margin-bottom: -116px
 
 		// zooming in on mobile
-		transform: rotate(-4deg) scale(2)
-		@include media-breakpoint-up(sm)
+		@include bootstrap.media-breakpoint-up(sm)
 			margin-top: 20px
 			transform: rotate(-4deg) scale(1.4)
-		@include media-breakpoint-up(md)
+		@include bootstrap.media-breakpoint-up(md)
 			transform: rotate(-4deg) scale(1)
 	
 	&_slideshow_item_back
@@ -51,9 +51,9 @@
 
 		// zooming in on mobile
 		transform: scale(2)
-		@include media-breakpoint-up(sm)
+		@include bootstrap.media-breakpoint-up(sm)
 			transform: scale(1.4)
-		@include media-breakpoint-up(md)
+		@include bootstrap.media-breakpoint-up(md)
 			transform: scale(1)
 
 .marquee
@@ -66,16 +66,16 @@
 		top:-20px
 		z-index: 999
 		font-size: 1.1rem
-		@include media-breakpoint-up(sm)
+		@include bootstrap.media-breakpoint-up(sm)
 			font-size: 1.3rem
-		@include media-breakpoint-up(lg)
+		@include bootstrap.media-breakpoint-up(lg)
 			font-size: 1.8rem
 	&2
 		@extend .marquee
 		bottom: 30px
 		font-size: 0.7rem
 		transform: rotate(1deg) !important
-		@include media-breakpoint-up(sm)
+		@include bootstrap.media-breakpoint-up(sm)
 			font-size: 0.9rem
-		@include media-breakpoint-up(lg)
+		@include bootstrap.media-breakpoint-up(lg)
 			font-size: 1.2rem

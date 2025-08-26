@@ -1,5 +1,6 @@
-@import 'bootstrap/scss/bootstrap-grid.scss'
-@import '/src/styles/_variables.sass'
+@use "sass:color"
+@use 'bootstrap/scss/bootstrap-grid.scss' as bootstrap
+@use '/src/styles/_variables.sass' as *
 
 .board
 	width: 100vw
@@ -20,11 +21,11 @@
 		overflow-x: auto
 		&:hover
 			::-webkit-scrollbar-thumb
-				background: transparentize($maincolor-dark, 0.5)
+				background: color.adjust($maincolor-dark, $alpha: -0.5)
 			::-webkit-scrollbar
 				background-color: $maincolor-light
 			::-webkit-scrollbar-thumb:hover
-				background: transparentize($maincolor-dark, 0.2)
+				background: color.adjust($maincolor-dark, $alpha: -0.5)
 		::-webkit-scrollbar
 			background-color: transparent
 			border-radius: 30px
@@ -36,16 +37,16 @@
 			padding-bottom: 200px
 	&_date
 		font-size: 1rem
-		@include media-breakpoint-up(sm)
+		@include bootstrap.media-breakpoint-up(sm)
 			font-size: 1.2rem
-		@include media-breakpoint-up(md)
+		@include bootstrap.media-breakpoint-up(md)
 			font-size: 1.6rem
 		font-weight: 400
 		writing-mode: vertical-rl
 		transform: rotate(180deg)
 		text-align: end
 		display: inline-block
-		background-color: #A9AEDD
+		background-color: color.adjust($maincolor-dark, $lightness: 1%)
 		padding: 0px 10px 30px 10px
 		margin: 0 15px 0 0
 		border-left: 1px solid $dark

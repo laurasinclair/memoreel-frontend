@@ -53,7 +53,7 @@ const Dashboard = () => {
 						"What made you laugh today?",
 					]}
 				/>
-				<Container fluid className="flex-col center-all flex-1">
+				<Container fluid className="flex-col flex-1">
 					<div className={styles.dashboard_addMedia}>
 						{addMediaIsOpen && (
 							<AddMediaButtons

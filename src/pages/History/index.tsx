@@ -34,7 +34,7 @@ function History() {
 	return (
 		<Container
 			fluid
-			className="center-all flex-col flex-1"
+			className="flex-col flex-1"
 			style={{ marginBottom: "100px" }}
 		>
 			{historyStatus.state === "loading" ? (
