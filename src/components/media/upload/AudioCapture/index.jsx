@@ -21,7 +21,7 @@ function AudioCapture({ handleUploadFile, setLoading }) {
 
 	return (
 		<VoiceNote>
-			<p>Voice note</p>
+			<p>Record yourself!</p>
 
 			<div>
 				<AudioRecorder

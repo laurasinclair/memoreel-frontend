@@ -7,10 +7,10 @@ import type { ChildrenProps, UserContextProps } from "types";
 
 function IsPrivate({ children }: ChildrenProps) {
 	const { isLoggedIn, authStatus } = useContext<UserContextProps>(AuthContext);
-	const navigate = useNavigate();
 
+	if (!isLoggedIn) return <Navigate to={paths.login} />;
 	if (authStatus.state === "loading") return <Loading />;
-	return !isLoggedIn ? <Navigate to={paths.login} /> : children;
+	if (authStatus.state === "success") return children;
 }
 
 export default IsPrivate;

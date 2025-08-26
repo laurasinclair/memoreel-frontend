@@ -17,6 +17,7 @@ function AuthProviderWrapper({ children }: ChildrenProps) {
 	};
 
 	const authenticateUser = () => {
+		setAuthStatus({ state: "loading" });
 		const storedToken = localStorage.getItem("authToken");
 
 		if (storedToken) {
@@ -24,8 +25,10 @@ function AuthProviderWrapper({ children }: ChildrenProps) {
 				.verify()
 				.then((res) => {
 					setIsLoggedIn(true);
-					setAuthStatus({ state: "idle" });
 					setUser(res.data);
+				})
+				.then((res) => {
+					setAuthStatus({ state: "success" });
 				})
 				.catch((error) => {
 					setAuthStatus({
@@ -37,9 +40,6 @@ function AuthProviderWrapper({ children }: ChildrenProps) {
 					setUser(null);
 					return;
 				});
-		} else {
-			setIsLoggedIn(false);
-			setUser(null);
 		}
 	};
 
@@ -49,7 +49,8 @@ function AuthProviderWrapper({ children }: ChildrenProps) {
 
 	const logOutUser = () => {
 		removeToken();
-		authenticateUser();
+		setIsLoggedIn(false);
+		setUser(null);
 	};
 
 	const handleDeleteAccount = async () => {
