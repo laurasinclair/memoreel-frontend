@@ -22,6 +22,7 @@ const segments = {
 
 export const paths = {
 	base: segments.base,
+	auth: createPath([segments.base, segments.auth]),
 	login: createPath([segments.base, segments.auth, segments.login]),
 	signup: createPath([segments.base, segments.auth, segments.signup]),
 	about: createPath([segments.base, segments.about]),
