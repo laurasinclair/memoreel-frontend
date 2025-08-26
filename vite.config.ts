@@ -11,7 +11,7 @@ export default defineConfig({
 	plugins: [react(), tsconfigPaths()],
 	base: "/projects/memoreel",
 	build: {
-		outDir: "/projects/memoreel",
+		outDir: "projects/memoreel",
 	},
 	css: {
 		preprocessorOptions: {
