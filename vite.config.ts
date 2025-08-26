@@ -9,9 +9,9 @@ const root = path.resolve(__dirname, "src");
 
 export default defineConfig({
 	plugins: [react(), tsconfigPaths()],
-	base: process.env.NODE_ENV === "production" ? "/projects/memoreel/" : "/",
+	base: "/projects/memoreel",
 	build: {
-		outDir: "/projects/memoreel/",
+		outDir: "/projects/memoreel",
 	},
 	css: {
 		preprocessorOptions: {

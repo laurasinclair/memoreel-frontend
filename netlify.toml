@@ -1,7 +1,2 @@
 [build]
   command = "npm run build"
-
-[[redirects]]
-  from = "projects/memoreel/*"
-  to = "projects/memoreel/index.html"
-  status = 200
