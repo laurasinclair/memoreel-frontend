@@ -1,5 +1,5 @@
-@import 'bootstrap/scss/bootstrap-grid.scss'
-@import '/src/styles/_variables.sass'
+@use "sass:color"
+@use '/src/styles/_variables.sass' as *
 
 .userProfile
   display: flex
@@ -79,7 +79,7 @@
       width: 100%
       margin-bottom: 10px
       border: 1px solid $dark
-      background-color: lighten($lilac, 5%)
+      background-color: color.adjust($lilac, $lightness: 5%)
       color: $dark
       border-radius: 0px !important
 

@@ -1,5 +1,6 @@
-@import 'bootstrap/scss/bootstrap-grid.scss'
-@import '/src/styles/_variables.sass'
+@use "sass:color"
+@use '/src/styles/_variables.sass' as *
+@use 'bootstrap/scss/bootstrap-grid.scss' as bootstrap
 
 fieldset
 	border: none
@@ -71,4 +72,4 @@ button,
 	&-primary
 		@include color($lemon)
 	&-secondary
-		@include color(lighten($indigo, 20%))
+		@include color(color.adjust($indigo, $lightness: 20%))
