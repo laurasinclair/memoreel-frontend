@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useContext } from 'react';
 import uploadService from 'services/file-upload.service';
 import assetsService from 'services/assets.service';
 import boardsService from 'services/boards.service';
@@ -10,27 +10,27 @@ import { WebcamCapture, AudioCapture, EditButtons, Loading } from 'components';
 import styles from './index.module.sass';
 import { useOnClickOutside } from 'src/hooks/useOnClickOutside';
 import { validateContent } from 'src/utils';
+import { useAssets } from 'src/hooks/useAssets';
+import { AuthContext } from 'src/context';
 
 function MediaForm({
 	mediaUpload,
 	setMediaUpload,
 	assetId,
 	initialContent,
-	saveEdit,
+	// saveEdit,
 	isEditing,
 	setIsEditing,
 	// deleteAsset,
-	// setAllAssets,
-	// setIsAddMediaOpen,
-	userId,
 }: MediaFormProps) {
+
+	const { user } = useContext(AuthContext);
 	const [newAssetContent, setNewAssetContent] =
-		useState<AssetProps>(initialContent);
+		useState<string>(initialContent);
 	const [mediaFormStatus, setMediaFormStatus] = useState<Status>({
 		state: "idle",
 	});
 	const [touched, setTouched] = useState<boolean>(false);
-	const [currentBoardId, setCurrentBoardId] = useState<string | null>(null);
 
 	const popUpRef = useRef(null);
 	useOnClickOutside(popUpRef, () => closePopUp());
@@ -41,34 +41,8 @@ function MediaForm({
 		setNewAssetContent(initialContent || "");
 	}, [initialContent]);
 
-	useEffect(() => {
-		const fetchCurrentBoard = async () => {
-			const currentDate = new Date().toISOString().slice(0, 10);
-			if (userId) {
-				try {
-					const res = await usersService.getCurrentBoard(
-						userId,
-						currentDate
-					);
-					if (!res.data.length) throw new Error("No current board found");
-					setCurrentBoardId(res.data[0]._id);
-				} catch (error) {
-					setCurrentBoardId(null);
-					setMediaFormStatus({
-						state: "error",
-						message: `Error fetching current board: ${error}`,
-					});
-				} finally {
-					setMediaFormStatus({ state: "idle" });
-				}
-			}
-		};
-		fetchCurrentBoard();
-	}, [userId]);
-
 	const handleUploadFile = async (file) => {
 		try {
-			// setMediaFormStatus({ state: "loading" });
 			const fileUrl = await uploadService.uploadFile(file);
 			setNewAssetContent(fileUrl);
 			return fileUrl;
@@ -89,42 +63,23 @@ function MediaForm({
 		}
 	};
 
-	const handleSave = () => {
-		saveEdit ? saveEdit(newAssetContent) : addNewAsset();
-		isEditing
-			? setIsEditing(false)
-			: setMediaUpload((prev: MediaUploadProps) => ({ ...prev, isPopUpOpen: false }));;
-	};
+	const { addNewAsset } = useAssets(user._id);
 
-	const addNewAsset = async () => {
+	const handleSave = async () => {
+		const newAsset: AssetProps = {
+			type: mediaUpload.assetType,
+			content: newAssetContent,
+		};
+
 		try {
-			let boardId = currentBoardId;
-
-			if (!boardId) {
-				const boardResp = await boardsService.post({ userId });
-				boardId = boardResp.data._id;
-				setCurrentBoardId(boardId);
-			}
-
-			const newAsset: AssetProps = {
-				type: mediaUpload.assetType,
-				content: newAssetContent,
-				userId: userId,
-				boardId: boardId,
-			};
-
-			const response = await assetsService.post(newAsset);
-			const createdAsset = response.data;
-			setAllAssets((prevAssets: AssetProps[]) => [
-				...prevAssets,
-				createdAsset,
-			]);
-			setNewAssetContent("");
-			setMediaUpload((prev: MediaUploadProps) => ({...prev, isPopUpOpen: false}));
-		} catch (error) {
-			console.error("Error adding asset:", error);
+			addNewAsset(newAsset);
+			setMediaUpload((prev: MediaUploadProps) => ({...prev, isPopUpOpen: false}))
+			setIsEditing(false)
+		} catch (err) {
+			return;
 		}
 	};
+
 
 	const renderForm = (assetType: AssetTypeProps) => {
 		switch (assetType) {

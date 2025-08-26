@@ -27,7 +27,7 @@ function Board({
 						.slice()
 						.reverse()
 						.map((asset: AssetProps) => (
-							<div key={asset._id}>
+							<div key={asset?._id}>
 								<MediaItem
 									mediaUpload={mediaUpload}
 									asset={asset}

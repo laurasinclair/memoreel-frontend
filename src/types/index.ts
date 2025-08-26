@@ -32,10 +32,11 @@ export type LogoProps = {
 };
 
 export type AssetProps = {
-	boardId: string;
 	content: string;
+	assetType: AssetProps;
+	boardId?: string;
+	userId?: string;
 	type: string;
-	userId: string;
 	_id?: string;
 	__v?: number;
 	createdAt?: string;

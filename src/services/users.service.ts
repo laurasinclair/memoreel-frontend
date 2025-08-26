@@ -16,7 +16,7 @@ class UsersService {
   }
 
   getCurrentBoard = (userId, currentDate) => {
-    return this.api.get(`/users/${userId}/boards?start=${currentDate}`);
+      return this.api.get(`/users/${userId}/boards?start=${currentDate}`)
   };
 
   getAllBoards = (userId) => {
@@ -30,6 +30,7 @@ class UsersService {
   delete = (id) => {
     return this.api.delete(`/users/${id}`);
   };
+  
   get = (id) => {
     return this.api.get(`/users/${id}`);
   };
