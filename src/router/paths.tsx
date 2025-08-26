@@ -10,7 +10,7 @@ export const createPath = (arr: string[]) => {
 };
 
 const segments = {
-	base: "/projects/memoreel",
+	base: "/",
 	dashboard: "dashboard",
 	about: "about",
 	user: "profile",
