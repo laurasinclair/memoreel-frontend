@@ -4,42 +4,24 @@ import { Container } from "react-bootstrap";
 import { AuthContext } from 'context';
 import { Loading, Board, Button } from "components";
 import usersService from 'services/users.service';
-import { BoardProps, Status } from 'src/types';
+import { BoardContentProps, BoardProps, Status } from 'src/types';
+import { useAssets } from 'src/hooks/useAssets';
 
 
 function History() {
 	const { user } = useContext(AuthContext);
-	const [allBoards, setAllboards] = useState([]);
-	const [historyStatus, setHistoryStatus] = useState<Status>({ state: "idle" });
-
-	useEffect(() => {
-		if (user) {
-			setHistoryStatus({ state: "loading" });
-			usersService
-				.getAllBoards(user._id)
-				.then((res) => {
-					setAllboards(res.data);
-					setHistoryStatus({ state: "success" });
-				})
-				.catch((error) =>
-					setHistoryStatus({
-						state: "error",
-						message: `Error fetching current board: ${error}`,
-					})
-				)
-				.finally(setHistoryStatus({ state: "idle" }));
-		}
-	}, [user]);
+	const { allBoards, allBoardsStatus } = useAssets(user._id);
 
 	return (
 		<Container
 			fluid
-			className="flex-col flex-1"
+			className="flex-col flex-1 center-all"
 			style={{ marginBottom: "100px" }}
 		>
-			{historyStatus.state === "loading" ? (
+			{allBoardsStatus === "pending" ? (
 				<Loading center />
 			) : (
+				allBoardsStatus === "success" &&
 				allBoards &&
 				(allBoards.length === 0 ? (
 					<div>
@@ -47,13 +29,13 @@ function History() {
 						<Button to="/dashboard">Highlight Your Day!</Button>
 					</div>
 				) : (
+					allBoards &&
 					allBoards
-						.slice()
 						.reverse()
-						.map((board: BoardProps) => {
+						.map((board: BoardContentProps) => {
 							return (
 								board.assets.length !== 0 && (
-									<Board key={board._id} board={board} />
+									<Board key={board._id} boardContent={board} />
 								)
 							);
 						})

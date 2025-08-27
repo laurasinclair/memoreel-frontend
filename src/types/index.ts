@@ -86,14 +86,15 @@ export type MediaTypeButtonProps = {
 	setMediaUpload: Dispatch<SetStateAction<MediaUploadProps>>;
 };
 
+export type BoardContentProps = {
+	assets: AssetProps[];
+	userId: string;
+	_id?: string;
+	createdAt?: Date;
+	__v?: number;
+}
 export type BoardProps = {
-	board: {
-		assets: AssetProps[];
-		userId: string;
-		_id?: string;
-		createdAt?: Date;
-		__v?: number;
-	};
+	boardContent: BoardContentProps;
 	className?: string;
 	isToday?: boolean;
 };

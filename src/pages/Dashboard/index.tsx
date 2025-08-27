@@ -22,13 +22,11 @@ const Dashboard = () => {
 	const handleAddMediaIsOpen = () => setMediaUpload((prev) => ({...prev, isPopUpOpen: true}));
 
 	const { todaysBoard, todaysBoardStatus } = useAssets(user._id);
-
 	return (
 		<>
 			{mediaUpload.isPopUpOpen && (
 				<MediaForm
 					mediaUpload={mediaUpload}
-					// setAllAssets={setAllAssets}
 					// deleteAsset={deleteAsset}
 					setMediaUpload={setMediaUpload}
 					userId={user._id}
@@ -52,17 +50,16 @@ const Dashboard = () => {
 							setMediaUpload={setMediaUpload}
 						/>
 					</div>
-
-					{todaysBoardStatus === "success" ? (
+					{todaysBoardStatus === "pending" ? (
+						<Loading center />
+					) : (todaysBoard && todaysBoard?.assets?.length) ? (
 						<Board
-							board={todaysBoard}
+							boardContent={todaysBoard}
 							mediaUpload={mediaUpload}
 							enableEditing
 							isToday
 							isLoading={todaysBoardStatus}
 						/>
-					) : todaysBoardStatus === "pending" ? (
-						<Loading center />
 					) : (
 						<div className="message">Create content for today!</div>
 					)}

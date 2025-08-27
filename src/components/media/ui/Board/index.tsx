@@ -4,10 +4,10 @@ import styles from './index.module.sass';
 import { formatDate } from 'src/utils';
 
 function Board({
-	board,
+	boardContent,
 	isToday,
+	mediaUpload,
 	isLoading,
-	mediaUpload, 
 	editAsset,
 	deleteAsset,
 	enableEditing,
@@ -16,14 +16,14 @@ function Board({
 	return (
 		<div className={styles.board} {...rest}>
 			<p className={styles.board_date}>
-				{isToday ? "Today" : formatDate(board.createdAt)}
+				{isToday ? "Today" : formatDate(boardContent.createdAt)}
 			</p>
 
 			{isLoading === "loading" ? (
 				<Loading />
 			) : (
 				<div className={styles.board_content}>
-					{board.assets
+					{boardContent && boardContent.assets
 						.slice()
 						.reverse()
 						.map((asset: AssetProps) => (

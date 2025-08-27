@@ -1,9 +1,6 @@
 import { useState, useEffect, useRef, useContext } from 'react';
 import uploadService from 'services/file-upload.service';
-import assetsService from 'services/assets.service';
-import boardsService from 'services/boards.service';
-import usersService from 'services/users.service';
-import type { AssetProps, AssetTypeProps, MediaFormProps, MediaUploadProps, SetMediaUploadProps, Status } from "types";
+import type { AssetProps, AssetTypeProps, MediaFormProps, MediaUploadProps, Status } from "types";
 
 import { XLg } from "react-bootstrap-icons";
 import { WebcamCapture, AudioCapture, EditButtons, Loading } from 'components';
@@ -12,6 +9,7 @@ import { useOnClickOutside } from 'src/hooks/useOnClickOutside';
 import { validateContent } from 'src/utils';
 import { useAssets } from 'src/hooks/useAssets';
 import { AuthContext } from 'src/context';
+
 
 function MediaForm({
 	mediaUpload,
@@ -65,7 +63,7 @@ function MediaForm({
 
 	const { addNewAsset } = useAssets(user._id);
 
-	const handleSave = async () => {
+	const handleSave = () => {
 		const newAsset: AssetProps = {
 			type: mediaUpload.assetType,
 			content: newAssetContent,

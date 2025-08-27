@@ -16,7 +16,7 @@ class AssetsService {
 		});
 	}
 
-	post = (requestBody: object) => {
+	createAsset = (requestBody: object) => {
 		return this.api.post("/assets", requestBody);
 	};
 
