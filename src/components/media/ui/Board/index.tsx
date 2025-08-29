@@ -24,8 +24,6 @@ function Board({
 			) : (
 				<div className={styles.board_content}>
 					{boardContent && boardContent.assets
-						.slice()
-						.reverse()
 						.map((asset: AssetProps) => (
 							<div key={asset?._id}>
 								<MediaItem

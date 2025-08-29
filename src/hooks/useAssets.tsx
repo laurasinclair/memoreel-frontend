@@ -12,23 +12,22 @@ export const useAssets = (userId: string) => {
 
 	// Getting today's board
 	const { data: todaysBoard, status: todaysBoardStatus } = useQuery<
-		BoardProps,
+		BoardProps | null,
 		Status
 	>({
 		queryKey: ["todaysBoard", userId, currentDate],
-		queryFn: async () => {
+		queryFn: async (): Promise<BoardProps | null> => {
 			try {
 				const res = await usersService.getCurrentBoard(userId, currentDate);
-				const data: BoardProps = await res.data;
-				if (!data.length) throw new Error("No data")
+				const data = await res.data;
+				if (!data.length) throw new Error("No data");
 				return data[0];
 			} catch (err) {
+				// console.error("❌", err);
 				return null;
 			}
 		},
 		refetchInterval: getMsUntilMidnight(),
-		// refetchOnWindowFocus: false,
-		// staleTime: 1000 * 60 * 5,
 	});
 
 	// Adding a new asset
@@ -57,22 +56,7 @@ export const useAssets = (userId: string) => {
 			}
 		},
 		onSuccess: (newAsset: AssetProps) => {
-			queryClient.setQueryData<BoardProps>(
-				["todaysBoard", userId, currentDate],
-				(prevBoard?: BoardProps) => {
-					if (!prevBoard) return undefined;
-					return {
-						...prevBoard,
-						boardContent: {
-							...prevBoard.boardContent,
-							assets: [
-								...(prevBoard.boardContent?.assets ?? []),
-								newAsset,
-							],
-						},
-					};
-				}
-			);
+			queryClient.invalidateQueries({ queryKey: ["todaysBoard", userId] });
 		},
 		onError: (error) => console.log(error)
 	});
@@ -83,20 +67,21 @@ export const useAssets = (userId: string) => {
 
 	// Getting all boards
 	const { data: allBoards, status: allBoardsStatus } = useQuery<
-		BoardProps[],
+		BoardProps[] | null,
 		Status
 	>({
 		queryKey: ["allBoards", userId],
-		queryFn: async () => {
+		queryFn: async (): Promise<BoardProps[] | null> => {
 			try {
 				const res = await usersService.getAllBoards(userId);
 				const data: BoardProps[] = await res.data;
-				if (!data.length) throw new Error("No data")
+				if (!data.length) throw new Error("No data");
 				return data;
 			} catch (err) {
 				return null;
 			}
-	}, });
+		},
+	});
 
 	return {
 		todaysBoard,
