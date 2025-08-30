@@ -6,11 +6,11 @@ function MediaForm() {
 	const openAsset = mediaConfig[newAssetContent?.assetType];
 
 	return (
-		<div>
+		<>
 			<h3>{openAsset.title}</h3>
 			<p>{openAsset.description}</p>
 			<p>{openAsset.input}</p>
-		</div>
+		</>
 	);
 }
 
