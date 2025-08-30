@@ -42,11 +42,6 @@ export type AssetProps = {
 	createdAt?: string;
 };
 
-export type MediaUploadProps = {
-	isPopUpOpen: boolean;
-	assetType: AssetTypeProps;
-};
-
 export type AssetTypeProps = "text" | "image" | "youtubeURL" | "camImage" | "audio" | null
 
 export type MediaFormProps = {

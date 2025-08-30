@@ -6,7 +6,6 @@ import { formatDate } from 'src/utils';
 function Board({
 	boardContent,
 	isToday,
-	mediaUpload,
 	isLoading,
 	editAsset,
 	deleteAsset,
@@ -23,11 +22,10 @@ function Board({
 				<Loading />
 			) : (
 				<div className={styles.board_content}>
-					{boardContent && boardContent.assets
-						.map((asset: AssetProps) => (
+					{boardContent &&
+						boardContent.assets.map((asset: AssetProps) => (
 							<div key={asset?._id}>
 								<MediaItem
-									mediaUpload={mediaUpload}
 									asset={asset}
 									editAsset={editAsset}
 									enableEditing={enableEditing}

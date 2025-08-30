@@ -1,10 +1,9 @@
+import { useEffect, useMemo, useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import assetsService from "services/assets.service";
 import usersService from "services/users.service";
 import boardsService from "services/boards.service";
-import type { AssetProps, BoardProps, MediaUploadProps, Status } from "types";
-import { cp } from "fs";
-import { useMemo } from "react";
+import type { AssetProps, BoardProps, Status } from "types";
 
 export const useAssets = (userId: string) => {
 	const currentDate = useMemo(() => new Date().toISOString().slice(0, 10), []);
@@ -38,7 +37,8 @@ export const useAssets = (userId: string) => {
 			if (!boardId) {
 				try {
 					const res = await boardsService.createBoard({ userId });
-					if (!res?.data?._id) throw new Error("Couldn't create a new board");
+					if (!res?.data?._id)
+						throw new Error("Couldn't create a new board");
 					boardId = res.data._id;
 				} catch (err) {
 					throw err;
@@ -49,7 +49,7 @@ export const useAssets = (userId: string) => {
 
 			try {
 				const res = await assetsService.createAsset(req);
-				const data: AssetProps = await res.data
+				const data: AssetProps = await res.data;
 				return data;
 			} catch (err) {
 				throw err;
@@ -58,11 +58,36 @@ export const useAssets = (userId: string) => {
 		onSuccess: (newAsset: AssetProps) => {
 			queryClient.invalidateQueries({ queryKey: ["todaysBoard", userId] });
 		},
-		onError: (error) => console.log(error)
+		onError: (error) => console.log(error),
 	});
 
-	const addNewAsset = (newAsset: AssetProps) => {
+	// const addNewAsset = (newAsset: AssetProps) => {
+	// 	if (!newAsset) return;
+	// 	mutateAssets.mutate(newAsset);
+	// };
+
+	// save asset after upload
+	const saveNewAsset = (newAsset: AssetProps) => {
+		if (!newAsset) return;
 		mutateAssets.mutate(newAsset);
+	};
+
+	// handle file upload
+	const uploadFile = async (file: File) => {
+		try {
+			// setMediaFormStatus({ state: "uploading" });
+			const fileUrl = await uploadService.uploadFile(file);
+			// setNewAssetContent(fileUrl);
+			return fileUrl;
+		} catch (error) {
+			// setMediaFormStatus({
+			// 	state: "error",
+			// 	message: `Error uploading file: ${error}`,
+			// });
+			throw error;
+		} finally {
+			// setMediaFormStatus({ state: "idle" });
+		}
 	};
 
 	// Getting all boards
@@ -84,11 +109,15 @@ export const useAssets = (userId: string) => {
 	});
 
 	return {
+		// state
 		todaysBoard,
 		todaysBoardStatus,
-		addNewAsset,
 		allBoards,
-		allBoardsStatus
+		allBoardsStatus,
+
+		// actions
+		uploadFile,
+		saveNewAsset,
 	};
 };
 

@@ -6,12 +6,12 @@ import { Button } from 'components';
 const EditButtons = ({
 	handleSave,
 	validateContent,
-	newAssetContent,
+	assetContent,
 	isEditing,
 	setIsEditing,
 	deleteAsset,
 	touched,
-	assetType,
+	// assetType,
 	assetId,
 	setOpenMediaForm,
 }) => {
@@ -21,7 +21,7 @@ const EditButtons = ({
 				handleSave={handleSave}
 				isEditing={isEditing}
 				validateContent={validateContent}
-				newAssetContent={newAssetContent}
+				assetContent={assetContent}
 			/>
 			<DeleteButton
 				assetId={assetId}
@@ -40,18 +40,19 @@ export const SaveButton = ({
 	isEditing,
 	assetType,
 	validateContent,
-	newAssetContent,
+	assetContent,
 	className,
 }) => {
 	return (
 		<Button
 			onClick={handleSave}
-			disabled={!validateContent(newAssetContent)}
+			disabled={!validateContent(assetContent)}
 			className={classNames(className, "button-primary")}
 			style={{
-				display: isEditing && assetType === 'camImage' ? 'none' : 'flex',
-			}}>
-			<CheckLg size='20' />
+				display: isEditing && assetType === "camImage" ? "none" : "flex",
+			}}
+		>
+			<CheckLg size="20" />
 		</Button>
 	);
 };

@@ -9,7 +9,6 @@ export default function MediaItem({
 	asset,
 	editAsset,
 	deleteAsset,
-	mediaUpload,
 	enableEditing,
 }: MediaItemProps) {
 	const [isEditing, setIsEditing] = useState<boolean>(false);
@@ -21,23 +20,21 @@ export default function MediaItem({
 		setAssetContent(newContent);
 	};
 
-	useEffect(() => {
-		if (mediaUpload) {
-			if (!mediaUpload.isPopUpOpen) setIsEditing(false);
-		}
-	}, [mediaUpload]);
+	// useEffect(() => {
+	// 	if (!isPopUpOpen) setIsEditing(false);
+	// }, [isPopUpOpen]);
 
 	const renderContent = () => {
 		switch (asset.type) {
-			case 'text':
+			case "text":
 				return <Text assetContent={assetContent} />;
-			case 'image':
+			case "image":
 				return <Image assetContent={assetContent} />;
-			case 'youtubeURL':
+			case "youtubeURL":
 				return <YoutubeURL assetContent={assetContent} />;
-			case 'camImage':
+			case "camImage":
 				return <Polaroid assetContent={assetContent} />;
-			case 'audio':
+			case "audio":
 				return <VoiceNote assetContent={assetContent} />;
 			default:
 				return null;
@@ -61,7 +58,7 @@ export default function MediaItem({
 			{enableEditing && (
 				<EditButton
 					setIsEditing={setIsEditing}
-					bgcolor='#FFF791'
+					bgcolor="#FFF791"
 					className={styles.mediaItem_editButton}
 				/>
 			)}
