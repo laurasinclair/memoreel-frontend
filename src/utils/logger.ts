@@ -20,11 +20,11 @@ const getCallerInfo = () => {
 const logger = Object.fromEntries(
     Object.entries(logLevels).map(([level, icon]) => [
         level,
-        (message: any) => {
+        (...messages: any[]) => {
             if (process.env.NODE_ENV !== "production") {
                 const callerInfo = getCallerInfo();
                 const callerInfoText = callerInfo ? `[${callerInfo}]` : "";
-                console[level](`${icon} ${callerInfoText}`, message);
+                console[level](`${icon} ${callerInfoText}`, ...messages);
             }
         },
     ])
