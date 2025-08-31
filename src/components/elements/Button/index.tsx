@@ -6,7 +6,7 @@ import Loading from 'src/components/state/Loading';
 export default function Button({
 	children,
 	to,
-	style = "primary",
+	variant = "primary",
 	outline,
 	className,
 	fullWidth,
@@ -15,11 +15,12 @@ export default function Button({
 	disabled,
 	onClick,
 	loading = false,
+	...rest
 }: ButtonProps) {
 	const buttonClasses = classNames(
 		className,
 		"button",
-		`button-${style}${outline ? "-outline" : ""}`,
+		`button-${variant}${outline ? "-outline" : ""}`,
 		{
 			"button-loading": loading,
 			"full-width": fullWidth,
@@ -29,7 +30,7 @@ export default function Button({
 	);
 
 	return to ? (
-		<Link to={to} className={buttonClasses} onClick={onClick}>
+		<Link to={to} className={buttonClasses} onClick={onClick} {...rest}>
 			{iconLeft && (
 				<span className="button-icon button-icon-left">{iconLeft}</span>
 			)}
@@ -43,6 +44,7 @@ export default function Button({
 			className={buttonClasses}
 			onClick={onClick}
 			{...(disabled && { disabled })}
+			{...rest}
 		>
 			{iconLeft && <span>{iconLeft}</span>}
 			{loading ? <Loading /> : children}

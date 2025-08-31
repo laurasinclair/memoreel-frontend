@@ -2,18 +2,20 @@ import { useAssetContext } from "src/context/AssetContext";
 import { mediaConfig } from "src/config/mediaConfig";
 import { useState } from "react";
 import { SaveButton } from "../AssetActions";
+import logger from "logger";
 
-function AssetEditor({ asset, editAsset, deleteAsset, enableEditing }) {
+function AssetEditor({ editAsset, deleteAsset, enableEditing }) {
 	const { newAssetContent } = useAssetContext();
-	const openAsset = mediaConfig[newAssetContent?.assetType];
+	const type = newAssetContent?.assetType;
+	const openAsset = mediaConfig[type];
 
 	const [isEditing, setIsEditing] = useState<boolean>(false);
-	const [assetContent, setAssetContent] = useState(asset.content);
+	// const [assetContent, setAssetContent] = useState(asset.content);
 
 	const saveEdit = (newContent) => {
-		editAsset(asset._id, newContent);
-		setIsEditing(false);
-		setAssetContent(newContent);
+		// editAsset(asset._id, newContent);
+		// setIsEditing(false);
+		// setAssetContent(newContent);
 	};
 
 	// useEffect(() => {
@@ -22,39 +24,22 @@ function AssetEditor({ asset, editAsset, deleteAsset, enableEditing }) {
 
 	return (
 		<>
-			{/* {isEditing && (
-				<AssetEdit
-					assetType={asset.type}
-					initialContent={assetContent}
-					saveEdit={saveEdit}
-					setIsEditing={setIsEditing}
-					isEditing={isEditing}
-					assetId={asset._id}
-					deleteAsset={deleteAsset}
-				/>
-			)} */}
 			<h3>{openAsset.title}</h3>
 			<p>{openAsset.description}</p>
 			<p>{openAsset.input}</p>
-
-			{enableEditing && (
-				<>
-					<div>
-						{/* <SaveButton
-							handleSave={handleSave}
-							isEditing={isEditing}
-							validateContent={validateContent}
-							assetContent={assetContent}
-						/>
-						<DeleteButton
-							assetId={assetId}
-							deleteAsset={deleteAsset}
-							setOpenMediaForm={setOpenMediaForm}
-						/> */}
-						{/* {touched && !validateContent(newAssetContent) && <p>Invalid content</p>} // TODO: better error display */}
-					</div>
-				</>
-			)}
+			Save Edit
+			<div>
+				{" "}
+				<SaveButton />
+				{/* <DeleteButton
+					assetId={assetId}
+					deleteAsset={deleteAsset}
+					setOpenMediaForm={setOpenMediaForm}
+				/>  */}
+				
+				Edit
+				{/* {touched && !validateContent(newAssetContent) && <p>Invalid content</p>} // TODO: better error display */}
+			</div>
 		</>
 	);
 }

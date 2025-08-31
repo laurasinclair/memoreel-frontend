@@ -11,7 +11,7 @@ const DeleteButton = ({
             onClick={() =>
                 assetId ? deleteAsset(assetId) : setOpenMediaForm(false)
             }
-            style="primary"
+            variant="primary"
         >
             <Trash />
         </Button>

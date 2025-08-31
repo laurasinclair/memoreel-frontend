@@ -8,7 +8,7 @@ const EditButton = ({ setIsEditing, className, bgcolor }) => {
 			onClick={() => {
 				setIsEditing((prev: boolean) => !prev);
 			}}
-			style="primary"
+			variant="primary"
 		>
 			<Pen size={16} />
 		</Button>
