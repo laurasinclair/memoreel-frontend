@@ -114,8 +114,7 @@ export type AboutType = {
 export type ButtonProps = {
 	children: ReactNode;
 	to?: string;
-	style?: "primary" | "secondary";
-	type?: "button" | "submit" | "reset" | undefined;
+	variant?: "primary" | "secondary";
 	outline?: boolean;
 	className?: string;
 	fullWidth?: boolean;
