@@ -3,7 +3,7 @@ import Webcam from 'react-webcam';
 import { Camera } from 'react-bootstrap-icons';
 
 import { ImagePreviewer } from 'components';
-import { Polaroid } from "components/media/ui/Asset/views";
+import { Polaroid } from "src/components/media/Asset/views";
 import styles from './index.module.sass';
 import logger from 'logger';
 
@@ -22,7 +22,7 @@ function WebcamCapture({ handleUploadFile, loading, setLoading }) {
 				setPhotoTaken(true);
 				setLoading(false);
 			} catch (err) {
-				logger.log("❌", err);
+				logger.error(err);
 				setLoading(false);
 			}
 		}

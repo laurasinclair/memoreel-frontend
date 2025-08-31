@@ -1,4 +1,4 @@
-import { Polaroid } from 'components/media/ui/Asset/views';
+import { Polaroid } from 'src/components/media/Asset/views';
 
 function ImagePreviewer({ url }) {
 	return url ? (

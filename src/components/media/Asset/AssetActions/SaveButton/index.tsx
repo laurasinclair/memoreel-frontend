@@ -15,8 +15,10 @@ const SaveButton = () => {
         if (!newAssetContent) return;
 
         try {
-            saveNewAsset(newAssetContent);
-            closePopUp();
+            if (validateContent(newAssetContent.content)) {
+                saveNewAsset(newAssetContent);
+                closePopUp();
+            }
         } catch (err) {
             logger.error(err);
             return;

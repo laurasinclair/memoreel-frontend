@@ -1,4 +1,4 @@
-import { Dispatch, ReactNode, SetStateAction } from "react";
+import { ChangeEvent, Dispatch, HTMLAttributes, InputHTMLAttributes, ReactElement, ReactNode, SetStateAction, TextareaHTMLAttributes } from "react";
 
 export type User = {
 	_id: string;
@@ -31,6 +31,19 @@ export type LogoProps = {
 	color: string;
 };
 
+export type AssetEditorProps = {
+	title: string;
+	button: AssetEditorButtonProps;
+	input: AssetInputProps;
+};
+
+export type AssetEditorButtonProps = {
+	icon: ReactNode;
+	label: string;
+};
+
+export type AssetInputProps = (props: HTMLAttributes<HTMLElement>) => ReactElement;
+
 export type AssetProps = {
 	content: string;
 	type: AssetTypeProps;
@@ -41,25 +54,12 @@ export type AssetProps = {
 	createdAt?: string;
 };
 
-export type AssetTypeProps = "text" | "image" | "youtubeURL" | "camImage" | "audio" | null
+export type AssetTypeProps = "text" | "image" | "youtubeURL" | "camImage" | "audio"
 
-// export type MediaFormProps = {
-// 	assetType: AssetTypeProps;
-// 	initialContent: AssetProps;
-// 	isEditing: boolean;
-// 	setIsEditing: Dispatch<SetStateAction<boolean>>;
-// 	assetId: string;
-// 	saveEdit: (newContent: string) => void; // TODO: newContent might not be string
-// 	deleteAsset: (assetId: string) => void;
-// };
 
-// export type MediaItemProps = {
-// 	asset: AssetProps;
-// 	mediaUpload: MediaUploadProps;
-// 	editAsset: (assetId: string, editedContent: AssetProps) => void;
-// 	deleteAsset: (assetId: string) => void;
-// 	enableEditing: boolean;
-// };
+export type MediaTypeButtonProps = {
+	type: AssetTypeProps;
+} & AssetEditorButtonProps;
 
 export type AddMediaAllButtonsProps = {
 	mediaUpload: MediaUploadProps;
@@ -75,10 +75,10 @@ export type AddMediaButtonProps = {
 	isMenuOpen: boolean;
 };
 
-export type MediaTypeButtonProps = {
-	mediaUpload: MediaUploadProps;
-	setMediaUpload: Dispatch<SetStateAction<MediaUploadProps>>;
-};
+// export type MediaTypeButtonProps = {
+// 	mediaUpload: MediaUploadProps;
+// 	setMediaUpload: Dispatch<SetStateAction<MediaUploadProps>>;
+// };
 
 export type BoardContentProps = {
 	assets: AssetProps[];
@@ -125,3 +125,11 @@ export type ButtonProps = {
 };
 
 export type LoggerMessageType = string;
+
+export type AssetContextType = {
+	newAssetContent: AssetProps | undefined;
+	setNewAssetContent: React.Dispatch<
+		React.SetStateAction<AssetProps | undefined>
+	>;
+	onChange: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void
+}

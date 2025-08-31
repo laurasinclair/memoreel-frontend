@@ -7,15 +7,15 @@ import Marquee from "./layout/Marquee";
 import { LogoFull, LogoSquare } from "./layout/Logo";
 
 // Displaying assets
-import MediaMenu from "./media/ui/MediaMenu";
-import Board from './media/ui/Board';
-import Asset from "./media/ui/Asset";
-import AssetEditor from "./media/ui/Asset/AssetEditor";
+import MediaMenu from "./media/MediaMenu";
+import Board from './media/Board';
+import Asset from "./media/Asset";
+import AssetEditor from "./media/Asset/AssetEditor";
 
 // Uploading content
-import WebcamCapture from './media/upload/WebcamCapture';
-import AudioCapture from './media/upload/AudioCapture';
-import ImagePreviewer from './media/upload/ImagePreviewer';
+import WebcamCapture from './media/Asset/upload/WebcamCapture';
+import AudioCapture from './media/Asset/upload/AudioCapture';
+import ImagePreviewer from './media/Asset/upload/ImagePreviewer';
 
 // State
 import Loading from "./state/Loading";

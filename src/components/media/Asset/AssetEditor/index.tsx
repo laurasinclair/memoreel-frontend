@@ -1,12 +1,12 @@
 import { assetContext } from "src/context/AssetContext";
-import { mediaConfig } from "src/config/mediaConfig";
+import { assetEditorConfig } from "src/config/assetEditorConfig";
 import { useState } from "react";
 import { DeleteButton, SaveButton } from "../AssetActions";
 
 function AssetEditor({ editAsset, deleteAsset, enableEditing }) {
 	const { newAssetContent, onChange } = assetContext();
 	const type = newAssetContent?.type;
-	const openAsset = mediaConfig[type];
+	const openAsset = assetEditorConfig[type];
 	const [isEditing, setIsEditing] = useState<boolean>(false);
 
 	// useEffect(() => {

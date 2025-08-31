@@ -1,14 +1,5 @@
-import React, { createContext, useState, useContext, useEffect } from "react";
-import { validateContent } from "src/utils";
-import logger from "src/utils/logger";
-import type { AssetProps } from "types";
-
-interface AssetContextType {
-	newAssetContent: AssetProps | undefined;
-	setNewAssetContent: React.Dispatch<
-		React.SetStateAction<AssetProps | undefined>
-	>;
-}
+import React, { createContext, useState, useContext } from "react";
+import type { AssetContextType, AssetProps } from "types";
 
 const AssetContext = createContext<AssetContextType | undefined>(undefined);
 
@@ -23,12 +14,10 @@ export const AssetProvider: React.FC<{ children: React.ReactNode }> = ({
 		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
 	) => {
 		const content = e.target.value;
-		if (validateContent(content)) {
-			setNewAssetContent((prev: AssetProps) => ({
-				...prev,
-				content,
-			}));
-		}
+		setNewAssetContent((prev: AssetProps) => ({
+			...prev,
+			content,
+		}));
 	};
 
 	return (
