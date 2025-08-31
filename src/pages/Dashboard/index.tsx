@@ -5,7 +5,6 @@ import {
 	Marquee,
 	Board,
 	Loading,
-	EditButtons,
 } from "components";
 import { useAssets } from "src/hooks/useAssets";
 import { AuthContext } from 'context';
@@ -17,7 +16,7 @@ import { PopUpProvider } from "src/context/PopUpContext";
 
 const Dashboard = () => {
 	const { user } = useContext(AuthContext);
-	const { todaysBoard, todaysBoardStatus } = useAssets(user._id);
+	const { todaysBoard, todaysBoardStatus } = useAssets();
 	
 	return (
 		<>

@@ -117,9 +117,9 @@ function NavBar() {
 							<img
 								src={user.profileImg}
 								onError={(e) => {
-									e.target.src = placeholder;
+									(e.target as HTMLImageElement).src = placeholder;
 								}}
-								alt={user.name}
+								alt={user.name || "User"}
 							/>
 						</NavLink>
 					) : (

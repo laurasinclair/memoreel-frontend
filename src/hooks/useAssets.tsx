@@ -1,12 +1,15 @@
-import { useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import assetsService from "services/assets.service";
 import usersService from "services/users.service";
 import boardsService from "services/boards.service";
 import type { AssetProps, BoardProps, Status } from "types";
 import logger from "src/utils/logger";
+import { AuthContext } from "src/context";
 
-export const useAssets = (userId: string) => {
+export const useAssets = () => {
+	const { user } = useContext(AuthContext);
+	const userId = user._id;
 	const currentDate = useMemo(() => new Date().toISOString().slice(0, 10), []);
 	const queryClient = useQueryClient();
 
@@ -20,9 +23,9 @@ export const useAssets = (userId: string) => {
 			try {
 				const res = await usersService.getCurrentBoard(userId, currentDate);
 				const data = await res.data;
-				if (!data.length) throw new Error("No data");
+				if (!data.length) return null;
 				return data[0];
-			} catch (err) {
+			} catch (err: any) {
 				logger.error(err);
 				return null;
 			}

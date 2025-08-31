@@ -1,16 +1,10 @@
-import { useContext, useEffect, useState } from 'react';
 import { Container } from "react-bootstrap";
-
-import { AuthContext } from 'context';
 import { Loading, Board, Button } from "components";
-import usersService from 'services/users.service';
 import { BoardContentProps, BoardProps, Status } from 'src/types';
 import { useAssets } from 'src/hooks/useAssets';
 
-
 function History() {
-	const { user } = useContext(AuthContext);
-	const { allBoards, allBoardsStatus } = useAssets(user._id);
+	const { allBoards, allBoardsStatus } = useAssets();
 
 	return (
 		<Container
