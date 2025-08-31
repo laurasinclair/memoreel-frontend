@@ -1,11 +1,7 @@
 import { Trash } from "react-bootstrap-icons";
 import { Button } from "components";
 
-const DeleteButton = ({
-    assetId,
-    deleteAsset,
-    setOpenMediaForm,
-}) => {
+const DeleteButton = () => {
     return (
         <Button
             onClick={() =>

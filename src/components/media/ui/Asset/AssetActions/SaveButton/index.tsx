@@ -15,10 +15,8 @@ const SaveButton = () => {
         if (!newAssetContent) return;
 
         try {
-            if (validateContent(newAssetContent)) {
-                saveNewAsset(newAssetContent);
-                closePopUp();
-            };
+            saveNewAsset(newAssetContent);
+            closePopUp();
         } catch (err) {
             logger.error(err);
             return;
@@ -29,7 +27,7 @@ const SaveButton = () => {
 			<Button
 				onClick={handleSave}
 				variant="primary"
-				disabled={!validateContent(newAssetContent)}
+				disabled={!validateContent(newAssetContent?.content)}
 				// style={{
 				//     display: isEditing && assetType === "camImage" ? "none" : "flex",
 				// }}

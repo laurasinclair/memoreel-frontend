@@ -1,4 +1,5 @@
-import React, { createContext, useState, useContext } from "react";
+import React, { createContext, useState, useContext, useEffect } from "react";
+import { validateContent } from "src/utils";
 import logger from "src/utils/logger";
 import type { AssetProps } from "types";
 
@@ -18,11 +19,16 @@ export const AssetProvider: React.FC<{ children: React.ReactNode }> = ({
 		AssetProps | undefined
 	>(undefined);
 
-	const onChange = (e: React.ChangeEvent<HTMLElement>) => {
-		setNewAssetContent((prev: AssetProps) => ({
-			...prev,
-			content: e.target.value,
-		}));
+	const onChange = (
+		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+	) => {
+		const content = e.target.value;
+		if (validateContent(content)) {
+			setNewAssetContent((prev: AssetProps) => ({
+				...prev,
+				content,
+			}));
+		}
 	};
 
 	return (

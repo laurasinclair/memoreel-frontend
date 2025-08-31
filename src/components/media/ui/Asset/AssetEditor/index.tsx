@@ -1,8 +1,7 @@
 import { assetContext } from "src/context/AssetContext";
 import { mediaConfig } from "src/config/mediaConfig";
-import { useEffect, useState } from "react";
-import { SaveButton } from "../AssetActions";
-import logger from "logger";
+import { useState } from "react";
+import { DeleteButton, SaveButton } from "../AssetActions";
 
 function AssetEditor({ editAsset, deleteAsset, enableEditing }) {
 	const { newAssetContent, onChange } = assetContext();
@@ -16,22 +15,17 @@ function AssetEditor({ editAsset, deleteAsset, enableEditing }) {
 
 	return (
 		<>
-			<h3>{openAsset.title}</h3>
-			<p>{openAsset.description}</p>
-			<p>
+			<h3 className="mb-0">{openAsset.title}</h3>
+			<p className="mt-2">{openAsset.description}</p>
+			<div className="mb-2">
 				{openAsset.input({
 					defaultValue: newAssetContent.content || "",
 					onChange,
 				})}
-			</p>
+			</div>
 			<div>
 				<SaveButton />
-				{/* <DeleteButton
-					assetId={assetId}
-					deleteAsset={deleteAsset}
-					setOpenMediaForm={setOpenMediaForm}
-				/>  */}
-				Delete
+				{/* <DeleteButton />  */}
 				{/* {touched && !validateContent(newAssetContent) && <p>Invalid content</p>} // TODO: better error display */}
 			</div>
 		</>
