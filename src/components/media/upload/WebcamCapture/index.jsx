@@ -3,7 +3,7 @@ import Webcam from 'react-webcam';
 import { Camera } from 'react-bootstrap-icons';
 
 import { ImagePreviewer } from 'components';
-import { Polaroid } from 'components/media/ui/MediaItem';
+import { Polaroid } from "components/media/ui/Asset/views";
 import styles from './index.module.sass';
 import logger from 'logger';
 

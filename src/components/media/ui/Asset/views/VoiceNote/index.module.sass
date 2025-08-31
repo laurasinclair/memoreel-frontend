@@ -1,0 +1,39 @@
+@use '/src/styles/_variables.sass' as *
+
+.voiceNote
+	width: 350px
+	height: 350px
+	outline: 1px solid $dark
+	background-color: $white
+	padding: 20px
+	display: flex
+	flex-direction: column
+	align-items: center
+	justify-content: center
+	p
+		font-size: 1.8rem
+		font-family: $font-family-monospace
+		text-align: center
+		line-height: 1.2
+		margin: 40px 0 25px 0
+		transform: rotate(-3deg)
+	audio
+		padding: 0 25px
+		margin: 10px 0
+		&::-webkit-media-controls-panel
+			display: flex
+			flex-direction: row
+			overflow: visible
+		&::-webkit-media-controls-play-button
+			background-color: $purple
+			border-radius: 20px
+		&::-webkit-media-controls-current-time-display
+			font-size: 1rem
+		&::-webkit-media-controls-time-remaining-display
+			font-size: 1rem
+		&::-webkit-media-controls-timeline
+			border-radius: 30px
+			padding: 0 10px
+		&::-webkit-media-controls-enclosure
+			border-radius: 0
+			background-color: $white

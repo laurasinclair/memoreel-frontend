@@ -1,10 +1,10 @@
 import { useContext } from 'react';
 import {
-	AddMediaAllButtons,
-	MediaForm,
+	MediaMenu,
 	Marquee,
 	Board,
 	Loading,
+	AssetEditor,
 } from "components";
 import { useAssets } from "src/hooks/useAssets";
 import { AuthContext } from 'context';
@@ -23,7 +23,7 @@ const Dashboard = () => {
 			<PopUpProvider>
 				<AssetProvider>
 					<PopUp>
-						<MediaForm />
+						<AssetEditor />
 					</PopUp>
 
 					<section className={styles.dashboard}>
@@ -38,7 +38,7 @@ const Dashboard = () => {
 						/>
 						<Container fluid className="flex-col flex-1">
 							<div className={styles.dashboard_addMedia}>
-								<AddMediaAllButtons />
+								<MediaMenu />
 							</div>
 							{todaysBoardStatus === "pending" ? (
 								<Loading center />

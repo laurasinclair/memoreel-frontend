@@ -1,4 +1,4 @@
-import { Loading, MediaItem } from 'components';
+import { Loading, Asset } from 'components';
 import type { AssetProps, BoardProps } from "types";
 import styles from './index.module.sass';
 import { formatDate } from 'src/utils';
@@ -25,7 +25,7 @@ function Board({
 					{boardContent &&
 						boardContent.assets.map((asset: AssetProps) => (
 							<div key={asset?._id}>
-								<MediaItem
+								<Asset
 									asset={asset}
 									editAsset={editAsset}
 									enableEditing={enableEditing}

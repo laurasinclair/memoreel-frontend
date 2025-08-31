@@ -1,0 +1,12 @@
+@use "sass:color"
+@use '/src/styles/_variables.sass' as *
+
+.youtubeURL
+	iframe
+		border-radius: none
+		background-color: color.adjust($indigo, $lightness: 10%)
+		background-image: url(/src/assets/images/flower.svg)
+		background-position: center center
+		background-size: 60px 60px
+		background-repeat: no-repeat
+		outline: 1px solid black

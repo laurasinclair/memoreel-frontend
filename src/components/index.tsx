@@ -6,12 +6,11 @@ import NavBar from './layout/NavBar';
 import Marquee from "./layout/Marquee";
 import { LogoFull, LogoSquare } from "./layout/Logo";
 
-// Displaying media
+// Displaying assets
+import MediaMenu from "./media/ui/MediaMenu";
 import Board from './media/ui/Board';
-import MediaItem from './media/ui/MediaItem';
-import EditButtons from "./media/ui/EditButtons";
-import MediaForm from "./media/ui/MediaForm";
-import AddMediaAllButtons from "./media/ui/AddMediaButtons";
+import Asset from "./media/ui/Asset";
+import AssetEditor from "./media/ui/Asset/AssetEditor";
 
 // Uploading content
 import WebcamCapture from './media/upload/WebcamCapture';
@@ -27,21 +26,20 @@ import IsPrivate from './auth/IsPrivate';
 import IsAnon from './auth/IsAnon';
 
 export {
+	Asset,
+	AssetEditor,
 	Button,
 	NavBar,
 	Board,
-	MediaForm,
-	MediaItem,
-	AddMediaAllButtons,
 	Loading,
 	LogoFull,
 	LogoSquare,
 	Marquee,
+	MediaMenu,
 	IsPrivate,
 	IsAnon,
 	WebcamCapture,
 	AudioCapture,
 	ImagePreviewer,
-	EditButtons,
 	InfoMessage,
 };

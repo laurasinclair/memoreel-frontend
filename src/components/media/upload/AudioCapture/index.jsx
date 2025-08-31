@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { AudioRecorder } from 'react-audio-voice-recorder';
 
-import { VoiceNote } from 'components/media/ui/MediaItem';
+import { VoiceNote } from "components/media/ui/Asset/views";
 import './index.sass';
 import logger from 'logger';
 

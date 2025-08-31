@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect } from 'react';
 import {
 	AddMediaAllButtons,
-	MediaForm,
+	AssetEditor,
 	Marquee,
 	Board,
 	Loading,
@@ -10,7 +10,6 @@ import { useAssets } from "src/hooks/useAssets";
 import { AuthContext } from 'context';
 import styles from './index.module.sass';
 import { Container } from 'react-bootstrap';
-import PopUp, { isPopUpOpen } from "components/layout/PopUp"
 
 const Dashboard = () => {
 	const { user } = useContext(AuthContext);
@@ -21,16 +20,9 @@ const Dashboard = () => {
 
 	const { newAssetContent, todaysBoard, todaysBoardStatus } = useAssets(user._id);
 
-
-
-	// useEffect(() => {
-	// 	console.log("3. newAssetContent", newAssetContent);
-	// }, [newAssetContent]);
-
-
 	return (
 		<>
-			<MediaForm newAssetContent={newAssetContent} />
+			<AssetEditor newAssetContent={newAssetContent} />
 
 			<section className={styles.dashboard}>
 				<Marquee
