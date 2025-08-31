@@ -6,6 +6,7 @@ import boardsService from "services/boards.service";
 import type { AssetProps, BoardProps, Status } from "types";
 import logger from "src/utils/logger";
 import { AuthContext } from "src/context";
+import { assetContext } from "src/context/AssetContext";
 
 export const useAssets = () => {
 	const { user } = useContext(AuthContext);
@@ -50,7 +51,7 @@ export const useAssets = () => {
 				}
 			}
 
-			const req = { ...newAsset, userId, boardId };
+			const req: AssetProps = { ...newAsset, userId, boardId };
 
 			try {
 				const res = await assetsService.createAsset(req);
@@ -67,12 +68,7 @@ export const useAssets = () => {
 		onError: (err) => logger.error(err)
 	});
 
-	// const addNewAsset = (newAsset: AssetProps) => {
-	// 	if (!newAsset) return;
-	// 	mutateAssets.mutate(newAsset);
-	// };
-
-	// save asset after upload
+	// save asset
 	const saveNewAsset = (newAsset: AssetProps) => {
 		if (!newAsset) return;
 		mutateAssets.mutate(newAsset);

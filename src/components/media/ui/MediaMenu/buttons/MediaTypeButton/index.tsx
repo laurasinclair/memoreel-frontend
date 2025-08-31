@@ -2,19 +2,19 @@ import classNames from "classnames";
 import type { AssetTypeProps } from "types";
 import styles from "../index.module.sass";
 import { useEffect, useState } from "react";
-import { useAssetContext } from "src/context/AssetContext";
+import { assetContext } from "src/context/AssetContext";
 import { usePopUp } from "src/context/PopUpContext";
 import logger from "src/utils/logger";
 import { mediaConfig } from "src/config/mediaConfig";
 
 export default function MediaTypeButton() {
-	const { setNewAssetContent } = useAssetContext();
+	const { setNewAssetContent } = assetContext();
 	const [activeButton, setActiveButton] = useState(null);
 	const { isPopUpOpen, openPopUp } = usePopUp();
 
 	const openMediaForm = (type: AssetTypeProps) => {
 		try {
-			setNewAssetContent((prev) => ({ ...prev, assetType: type }));
+			setNewAssetContent((prev) => ({ ...prev, type: type }));
 			openPopUp();
 			setActiveButton((prev) => (prev === type ? null : type));
 		} catch (err) {

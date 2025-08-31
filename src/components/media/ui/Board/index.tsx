@@ -23,16 +23,18 @@ function Board({
 			) : (
 				<div className={styles.board_content}>
 					{boardContent &&
-						boardContent.assets.map((asset: AssetProps) => (
-							<div key={asset?._id}>
-								<Asset
-									asset={asset}
-									editAsset={editAsset}
-									enableEditing={enableEditing}
-									deleteAsset={deleteAsset}
-								/>
-							</div>
-						))}
+						boardContent.assets.map((asset: AssetProps) => {
+							return (
+								<div key={asset?._id}>
+									<Asset
+										asset={asset}
+										editAsset={editAsset}
+										enableEditing={enableEditing}
+										deleteAsset={deleteAsset}
+									/>
+								</div>
+							);
+						})}
 				</div>
 			)}
 		</div>

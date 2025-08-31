@@ -33,10 +33,9 @@ export type LogoProps = {
 
 export type AssetProps = {
 	content: string;
-	assetType: AssetProps;
+	type: AssetTypeProps;
 	boardId?: string;
 	userId?: string;
-	type: string;
 	_id?: string;
 	__v?: number;
 	createdAt?: string;
@@ -44,23 +43,23 @@ export type AssetProps = {
 
 export type AssetTypeProps = "text" | "image" | "youtubeURL" | "camImage" | "audio" | null
 
-export type MediaFormProps = {
-	assetType: AssetTypeProps;
-	initialContent: AssetProps;
-	isEditing: boolean;
-	setIsEditing: Dispatch<SetStateAction<boolean>>;
-	assetId: string;
-	saveEdit: (newContent: string) => void; // TODO: newContent might not be string
-	deleteAsset: (assetId: string) => void;
-};
+// export type MediaFormProps = {
+// 	assetType: AssetTypeProps;
+// 	initialContent: AssetProps;
+// 	isEditing: boolean;
+// 	setIsEditing: Dispatch<SetStateAction<boolean>>;
+// 	assetId: string;
+// 	saveEdit: (newContent: string) => void; // TODO: newContent might not be string
+// 	deleteAsset: (assetId: string) => void;
+// };
 
-export type MediaItemProps = {
-	asset: AssetProps;
-	mediaUpload: MediaUploadProps;
-	editAsset: (assetId: string, editedContent: AssetProps) => void;
-	deleteAsset: (assetId: string) => void;
-	enableEditing: boolean;
-};
+// export type MediaItemProps = {
+// 	asset: AssetProps;
+// 	mediaUpload: MediaUploadProps;
+// 	editAsset: (assetId: string, editedContent: AssetProps) => void;
+// 	deleteAsset: (assetId: string) => void;
+// 	enableEditing: boolean;
+// };
 
 export type AddMediaAllButtonsProps = {
 	mediaUpload: MediaUploadProps;
