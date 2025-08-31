@@ -1,6 +1,8 @@
-export const validateContent = (content, assetType: string) => {
+import { AssetTypeProps } from "src/types";
+
+export const validateContent = (content: any, type?: AssetTypeProps) => { // TODO: improve content type
 	if (!content) return false;
-	if (assetType === "youtubeURL") {
+	if (type === "youtubeURL") {
 		const youtubeUrlRegex =
 			/^(http(s)??\:\/\/)?(www\.)?((youtube\.com\/watch\?v=)|(youtu.be\/))([a-zA-Z0-9\-_])+$/;
 		return youtubeUrlRegex.test(content);
