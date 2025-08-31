@@ -5,6 +5,7 @@ import { AuthContext } from 'context';
 import authService from 'services/auth.service';
 import loginStyles from './index.module.sass';
 import { paths } from 'router/paths';
+import logger from 'src/utils/logger';
 
 function Login() {
 	const [email, setEmail] = useState('');
@@ -29,12 +30,12 @@ function Login() {
 				authenticateUser();
 				navigate(paths.dashboard);
 			})
-			.catch((error) => {
-				console.error(error);
+			.catch((err) => {
+				logger.error(err);
 				const errorDescription = error.response
 					? error.response.data.message
 					: error.message;
-				setErrorMessage('❌ ' + errorDescription);
+				setErrorMessage("❌ " + errorDescription);
 			});
 	};
 

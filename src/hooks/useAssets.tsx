@@ -4,6 +4,7 @@ import assetsService from "services/assets.service";
 import usersService from "services/users.service";
 import boardsService from "services/boards.service";
 import type { AssetProps, BoardProps, Status } from "types";
+import logger from "src/utils/logger";
 
 export const useAssets = (userId: string) => {
 	const currentDate = useMemo(() => new Date().toISOString().slice(0, 10), []);
@@ -22,7 +23,7 @@ export const useAssets = (userId: string) => {
 				if (!data.length) throw new Error("No data");
 				return data[0];
 			} catch (err) {
-				// console.error("❌", err);
+				logger.error(err);
 				return null;
 			}
 		},
@@ -41,6 +42,7 @@ export const useAssets = (userId: string) => {
 						throw new Error("Couldn't create a new board");
 					boardId = res.data._id;
 				} catch (err) {
+					logger.error(err);
 					throw err;
 				}
 			}
@@ -52,13 +54,14 @@ export const useAssets = (userId: string) => {
 				const data: AssetProps = await res.data;
 				return data;
 			} catch (err) {
+				logger.error(err);
 				throw err;
 			}
 		},
 		onSuccess: (newAsset: AssetProps) => {
 			queryClient.invalidateQueries({ queryKey: ["todaysBoard", userId] });
 		},
-		onError: (error) => console.log(error),
+		onError: (err) => logger.error(err)
 	});
 
 	// const addNewAsset = (newAsset: AssetProps) => {
@@ -79,12 +82,12 @@ export const useAssets = (userId: string) => {
 			const fileUrl = await uploadService.uploadFile(file);
 			// setNewAssetContent(fileUrl);
 			return fileUrl;
-		} catch (error) {
+		} catch (err) {
+			logger.error(err);
 			// setMediaFormStatus({
 			// 	state: "error",
 			// 	message: `Error uploading file: ${error}`,
 			// });
-			throw error;
 		} finally {
 			// setMediaFormStatus({ state: "idle" });
 		}
@@ -103,6 +106,7 @@ export const useAssets = (userId: string) => {
 				if (!data.length) throw new Error("No data");
 				return data;
 			} catch (err) {
+				logger.error(err);
 				return null;
 			}
 		},

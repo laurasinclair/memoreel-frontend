@@ -9,6 +9,7 @@ import { useAssetContext } from "src/context/AssetContext";
 import { usePopUp } from 'src/context/PopUpContext';
 import { mediaConfig } from "src/config/mediaConfig";
 import { PlusLg } from 'react-bootstrap-icons';
+import logger from 'logger';
 
 // 1. "Add media" button
 export function AddMediaButton({
@@ -32,6 +33,7 @@ export function AddMediaButton({
 export default function AddMediaAllButtons() {
 	const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 	const toggleMenu = () => setIsMenuOpen((prev) => !prev);
+
 	return (
 		<>
 			{isMenuOpen && (
@@ -56,7 +58,7 @@ export function MediaTypeButton() {
 			openPopUp();
 			setActiveButton((prev) => (prev === type ? null : type));
 		} catch (err) {
-			console.log("❌", err);
+			logger.log("❌", err);
 		}
 	};
 

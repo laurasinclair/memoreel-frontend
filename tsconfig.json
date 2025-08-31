@@ -27,6 +27,7 @@
 			"context/*": ["src/context/*"],
 			"hooks/*": ["src/hooks/*"],
 			"images/*": ["src/assets/images/*"],
+			"logger": ["src/utils/logger.ts"],
 			"pages": ["src/pages/index.tsx"],
 			"pages/*": ["src/pages/*"],
 			"paths": ["src/router/paths.tsx"],

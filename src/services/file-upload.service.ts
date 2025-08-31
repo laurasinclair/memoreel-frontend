@@ -1,4 +1,5 @@
 import axios from "axios";
+import logger from "src/utils/logger";
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL || "http://localhost:5005",
@@ -18,9 +19,9 @@ const uploadFile = async (file) => {
     }
     const res = await api.post("/upload", fileData);
     return res.data.fileUrl;
-  } catch (error) {
-    console.error(error);
-    throw error;
+  } catch (err) {
+    logger.error(err);
+    throw err;
   }
 };
 

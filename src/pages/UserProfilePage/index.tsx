@@ -46,8 +46,8 @@ function UserProfilePage() {
 			setInitialName(nameInput);
 			setInitialEmail(emailInput);
 			setInitialProfileImg(profileImg);
-		} catch (error) {
-			setUserProfileState({ state: "error", message: error });
+		} catch (err) {
+			setUserProfileState({ state: "error", message: err });
 		}
 	};
 
@@ -59,8 +59,8 @@ function UserProfilePage() {
 				const fileUrl = await uploadService.uploadFile(file);
 				setProfileImg(fileUrl);
 				setUserProfileState({ state: "success" });
-			} catch (error) {
-				setUserProfileState({ state: "error", message: error });
+			} catch (err) {
+				setUserProfileState({ state: "error", message: err });
 			} finally {
 				setUserProfileState({ state: "idle" });
 			}

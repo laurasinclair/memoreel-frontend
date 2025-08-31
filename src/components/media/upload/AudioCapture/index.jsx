@@ -3,6 +3,7 @@ import { AudioRecorder } from 'react-audio-voice-recorder';
 
 import { VoiceNote } from 'components/media/ui/MediaItem';
 import './index.sass';
+import logger from 'logger';
 
 function AudioCapture({ handleUploadFile, setLoading }) {
 	const [audioURL, setAudioURL] = useState('');
@@ -13,8 +14,8 @@ function AudioCapture({ handleUploadFile, setLoading }) {
 			const audioURL = await handleUploadFile(blob);
 			setAudioURL(audioURL);
 			setLoading(false);
-		} catch (error) {
-			console.error(error);
+		} catch (err) {
+			logger.log("❌", err);
 			setLoading(false);
 		}
 	};
@@ -30,7 +31,7 @@ function AudioCapture({ handleUploadFile, setLoading }) {
 						noiseSuppression: true,
 						echoCancellation: true,
 					}}
-					onNotAllowedOrFound={(err) => console.error(err)}
+					onNotAllowedOrFound={(err) => logger.error(err)}
 					downloadOnSavePress={false}
 					downloadFileExtension='webm'
 					mediaRecorderOptions={{

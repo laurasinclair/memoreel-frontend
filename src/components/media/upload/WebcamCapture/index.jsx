@@ -5,6 +5,7 @@ import { Camera } from 'react-bootstrap-icons';
 import { ImagePreviewer } from 'components';
 import { Polaroid } from 'components/media/ui/MediaItem';
 import styles from './index.module.sass';
+import logger from 'logger';
 
 function WebcamCapture({ handleUploadFile, loading, setLoading }) {
 	const camRef = useRef();
@@ -20,8 +21,8 @@ function WebcamCapture({ handleUploadFile, loading, setLoading }) {
 				setPreviewURL(imageURL);
 				setPhotoTaken(true);
 				setLoading(false);
-			} catch (error) {
-				console.error(error);
+			} catch (err) {
+				logger.log("❌", err);
 				setLoading(false);
 			}
 		}

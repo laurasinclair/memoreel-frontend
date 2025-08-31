@@ -24,10 +24,10 @@ function SignupPage() {
       .then(() => {
         navigate(paths.login);
       })
-      .catch((error) => {
-        const errorDescription = error.response
-          ? error.response.data.message
-          : error.message;
+      .catch((err) => {
+        const errorDescription = err.response
+				? err.response.data.message
+				: err.message;
         setErrorMessage("❌ " + errorDescription);
       });
   };

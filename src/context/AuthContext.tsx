@@ -30,10 +30,10 @@ function AuthProviderWrapper({ children }: ChildrenProps) {
 				.then((res) => {
 					setAuthStatus({ state: "success" });
 				})
-				.catch((error) => {
+				.catch((err) => {
 					setAuthStatus({
 						state: "error",
-						message: error.response.data.message,
+						message: err.response.data.message,
 					});
 					removeToken();
 					setIsLoggedIn(false);
@@ -75,10 +75,10 @@ function AuthProviderWrapper({ children }: ChildrenProps) {
 				setAuthStatus({ state: "idle" });
 				setUser(null);
 			}
-		} catch (error) {
+		} catch (err) {
 			setAuthStatus({
 				state: "error",
-				message: `Error deleting account: ${error}`,
+				message: `Error deleting account: ${err}`,
 			});
 		}
 	};

@@ -125,3 +125,5 @@ export type ButtonProps = {
 	onClick?: React.MouseEventHandler<HTMLElement>;
 	loading?: boolean;
 };
+
+export type LoggerMessageType = string;
