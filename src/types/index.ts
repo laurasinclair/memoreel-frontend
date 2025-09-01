@@ -96,7 +96,6 @@ export type BoardContentProps = {
 }
 export type BoardProps = {
 	boardContent: BoardContentProps;
-	isToday?: boolean;
 	status: QueryStatus;
 };
 
