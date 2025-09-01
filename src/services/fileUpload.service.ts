@@ -20,15 +20,7 @@ class UploadFileService {
 	uploadFile = async (file: UploadFileType) => {
 		try {
 			const fileData = new FormData();
-
-			switch (true) {
-				// case file instanceof Blob:
-				// 	fileData.append("file", file, "audio_recording.webm");
-				// 	break;
-				default:
-					fileData.append("file", file);
-					break;
-			}
+			fileData.append("file", file);
 			
 			const res = await this.api.post("/assets/upload", fileData);
 			return res.data.fileUrl;

@@ -46,7 +46,7 @@ export const AssetProvider: React.FC<{ children: React.ReactNode }> = ({
 	) => {
 		if (e.target && e.target.files) {
 			try {
-				const file = e.target.files?.[0];
+				const file: File | Blob = e.target.files?.[0];
 				if (!file) throw new Error("No file");
 
 				setAsset((prev: AssetProps) => ({

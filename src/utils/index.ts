@@ -55,6 +55,12 @@ export const base64ToBlob = (base64: string): Blob => {
 	return new Blob([array], { type: mime });
 };
 
+export const toBlob = (fileOrBlob: File | Blob): Blob => {
+	logger.log(fileOrBlob instanceof Blob)
+	if (fileOrBlob instanceof Blob) return fileOrBlob;
+	return new Blob([fileOrBlob]);
+}
+
 export const createEvent = (file) => {
 	return {
 		target: {

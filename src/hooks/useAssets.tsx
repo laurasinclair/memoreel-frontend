@@ -94,7 +94,7 @@ export const useAssets = () => {
 			}
 		},
 		onSuccess: (newAsset: AssetProps) => {
-			logger.log("💚 Success saving asset", newAsset);
+			logger.info("💚 Success saving asset", newAsset);
 			queryClient.invalidateQueries({ queryKey: ["todaysBoard", userId] });
 			return newAsset;
 
@@ -111,12 +111,7 @@ export const useAssets = () => {
 	// Updating an asset
 	const updateMutateAsset = useMutation<AssetProps, unknown, AssetProps>({
 		mutationFn: async (updatedAsset) => {
-			logger.log("updatedAsset", updatedAsset);
-
-
-
 			if (
-				updatedAsset.content instanceof File ||
 				updatedAsset.content instanceof Blob
 			) {
 				try {
@@ -141,7 +136,7 @@ export const useAssets = () => {
 			}
 		},
 		onSuccess: (updatedAsset: AssetProps) => {
-			logger.log("💙 Success updating asset", updatedAsset);
+			logger.info("💙 Success updating asset", updatedAsset);
 			queryClient.invalidateQueries({ queryKey: ["todaysBoard", userId] });
 		},
 		onError: (err) => {
@@ -169,7 +164,7 @@ export const useAssets = () => {
 			}
 		},
 		onSuccess: () => {
-			logger.log("💜 Success deleting asset");
+			logger.info("💜 Success deleting asset");
 			queryClient.invalidateQueries({ queryKey: ["todaysBoard", userId] });
 		},
 		onError: (err) => {
