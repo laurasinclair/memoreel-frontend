@@ -22,7 +22,6 @@ import InfoMessage from './state/InfoMessage';
 
 // Auth
 import IsPrivate from './auth/IsPrivate';
-import IsAnon from './auth/IsAnon';
 
 export {
 	Asset,
@@ -36,7 +35,6 @@ export {
 	Marquee,
 	MediaMenu,
 	IsPrivate,
-	IsAnon,
 	WebcamCapture,
 	AudioCapture,
 	InfoMessage,

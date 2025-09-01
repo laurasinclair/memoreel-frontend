@@ -1,7 +1,6 @@
 import { useContext, useState, useEffect } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { useMediaPredicate } from "react-media-hook";
-import { AuthContext } from 'context/AuthContext';
 import { Button, LogoFull, LogoSquare } from "components";
 import styles from './index.module.sass';
 import placeholder from 'images/placeholder.jpg';
@@ -9,9 +8,11 @@ import { BoxArrowRight, EmojiSmile } from 'react-bootstrap-icons';
 import type { UserContextProps } from "types";
 import { paths } from "router/paths";
 import classNames from 'classnames';
+import { authContext } from "context/AuthContext";
 
 function NavBar() {
-	const { isLoggedIn, logOutUser, user } = useContext<UserContextProps>(AuthContext);
+	const { user, isLoggedIn } = authContext();
+	// const { isLoggedIn, logOutUser, user } = useContext<UserContextProps>(AuthContext);
 	const location = useLocation();
 	const mobileViewport = useMediaPredicate('(max-width: 578px)');
 	const [isSpinning, setIsSpinning] = useState<Boolean>(true);

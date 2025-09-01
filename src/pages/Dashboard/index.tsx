@@ -5,16 +5,16 @@ import {
 	Board,
 	AssetEditor,
 } from "components";
-import { useAssets } from "src/hooks/useAssets";
-import { AuthContext } from 'context/AuthContext';
+import { useAssets } from "hooks/useAssets";
+import { authContext } from "context/AuthContext";
 import styles from './index.module.sass';
 import { Container } from 'react-bootstrap';
 import PopUp from "components/layout/PopUp"
-import { AssetProvider } from "src/context/AssetContext";
-import { PopUpProvider } from "src/context/PopUpContext";
+import { AssetProvider } from "context/AssetContext";
+import { PopUpProvider } from "context/PopUpContext";
 
 const Dashboard = () => {
-	const { user } = useContext(AuthContext);
+	const { user, isLoggedIn } = authContext();
 	const { todaysBoard, todaysBoardStatus } = useAssets();
 	return (
 		<>

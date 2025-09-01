@@ -1,7 +1,7 @@
 import { QueryStatus } from "@tanstack/react-query";
 import { ChangeEvent, Dispatch, HTMLAttributes, ReactElement, ReactNode } from "react";
 
-export type User = {
+export type UserProps = {
 	_id: string;
 	email: string;
 	name: string;
@@ -88,7 +88,7 @@ export type BoardProps = {
 export type UserContextProps = {
 	isLoggedIn: boolean;
 	authStatus: Status;
-	user: User;
+	user: UserProps;
 };
 
 export type AboutType = {

@@ -1,14 +1,14 @@
 import { useContext } from "react";
 import { Container, Row } from "react-bootstrap";
 import styles from "./index.module.sass";
-import { AuthContext } from "context/AuthContext";
+import { authContext } from "context/AuthContext";
 import landingslide1 from "images/landingpage-slideshow/landingslide1.png";
 import landingslide2 from "images/landingpage-slideshow/landingslide2.png";
 import { Button, Marquee } from "components";
 import { paths } from "src/router/paths";
 
 export default function LandingPage() {
-	const { user, isLoggedIn } = useContext(AuthContext);
+	const { user, isLoggedIn } = authContext();
 
 	return (
 		<section className={styles.landingPage}>

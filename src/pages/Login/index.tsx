@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { Container, Row, Col } from "react-bootstrap";
 import { Link, useNavigate } from 'react-router-dom';
-import { AuthContext } from 'context/AuthContext';
+import { authContext } from "context/AuthContext";
 import authService from 'services/auth.service';
 import loginStyles from './index.module.sass';
 import { paths } from 'router/paths';
@@ -14,7 +14,8 @@ function Login() {
 
 	const navigate = useNavigate();
 
-	const { storeToken, authenticateUser } = useContext(AuthContext);
+	const { user, isLoggedIn } = authContext();
+	// const { storeToken, authenticateUser } = useContext(AuthContext);
 
 	const handleEmail = (e) => setEmail(e.target.value);
 	const handlePassword = (e) => setPassword(e.target.value);
@@ -23,20 +24,20 @@ function Login() {
 		e.preventDefault();
 		const requestBody = { email, password };
 
-		authService
-			.login(requestBody)
-			.then((response) => {
-				storeToken(response.data.authToken);
-				authenticateUser();
-				navigate(paths.dashboard);
-			})
-			.catch((err) => {
-				logger.error(err);
-				const errorDescription = err.response
-					? err.response.data.message
-					: err.message;
-				setErrorMessage("❌ " + errorDescription);
-			});
+		// authService
+		// 	.login(requestBody)
+		// 	.then((response) => {
+		// 		storeToken(response.data.authToken);
+		// 		authenticateUser();
+		// 		navigate(paths.dashboard);
+		// 	})
+		// 	.catch((err) => {
+		// 		logger.error(err);
+		// 		const errorDescription = err.response
+		// 			? err.response.data.message
+		// 			: err.message;
+		// 		setErrorMessage("❌ " + errorDescription);
+		// 	});
 	};
 
 	return (

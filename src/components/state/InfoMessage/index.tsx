@@ -2,13 +2,13 @@ import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
 
-import { AuthContext } from 'context/AuthContext';
+// import { AuthContext } from 'context/AuthContext';
 import { Button } from 'components';
 import { paths } from 'src/router/paths';
 
 function InfoMessage() {
 	const navigate = useNavigate();
-	const { logOutUser } = useContext(AuthContext);
+	// const { logOutUser } = useContext(AuthContext);
 
 	return (
 		<Container fluid>
@@ -24,10 +24,11 @@ function InfoMessage() {
 					</p>
 					<div>
 						<Button
-							onClick={() => {
-								logOutUser();
-								navigate(paths.login);
-							}}>
+							// onClick={() => {
+							// 	logOutUser();
+							// 	navigate(paths.login);
+							// }}
+						>
 							Login
 						</Button>
 					</div>

@@ -5,12 +5,12 @@ import usersService from "services/users.service";
 import boardsService from "services/boards.service";
 import type { AssetProps, BoardProps, Status } from "types";
 import logger from "logger";
-import { AuthContext } from "context/AuthContext";
+import { authContext } from "context/AuthContext";
 import fileUploadService from "services/fileUpload.service";
 import { AxiosError } from "axios";
 
 export const useAssets = () => {
-	const { user } = useContext(AuthContext);
+	const { user } = authContext();
 	const userId = user._id;
 	const currentDate = useMemo(() => new Date().toISOString().slice(0, 10), []);
 	const queryClient = useQueryClient();

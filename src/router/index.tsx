@@ -10,7 +10,7 @@ import {
 	UserProfilePage,
 } from "pages";
 import { paths } from "router/paths";
-import { IsAnon, IsPrivate } from "components";
+import { IsPrivate } from "components";
 import App from "../App";
 
 const Router = createBrowserRouter(
@@ -29,17 +29,13 @@ const Router = createBrowserRouter(
 						{
 							path: paths.login,
 							element: (
-								<IsAnon>
-									<Login />
-								</IsAnon>
+								<Login />
 							),
 						},
 						{
 							path: paths.signup,
 							element: (
-								<IsAnon>
-									<Signup />
-								</IsAnon>
+								<Signup />
 							),
 						},
 					],

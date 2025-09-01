@@ -1,102 +1,68 @@
-import React, { useState, useEffect } from "react";
-import authService from "services/auth.service";
-import usersService from "services/users.service";
-import boardsService from "services/boards.service";
-import assetsService from "services/assets.service";
+import React, { useState, useEffect, useContext } from "react";
 import type { Status, ChildrenProps, User } from "types";
+import { useUser } from "hooks/useUser";
+import logger from "logger";
 
 const AuthContext = React.createContext(undefined);
 
-function AuthProviderWrapper({ children }: ChildrenProps) {
+export function AuthProvider({ children }: ChildrenProps) {
 	const [isLoggedIn, setIsLoggedIn] = useState<Boolean>(false);
-	const [user, setUser] = useState<User | null>(null);
-	const [authStatus, setAuthStatus] = useState<Status>({ state: "idle" });
+	const { user, userStatus, removeToken } = useUser();
 
 	const storeToken = (token) => {
 		localStorage.setItem("authToken", token);
 	};
 
-	const authenticateUser = () => {
-		setAuthStatus({ state: "loading" });
-		const storedToken = localStorage.getItem("authToken");
-
-		if (storedToken) {
-			authService
-				.verify()
-				.then((res) => {
-					setIsLoggedIn(true);
-					setUser(res.data);
-				})
-				.then((res) => {
-					setAuthStatus({ state: "success" });
-				})
-				.catch((err) => {
-					setAuthStatus({
-						state: "error",
-						message: err.response.data.message,
-					});
-					removeToken();
-					setIsLoggedIn(false);
-					setUser(null);
-					return;
-				});
+	useEffect(() => {
+		logger.log(user, userStatus);
+		if (userStatus === "success") {
+			setIsLoggedIn(true);
+		} else {
+			setIsLoggedIn(false);
 		}
-	};
-
-	const removeToken = () => {
-		localStorage.removeItem("authToken");
-	};
+	}, [user])
 
 	const logOutUser = () => {
 		removeToken();
 		setIsLoggedIn(false);
-		setUser(null);
 	};
 
-	const handleDeleteAccount = async () => {
-		try {
-			const userResponse = await usersService.get(user._id);
-			const boards = userResponse.data.boards;
+	// const handleDeleteAccount = async () => {
+	// 	try {
+	// 		const userResponse = await usersService.get(user._id);
+	// 		const boards = userResponse.data.boards;
 
-			for (const boardId of boards) {
-				const boardResponse = await boardsService.get(boardId);
-				const assets = boardResponse.data.assets;
+	// 		for (const boardId of boards) {
+	// 			const boardResponse = await boardsService.get(boardId);
+	// 			const assets = boardResponse.data.assets;
 
-				for (const assetId of assets) {
-					await assetsService.delete(assetId);
-				}
-				await boardsService.delete(boardId);
-			}
-			const deleteResponse = await usersService.delete(user._id);
+	// 			for (const assetId of assets) {
+	// 				await assetsService.delete(assetId);
+	// 			}
+	// 			await boardsService.delete(boardId);
+	// 		}
+	// 		const deleteResponse = await usersService.delete(user._id);
 
-			if (deleteResponse.status === 200) {
-				removeToken();
-				setIsLoggedIn(false);
-				setAuthStatus({ state: "idle" });
-				setUser(null);
-			}
-		} catch (err) {
-			setAuthStatus({
-				state: "error",
-				message: `Error deleting account: ${err}`,
-			});
-		}
-	};
-
-	useEffect(() => {
-		authenticateUser();
-	}, []);
+	// 		if (deleteResponse.status === 200) {
+	// 			removeToken();
+	// 			setIsLoggedIn(false);
+	// 			setAuthStatus({ state: "idle" });
+	// 			setUser(null);
+	// 		}
+	// 	} catch (err) {
+	// 		setAuthStatus({
+	// 			state: "error",
+	// 			message: `Error deleting account: ${err}`,
+	// 		});
+	// 	}
+	// };
 
 	return (
 		<AuthContext.Provider
 			value={{
 				isLoggedIn,
 				user,
-				storeToken,
-				authenticateUser,
 				logOutUser,
-				authStatus,
-				handleDeleteAccount,
 			}}
 		>
 			{children}
@@ -104,4 +70,9 @@ function AuthProviderWrapper({ children }: ChildrenProps) {
 	);
 }
 
-export { AuthProviderWrapper, AuthContext };
+export const authContext = () => {
+	const context = useContext(AuthContext);
+	if (!context)
+		throw new Error("authContext must be used within AuthContext.Provider");
+	return context;
+};

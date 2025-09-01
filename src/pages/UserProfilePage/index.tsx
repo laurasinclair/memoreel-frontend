@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext, useRef } from 'react';
 import { Pen } from 'react-bootstrap-icons';
 
-import { AuthContext } from 'context/AuthContext';
+import { authContext } from "context/AuthContext";
 import usersService from 'services/users.service';
 import fileUploadService from 'services/fileUpload.service';
 import styles from './index.module.sass';
@@ -15,7 +15,8 @@ function UserProfilePage() {
 	const [initialName, setInitialName] = useState('');
 	const [initialEmail, setInitialEmail] = useState('');
 	const [initialProfileImg, setInitialProfileImg] = useState('');
-	const { user, handleDeleteAccount } = useContext(AuthContext);
+
+	const { user, isLoggedIn } = authContext();
 	const [userProfileState, setUserProfileState] = useState<Status>({state: "idle"});
 
 	const [infoMessage, setInfoMessage] = useState(undefined);
@@ -153,7 +154,9 @@ function UserProfilePage() {
 					Save
 				</button>
 				<p className={styles.deleteAccountButton}>
-					<a onClick={handleDeleteAccount}>Delete my account</a>
+					<a 
+						// onClick={handleDeleteAccount}
+					>Delete my account</a>
 				</p>
 			</form>
 		</div>
