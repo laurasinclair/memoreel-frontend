@@ -32,7 +32,7 @@ class AssetsService {
 		return this.api.put(`/assets/${assetId}`, updatedAsset);
 	};
 
-	delete = (id: string) => {
+	deleteAsset = (id: string) => {
 		return this.api.delete(`/assets/${id}`);
 	};
 }

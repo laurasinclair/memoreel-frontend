@@ -8,21 +8,21 @@ import { usePopUp } from "src/context/PopUpContext";
 
 const SaveButton = () => {
     const { saveNewAsset, updateAsset } = useAssets();
-    const { newAssetContent, isEditing } = assetContext();
+    const { asset, isEditing } = assetContext();
     const { closePopUp } = usePopUp();
 
     const handleSave = () => {
-        if (!newAssetContent) return;
+        if (!asset) return;
 
         try {
-            if (validateContent(newAssetContent)) {
-                if (isEditing) {
-                    updateAsset(newAssetContent)
-                } else {
-                   saveNewAsset(newAssetContent);
-                }
-                closePopUp();
-            }
+            if (validateContent(asset)) {
+					if (isEditing) {
+						updateAsset(asset);
+					} else {
+						saveNewAsset(asset);
+					}
+					// closePopUp();
+				}
         } catch (err) {
             logger.error(err);
             return;
@@ -33,7 +33,7 @@ const SaveButton = () => {
 			<Button
 				onClick={handleSave}
 				variant="primary"
-				disabled={!validateContent(newAssetContent)}
+				disabled={!validateContent(asset)}
 				// style={{
 				//     display: isEditing && assetType === "camImage" ? "none" : "flex",
 				// }}

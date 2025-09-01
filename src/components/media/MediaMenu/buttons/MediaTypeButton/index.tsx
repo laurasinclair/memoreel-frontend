@@ -8,25 +8,18 @@ import logger from "src/utils/logger";
 import { assetEditorConfig } from "src/config/assetEditorConfig";
 
 export default function MediaTypeButton() {
-	const { setNewAssetContent } = assetContext();
-	
+	const { openAssetEditor } = assetContext();
 	const [activeButton, setActiveButton] = useState(null);
-	const { isPopUpOpen, openPopUp } = usePopUp();
+	const { isPopUpOpen } = usePopUp();
 
-	const openAssetEditor = (type: AssetTypeProps) => {
-		try {
-			setNewAssetContent((prev) => ({ ...prev, type: type }));
-			openPopUp();
-			setActiveButton((prev) => (prev === type ? null : type));
-		} catch (err) {
-			logger.error(err);
-		}
-	};
+	const handleClick = (type: AssetTypeProps) => {
+		if (!type) return;
+		openAssetEditor(type);
+		setActiveButton((prev) => (prev === type ? null : type));
+	}
 
 	useEffect(() => {
-		if (!isPopUpOpen) {
-			setActiveButton(null);
-		}
+		if (!isPopUpOpen) setActiveButton(null);
 	}, [isPopUpOpen]);
 
 	const mediaTypeButtons: MediaTypeButtonProps[] = Object.entries(
@@ -46,7 +39,7 @@ export default function MediaTypeButton() {
 					return (
 						<button
 							key={type}
-							onClick={() => openAssetEditor(type)}
+							onClick={() => handleClick(type)}
 							className={classNames(
 								"button-primary",
 								styles.addMediaButton_assetTypeButton,

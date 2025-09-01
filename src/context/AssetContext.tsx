@@ -2,29 +2,35 @@ import React, { createContext, useState, useContext, useEffect } from "react";
 import { useAssets } from "src/hooks/useAssets";
 import logger from "src/utils/logger";
 import type { AssetContextType, AssetProps, AssetTypeProps } from "types";
-import { usePopUp } from "./PopUpContext";
+import { usePopUp } from "context/PopUpContext";
 
 const AssetContext = createContext<AssetContextType | undefined>(undefined);
 
 export const AssetProvider: React.FC<{ children: React.ReactNode }> = ({
 	children,
 }) => {
-	const [newAssetContent, setNewAssetContent] = useState<
-		AssetProps | undefined
-	>(undefined);
+	const [asset, setAsset] = useState<AssetProps | undefined>(undefined);
 	const [isEditing, setIsEditing] = useState<boolean>(false);
-	const { saveNewAssetSuccess } = useAssets();
-	const { isPopUpOpen, openPopUp } = usePopUp();
+	const { todaysBoardStatus, saveNewAssetSuccess } = useAssets();
+	const { isPopUpOpen, openPopUp, closePopUp } = usePopUp();
 
-	const openAssetEditor = (asset: AssetTypeProps) => {
-		if (!asset) return;
-		try {
-			setIsEditing(true);
-			setNewAssetContent(asset);
-			openPopUp();
-		} catch (err) {
-			logger.error(err);
+	const openAssetEditor = (assetOrType, isEditing) => {
+		logger.log(assetOrType)
+		if (assetOrType instanceof Object) {
+			if (isEditing) setIsEditing(true);
+			setAsset((prev) => ({
+				...prev,
+				...assetOrType,
+			}));
 		}
+
+		if (typeof assetOrType === "string") {
+			setAsset((prev) => ({
+				...prev,
+				type: assetOrType,
+			}));
+		}
+		openPopUp();
 	};
 
 	const onChange = (
@@ -33,19 +39,21 @@ export const AssetProvider: React.FC<{ children: React.ReactNode }> = ({
 		if (e.target && e.target.files) {
 			try {
 				const file = e.target.files?.[0];
-				if (!file) throw new Error("No file")
-					
-				setNewAssetContent((prev: AssetProps) => ({
+				if (!file) throw new Error("No file");
+
+				setAsset((prev: AssetProps) => ({
 					...prev,
 					content: file,
 				}));
 
 				return;
-			} catch (err) { logger.error(err) }
+			} catch (err) {
+				logger.error(err);
+			}
 		}
 
 		if (e.target.value) {
-			setNewAssetContent((prev: AssetProps) => ({
+			setAsset((prev: AssetProps) => ({
 				...prev,
 				content: e.target.value,
 			}));
@@ -54,20 +62,25 @@ export const AssetProvider: React.FC<{ children: React.ReactNode }> = ({
 	};
 
 	useEffect(() => {
+		logger.log(saveNewAssetSuccess);
 		if (saveNewAssetSuccess) {
-			setNewAssetContent(undefined);
+			setAsset(undefined);
+			closePopUp();
 		}
+	}, [saveNewAssetSuccess]);
+
+	useEffect(() => {
 		if (!isPopUpOpen) {
-			setNewAssetContent(undefined);
+			setAsset(undefined);
 			setIsEditing(false);
 		}
-	}, [saveNewAssetSuccess, isPopUpOpen]);
+	}, [isPopUpOpen]);
 
 	return (
 		<AssetContext.Provider
 			value={{
-				newAssetContent,
-				setNewAssetContent,
+				asset,
+				setAsset,
 				onChange,
 				isEditing,
 				setIsEditing,

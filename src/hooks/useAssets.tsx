@@ -55,7 +55,7 @@ export const useAssets = () => {
 
 	// Adding a new asset
 	const saveMutateAsset = useMutation<AssetProps, unknown, AssetProps>({
-		mutationFn: async (newAsset: AssetProps) => {
+		mutationFn: async (asset: AssetProps) => {
 			let boardId = todaysBoard?._id;
 
 			if (!boardId) {
@@ -70,21 +70,18 @@ export const useAssets = () => {
 				}
 			}
 
-			if (
-				newAsset.content instanceof File ||
-				newAsset.content instanceof Blob
-			) {
+			if (asset.content instanceof File || asset.content instanceof Blob) {
 				try {
-					const file = newAsset.content;
+					const file = asset.content;
 					const fileUrl = await fileUploadService.uploadFile(file);
-					if (!fileUrl) throw new Error("File could not be uploaded")
-					newAsset.content = fileUrl;
-				} catch(err) {
-					logger.log(err)
+					if (!fileUrl) throw new Error("File could not be uploaded");
+					asset.content = fileUrl;
+				} catch (err) {
+					logger.log(err);
 				}
 			}
 
-			const req: AssetProps = { ...newAsset, userId, boardId };
+			const req: AssetProps = { ...asset, userId, boardId };
 
 			try {
 				const res = await assetsService.createAsset(req);
@@ -96,7 +93,7 @@ export const useAssets = () => {
 			}
 		},
 		onSuccess: (newAsset: AssetProps) => {
-			logger.log("💙 SUCCESS", newAsset);
+			logger.log("💙 SUCCESS SAVING ASSET", newAsset);
 			queryClient.invalidateQueries({ queryKey: ["todaysBoard", userId] });
 		},
 		onError: (err) => logger.error(err),
@@ -115,7 +112,30 @@ export const useAssets = () => {
 			}
 		},
 		onSuccess: (updatedAsset: AssetProps) => {
-			logger.log("❤️ SUCCESS", updatedAsset);
+			logger.log("❤️ SUCCESS UPDATING ASSET", updatedAsset);
+			queryClient.invalidateQueries({ queryKey: ["todaysBoard", userId] });
+		},
+		onError: (err) => logger.error(err),
+	});
+
+	// Deleting an asset
+	const deleteMutateAsset = useMutation<AssetProps, unknown, AssetProps>({
+		mutationFn: async (asset) => {
+			logger.log(asset);
+			if (!asset) throw new Error("Asset missing")
+			if (!asset._id) throw new Error("assetId missing")
+			
+			try {
+				const res = await assetsService.deleteAsset(asset._id);
+				const data: AssetProps = await res.data;
+				return data;
+			} catch (err) {
+				logger.error(err);
+				throw err;
+			}
+		},
+		onSuccess: () => {
+			logger.log("💜 SUCCESS DELETING ASSET");
 			queryClient.invalidateQueries({ queryKey: ["todaysBoard", userId] });
 		},
 		onError: (err) => logger.error(err),
@@ -131,6 +151,12 @@ export const useAssets = () => {
 	const updateAsset = (updatedAsset: AssetProps) => {
 		if (!updatedAsset) return;
 		updateMutateAsset.mutate(updatedAsset);
+	};
+
+	// delete asset
+	const deleteAsset = (asset: AssetProps) => {
+		if (!asset) return;
+		deleteMutateAsset.mutate(asset);
 	};
 
 	// file upload
@@ -150,11 +176,14 @@ export const useAssets = () => {
 		allBoards,
 		allBoardsStatus,
 		saveNewAssetSuccess: saveMutateAsset.isSuccess,
+		updateAssetSuccess: updateMutateAsset.isSuccess,
+		deleteAssetSuccess: deleteMutateAsset.isSuccess,
 
 		// actions
 		uploadFile,
 		saveNewAsset,
 		updateAsset,
+		deleteAsset,
 	};
 };
 

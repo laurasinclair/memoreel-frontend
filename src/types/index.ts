@@ -136,8 +136,8 @@ export type LoggerMessageType = string;
 export type AssetContextType = {
 	isEditing: boolean;
 	setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
-	newAssetContent: AssetProps | undefined;
-	setNewAssetContent: React.Dispatch<
+	asset: AssetProps | undefined;
+	setAsset: React.Dispatch<
 		React.SetStateAction<AssetProps | undefined>
 	>;
 	onChange: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
