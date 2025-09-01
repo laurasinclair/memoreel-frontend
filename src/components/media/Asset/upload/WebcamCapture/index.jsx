@@ -2,82 +2,70 @@ import { useRef, useState } from 'react';
 import Webcam from 'react-webcam';
 import { Camera } from 'react-bootstrap-icons';
 
-import { ImagePreviewer } from 'components';
 import { Polaroid } from "src/components/media/Asset/views";
 import styles from './index.module.sass';
 import logger from 'logger';
+import Button from 'src/components/elements/Button';
+import { assetContext } from 'src/context/AssetContext';
+import { base64ToBlob } from 'src/utils';
 
-function WebcamCapture({ handleUploadFile, loading, setLoading }) {
+function WebcamCapture() {
 	const camRef = useRef();
-	const [previewURL, setPreviewURL] = useState('');
+	const [previewURL, setPreviewURL] = useState(undefined);
 	const [photoTaken, setPhotoTaken] = useState(false);
+	const { onChange } = assetContext();
 
-	const captureAndUpload = async () => {
-		const dataUrl = camRef.current.getScreenshot();
-		if (dataUrl) {
-			try {
-				setLoading(true);
-				const imageURL = await handleUploadFile(dataUrl);
-				setPreviewURL(imageURL);
-				setPhotoTaken(true);
-				setLoading(false);
-			} catch (err) {
-				logger.error(err);
-				setLoading(false);
-			}
+	const takeSelfiePreview = () => {
+		setPreviewURL(undefined);
+		setPhotoTaken(false);
+
+		const base64Image = camRef.current.getScreenshot();
+		try {
+			setPreviewURL(base64Image);
+			setPhotoTaken(true);
+
+			const blobImage = base64ToBlob(base64Image);
+			// fakeEvent: to be able to use onChange function
+			const fakeEvent = {
+				target: {
+					files: [blobImage],
+				},
+			};
+			onChange(fakeEvent);
+			return;
+		} catch (err) {
+			logger.error(err);
 		}
 	};
 
 	return (
-		<div className='main'>
-			<div className={styles.photoContainer}>
-				{photoTaken ? (
-					<ImagePreviewer
-						url={previewURL}
-						deleteImage={() => {
-							setPreviewURL('');
-							setPhotoTaken(false);
+		<div className={styles.photoContainer}>
+			{photoTaken ? (
+				<Polaroid>
+					<img src={previewURL} alt="What a great selfie!" />
+				</Polaroid>
+			) : (
+				<Polaroid>
+					<Webcam
+						ref={camRef}
+						videoConstraints={{
+							width: 400,
+							height: 400,
+							facingMode: "user",
+							aspectRatio: 1 / 1,
 						}}
+						screenshotFormat="image/jpeg"
 					/>
-				) : (
-					<Polaroid>
-						<Webcam
-							ref={camRef}
-							videoConstraints={{
-								width: 400,
-								height: 400,
-								facingMode: 'user',
-								aspectRatio: 1 / 1,
-							}}
-							screenshotFormat='image/jpeg'
-						/>
-					</Polaroid>
-				)}
+				</Polaroid>
+			)}
 
-				{photoTaken ? (
-					<button
-						onClick={() => {
-							setPreviewURL('');
-							setPhotoTaken(false);
-						}}>
-						<Camera
-							size='30'
-							className='me-2'
-						/>
-						Retake
-					</button>
-				) : (
-					<button
-						disabled={loading}
-						onClick={captureAndUpload}>
-						<Camera
-							size='30'
-							className='me-2'
-						/>
-						Snap!
-					</button>
-				)}
-			</div>
+				<Button 
+					onClick={takeSelfiePreview}
+					// disabled={loading}
+				>
+					<Camera size="30" className="me-2" />
+					{photoTaken ? "Retake" : "Snap!"}
+				</Button>
 		</div>
 	);
 }

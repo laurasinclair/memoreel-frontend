@@ -15,7 +15,6 @@ import AssetEditor from "./media/Asset/AssetEditor";
 // Uploading content
 import WebcamCapture from './media/Asset/upload/WebcamCapture';
 import AudioCapture from './media/Asset/upload/AudioCapture';
-import ImagePreviewer from './media/Asset/upload/ImagePreviewer';
 
 // State
 import Loading from "./state/Loading";
@@ -40,6 +39,5 @@ export {
 	IsAnon,
 	WebcamCapture,
 	AudioCapture,
-	ImagePreviewer,
 	InfoMessage,
 };

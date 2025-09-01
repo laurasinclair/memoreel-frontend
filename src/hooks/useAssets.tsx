@@ -70,10 +70,18 @@ export const useAssets = () => {
 				}
 			}
 
-			if (newAsset.type === "image") {
-				const file = newAsset.content;
-				const fileUrl = await fileUploadService.uploadFile(file);
-				newAsset.content = fileUrl;
+			if (
+				newAsset.content instanceof File ||
+				newAsset.content instanceof Blob
+			) {
+				try {
+					const file = newAsset.content;
+					const fileUrl = await fileUploadService.uploadFile(file);
+					if (!fileUrl) throw new Error("File could not be uploaded")
+					newAsset.content = fileUrl;
+				} catch(err) {
+					logger.log(err)
+				}
 			}
 
 			const req: AssetProps = { ...newAsset, userId, boardId };
@@ -125,21 +133,13 @@ export const useAssets = () => {
 		updateMutateAsset.mutate(updatedAsset);
 	};
 
-	// handle file upload
+	// file upload
 	const uploadFile = async (file: File) => {
 		try {
-			// setMediaFormStatus({ state: "uploading" });
 			const fileUrl = await uploadService.uploadFile(file);
-			// setNewAssetContent(fileUrl);
 			return fileUrl;
 		} catch (err) {
 			logger.error(err);
-			// setMediaFormStatus({
-			// 	state: "error",
-			// 	message: `Error uploading file: ${error}`,
-			// });
-		} finally {
-			// setMediaFormStatus({ state: "idle" });
 		}
 	};
 

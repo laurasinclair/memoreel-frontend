@@ -9,7 +9,7 @@ export const validateContent = (content: any, type?: AssetTypeProps) => { // TOD
 		return youtubeUrlRegex.test(content);
 	}
 
-	if (type === "image") {
+	if (type === "image" || type === "camImage") {
 		return true;
 	}
 
@@ -35,3 +35,16 @@ export const capitalizeString = (str: string) => {
 	if (!str || typeof str !== "string") return
 	return str[0].toUpperCase() + str.slice(1)
 }
+
+export const base64ToBlob = (base64: string): Blob => {
+	const [header, data] = base64.split(",");
+	const mime = header.match(/:(.*?);/)?.[1] || "application/octet-stream";
+
+	const binary = atob(data); // decode base64
+	const array = new Uint8Array(binary.length);
+	for (let i = 0; i < binary.length; i++) {
+		array[i] = binary.charCodeAt(i);
+	}
+
+	return new Blob([array], { type: mime });
+};

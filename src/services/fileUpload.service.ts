@@ -24,14 +24,9 @@ class UploadFileService {
 			const fileData = new FormData();
 
 			switch (true) {
-				case typeof file === "string":
-					const response = await fetch(file);
-					const blob = await response.blob();
-					fileData.append("file", blob, "webcam_image.jpg");
-					break;
-				case file instanceof Blob:
-					fileData.append("file", file, "audio_recording.webm");
-					break;
+				// case file instanceof Blob:
+				// 	fileData.append("file", file, "audio_recording.webm");
+				// 	break;
 				default:
 					fileData.append("file", file);
 					break;

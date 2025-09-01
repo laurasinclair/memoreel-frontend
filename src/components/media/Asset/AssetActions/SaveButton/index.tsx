@@ -17,10 +17,8 @@ const SaveButton = () => {
         try {
             if (validateContent(newAssetContent.content)) {
                 if (isEditing) {
-                    logger.log("isEditing", isEditing);
                     updateAsset(newAssetContent)
                 } else {
-                    logger.log("isEditing", isEditing);
                    saveNewAsset(newAssetContent);
                 }
                 closePopUp();

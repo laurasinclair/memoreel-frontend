@@ -2,9 +2,9 @@ import styles from "./index.module.sass"
 
 const Polaroid = ({ children, assetContent }) => {
 	return children ? (
-		<div className={styles.mediaItem_polaroid}>{children}</div>
+		<div className={styles.polaroid}>{children}</div>
 	) : (
-		<div className={styles.mediaItem_polaroid}>
+		<div className={styles.polaroid}>
 			<img
 				src={assetContent || ""}
 				alt="Uploaded content"

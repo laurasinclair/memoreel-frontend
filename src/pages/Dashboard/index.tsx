@@ -38,7 +38,7 @@ const Dashboard = () => {
 							<div className={styles.dashboard_addMedia}>
 								<MediaMenu />
 							</div>
-							{todaysBoard && todaysBoard.assets?.length ? (
+							{todaysBoard && todaysBoard.assets.length ? (
 								<Board
 									boardContent={todaysBoard}
 									isToday

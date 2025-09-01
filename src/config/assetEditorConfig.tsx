@@ -1,4 +1,5 @@
 import { Images, Stickies, PlayBtn, Camera, Mic } from "react-bootstrap-icons";
+import { WebcamCapture } from "src/components";
 import { AssetEditorProps, AssetTypeProps } from "src/types";
 
 export const assetEditorConfig: Record<AssetTypeProps, AssetEditorProps> = {
@@ -32,7 +33,7 @@ export const assetEditorConfig: Record<AssetTypeProps, AssetEditorProps> = {
 		verb: "take",
 		// description: "Description",
 		button: { icon: <Camera size={30} /> },
-		// input: <WebcamCapture />,
+		input: (props) => <WebcamCapture  {...props} />,
 	},
 	audio: {
 		title: "voice note",

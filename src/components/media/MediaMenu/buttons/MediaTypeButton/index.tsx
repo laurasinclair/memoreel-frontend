@@ -9,6 +9,7 @@ import { assetEditorConfig } from "src/config/assetEditorConfig";
 
 export default function MediaTypeButton() {
 	const { setNewAssetContent } = assetContext();
+	
 	const [activeButton, setActiveButton] = useState(null);
 	const { isPopUpOpen, openPopUp } = usePopUp();
 
