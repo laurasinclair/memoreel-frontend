@@ -58,7 +58,7 @@ export const base64ToBlob = (base64: string): Blob => {
 export const createEvent = (file) => {
 	return {
 		target: {
-			files: file,
+			files: [file],
 		},
 	};
 };

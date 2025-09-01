@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AudioRecorder } from 'react-audio-voice-recorder';
 
 import { VoiceNote } from "src/components/media/Asset/views";
@@ -8,22 +8,31 @@ import { assetContext } from 'src/context/AssetContext';
 import { createEvent } from 'src/utils';
 
 function AudioCapture() {
-	const [audioURL, setAudioURL] = useState('');
+	const [audioURL, setAudioUrl] = useState(undefined);
 	const { onChange } = assetContext();
 
 	const recordAudio = (e) => {
-		logger.log("record");
+		const audioBlob = e;
+		const audioUrlFromBlob = URL.createObjectURL(audioBlob);
+
 		try {
-			const event = createEvent(e);
+			if (!audioUrlFromBlob) throw new Error("Problem with recordAudio()");
+			setAudioUrl(audioUrlFromBlob);
+			const event = createEvent(audioBlob);
 			onChange(event);
 		} catch (err) {
 			logger.error(err);
 		}
+		
+		return () => {
+			setAudioUrl(undefined);
+			URL.revokeObjectURL(audioBlob);
+		};
 	};
 
 	return (
 		<VoiceNote>
-			<p>Record yourself!</p>
+			<p>Hit record!</p>
 
 			<div>
 				<AudioRecorder
