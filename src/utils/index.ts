@@ -23,3 +23,8 @@ export const formatDate = (inputDate: Date) => {
 	const formattedDate = `${day}.${month}.${year}`;
 	return formattedDate;
 };
+
+export const capitalizeString = (str: string) => {
+	if (!str || typeof str !== "string") return
+	return str[0].toUpperCase() + str.slice(1)
+}

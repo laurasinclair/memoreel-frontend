@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import styles from "./index.module.sass";
-import { AssetProps, MediaItemProps } from "src/types";
+import { MediaItemProps } from "src/types";
 import { Image, Text, Polaroid, VoiceNote, YoutubeURL } from "./views";
+import { EditButton } from "./AssetActions";
 
 export default function Asset({
 	asset,
-	editAsset,
-	deleteAsset,
 	enableEditing,
 }: MediaItemProps) {
 	const [assetContent, setAssetContent] = useState(asset.content);
@@ -30,9 +29,13 @@ export default function Asset({
 
 	return (
 		<div className={styles.assetWrapper}>
-			<div className={styles.assetWrapper_body}>
-                {renderContent()}
-            </div>
+			{enableEditing && (
+				<EditButton
+					asset={asset}
+					className={styles.assetWrapper_editButton}
+				/>
+			)}
+			<div className={styles.assetWrapper_body}>{renderContent()}</div>
 		</div>
 	);
 }

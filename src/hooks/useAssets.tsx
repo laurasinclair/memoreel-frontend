@@ -34,8 +34,27 @@ export const useAssets = () => {
 		refetchInterval: getMsUntilMidnight(),
 	});
 
+	// Getting all boards
+	const { data: allBoards, status: allBoardsStatus } = useQuery<
+		BoardProps[] | null,
+		Status
+	>({
+		queryKey: ["allBoards", userId],
+		queryFn: async (): Promise<BoardProps[] | null> => {
+			try {
+				const res = await usersService.getAllBoards(userId);
+				const data: BoardProps[] = await res.data;
+				if (!data.length) throw new Error("No data");
+				return data;
+			} catch (err) {
+				logger.error(err);
+				return null;
+			}
+		},
+	});
+
 	// Adding a new asset
-	const mutateAssets = useMutation<AssetProps, unknown, AssetProps>({
+	const saveMutateAsset = useMutation<AssetProps, unknown, AssetProps>({
 		mutationFn: async (newAsset: AssetProps) => {
 			let boardId = todaysBoard?._id;
 
@@ -63,15 +82,41 @@ export const useAssets = () => {
 			}
 		},
 		onSuccess: (newAsset: AssetProps) => {
+			logger.log("❤️ SUCCESS", newAsset);
 			queryClient.invalidateQueries({ queryKey: ["todaysBoard", userId] });
 		},
-		onError: (err) => logger.error(err)
+		onError: (err) => logger.error(err),
+	});
+
+	// Updating an asset
+	const updateMutateAsset = useMutation<AssetProps, unknown, AssetProps>({
+		mutationFn: async (updatedAsset) => {
+			try {
+				const res = await assetsService.updateAsset(updatedAsset);
+				const data: AssetProps = await res.data;
+				return data;
+			} catch (err) {
+				logger.error(err);
+				throw err;
+			}
+		},
+		onSuccess: (updatedAsset: AssetProps) => {
+			logger.log("❤️ SUCCESS", updatedAsset);
+			queryClient.invalidateQueries({ queryKey: ["todaysBoard", userId] });
+		},
+		onError: (err) => logger.error(err),
 	});
 
 	// save asset
 	const saveNewAsset = (newAsset: AssetProps) => {
 		if (!newAsset) return;
-		mutateAssets.mutate(newAsset);
+		saveMutateAsset.mutate(newAsset);
+	};
+
+	// update asset
+	const updateAsset = (updatedAsset: AssetProps) => {
+		if (!updatedAsset) return;
+		updateMutateAsset.mutate(updatedAsset);
 	};
 
 	// handle file upload
@@ -92,35 +137,18 @@ export const useAssets = () => {
 		}
 	};
 
-	// Getting all boards
-	const { data: allBoards, status: allBoardsStatus } = useQuery<
-		BoardProps[] | null,
-		Status
-	>({
-		queryKey: ["allBoards", userId],
-		queryFn: async (): Promise<BoardProps[] | null> => {
-			try {
-				const res = await usersService.getAllBoards(userId);
-				const data: BoardProps[] = await res.data;
-				if (!data.length) throw new Error("No data");
-				return data;
-			} catch (err) {
-				logger.error(err);
-				return null;
-			}
-		},
-	});
-
 	return {
 		// state
 		todaysBoard,
 		todaysBoardStatus,
 		allBoards,
 		allBoardsStatus,
+		saveNewAssetSuccess: saveMutateAsset.isSuccess,
 
 		// actions
 		uploadFile,
 		saveNewAsset,
+		updateAsset,
 	};
 };
 

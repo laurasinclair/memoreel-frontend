@@ -7,8 +7,8 @@ import { validateContent } from "src/utils";
 import { usePopUp } from "src/context/PopUpContext";
 
 const SaveButton = () => {
-    const { saveNewAsset } = useAssets();
-    const { newAssetContent } = assetContext();
+    const { saveNewAsset, updateAsset } = useAssets();
+    const { newAssetContent, isEditing } = assetContext();
     const { closePopUp } = usePopUp();
 
     const handleSave = () => {
@@ -16,7 +16,13 @@ const SaveButton = () => {
 
         try {
             if (validateContent(newAssetContent.content)) {
-                saveNewAsset(newAssetContent);
+                if (isEditing) {
+                    logger.log("isEditing", isEditing);
+                    updateAsset(newAssetContent)
+                } else {
+                    logger.log("isEditing", isEditing);
+                   saveNewAsset(newAssetContent);
+                }
                 closePopUp();
             }
         } catch (err) {

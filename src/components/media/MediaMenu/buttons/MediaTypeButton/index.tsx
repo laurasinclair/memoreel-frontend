@@ -32,26 +32,31 @@ export default function MediaTypeButton() {
 		assetEditorConfig
 	).map(([type, config]) => ({
 		type,
+		title: config.title,
+		verb: config.verb,
 		...config.button,
 	}));
 
 	return (
 		<>
 			{mediaTypeButtons.map(
-				({ type, icon, label }: MediaTypeButtonProps) => (
-					<button
-						key={type}
-						onClick={() => openAssetEditor(type)}
-						className={classNames(
-							"button-primary",
-							styles.addMediaButton_assetTypeButton,
-							{ [styles.active]: activeButton === type }
-						)}
-					>
-						{icon}
-						<span>{label}</span>
-					</button>
-				)
+				({ type, title, verb, icon }: MediaTypeButtonProps) => {
+					if (!verb) verb = "add"
+					return (
+						<button
+							key={type}
+							onClick={() => openAssetEditor(type)}
+							className={classNames(
+								"button-primary",
+								styles.addMediaButton_assetTypeButton,
+								{ [styles.active]: activeButton === type }
+							)}
+						>
+							{icon}
+							<span>{`${verb} ${title}`}</span>
+						</button>
+					);
+				}
 			)}
 		</>
 	);

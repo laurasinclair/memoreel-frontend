@@ -20,8 +20,9 @@ class AssetsService {
 		return this.api.post("/assets", requestBody);
 	};
 
-	put = (id: string, requestBody: object) => {
-		return this.api.put(`/assets/${id}`, requestBody);
+	updateAsset = (requestBody: object) => {
+		const assetId = requestBody._id
+		return this.api.put(`/assets/${assetId}`, requestBody);
 	};
 
 	delete = (id: string) => {

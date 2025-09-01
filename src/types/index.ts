@@ -33,13 +33,13 @@ export type LogoProps = {
 
 export type AssetEditorProps = {
 	title: string;
+	verb: string;
 	button: AssetEditorButtonProps;
 	input: AssetInputProps;
 };
 
 export type AssetEditorButtonProps = {
 	icon: ReactNode;
-	label: string;
 };
 
 export type AssetInputProps = (props: HTMLAttributes<HTMLElement>) => ReactElement;
@@ -59,6 +59,8 @@ export type AssetTypeProps = "text" | "image" | "youtubeURL" | "camImage" | "aud
 
 export type MediaTypeButtonProps = {
 	type: AssetTypeProps;
+	title: AssetTypeProps;
+	verb: string;
 } & AssetEditorButtonProps;
 
 export type AddMediaAllButtonsProps = {
@@ -127,9 +129,13 @@ export type ButtonProps = {
 export type LoggerMessageType = string;
 
 export type AssetContextType = {
+	isEditing: boolean;
+	setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
 	newAssetContent: AssetProps | undefined;
 	setNewAssetContent: React.Dispatch<
 		React.SetStateAction<AssetProps | undefined>
 	>;
-	onChange: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void
-}
+	onChange: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+	openAssetEditor: (asset: AssetTypeProps) => void;
+};
+

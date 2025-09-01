@@ -3,36 +3,41 @@ import { AssetEditorProps, AssetTypeProps } from "src/types";
 
 export const assetEditorConfig: Record<AssetTypeProps, AssetEditorProps> = {
 	image: {
-		title: "Add image",
+		title: "image",
+		verb: "upload",
 		// description: "Description",
-		button: { icon: <Images size={30} />, label: "add image" },
+		button: { icon: <Images size={30} /> },
 		input: (props) => <input type="file" accept="image/*" {...props} />,
 	},
 	text: {
-		title: "Add note",
+		title: "note",
+		verb: "write",
 		// description: "Description",
-		button: { icon: <Stickies size={30} />, label: "add note" },
+		button: { icon: <Stickies size={30} /> },
 		input: (props) => (
 			<textarea placeholder="What's on your mind today?" {...props} />
 		),
 	},
 	youtubeURL: {
-		title: "Add youtube video",
+		title: "youtube video",
+		verb: "upload",
 		// description: "Description",
-		button: { icon: <PlayBtn size={30} />, label: "add Youtube video" },
+		button: { icon: <PlayBtn size={30} /> },
 		input: (props) => (
 			<input type="text" placeholder="Paste Youtube URL here" {...props} />
 		),
 	},
 	camImage: {
-		title: "Take selfie",
+		title: "selfie",
+		verb: "take",
 		// description: "Description",
-		button: { icon: <Camera size={30} />, label: "take selfie" },
+		button: { icon: <Camera size={30} /> },
 		// input: <WebcamCapture />,
 	},
 	audio: {
-		title: "Add audio",
-		button: { icon: <Mic size={28} />, label: "add audio" },
+		title: "voice note",
+		verb: "record",
+		button: { icon: <Mic size={28} /> },
 		// description: "Description",
 		// input: <AudioCapture />,
 	},
