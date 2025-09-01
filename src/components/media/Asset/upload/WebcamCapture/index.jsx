@@ -34,7 +34,7 @@ function WebcamCapture() {
 	};
 
 	return (
-		<div className={styles.photoContainer}>
+		<div className={styles.webcamCapture}>
 			{photoTaken ? (
 				<Polaroid>
 					<img src={previewURL} alt="What a great selfie!" />
