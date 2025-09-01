@@ -16,16 +16,15 @@ const SaveButton = () => {
 
         try {
             if (validateContent(asset)) {
-					if (isEditing) {
-						updateAsset(asset);
-					} else {
-						saveNewAsset(asset);
-					}
-					// closePopUp();
+				if (isEditing) {
+					updateAsset(asset);
+				} else {
+					saveNewAsset(asset);
 				}
+				closePopUp();
+			}
         } catch (err) {
             logger.error(err);
-            return;
         }
     };
 

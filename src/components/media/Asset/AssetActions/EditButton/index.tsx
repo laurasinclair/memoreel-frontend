@@ -8,7 +8,7 @@ const EditButton = ({asset, ...rest}: AssetProps & any) => {
 
 	return (
 		<Button
-			onClick={() => openAssetEditor(asset, true)}
+			onClick={() => openAssetEditor(asset, {isEditing: true})}
 			variant="secondary" outline
 			{...rest}
 		>

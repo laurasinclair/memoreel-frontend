@@ -1,5 +1,4 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
-import { useAssets } from "src/hooks/useAssets";
 import logger from "src/utils/logger";
 import type { AssetContextType, AssetProps, AssetTypeProps } from "types";
 import { usePopUp } from "context/PopUpContext";
@@ -11,25 +10,34 @@ export const AssetProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
 	const [asset, setAsset] = useState<AssetProps | undefined>(undefined);
 	const [isEditing, setIsEditing] = useState<boolean>(false);
-	const { todaysBoardStatus, saveNewAssetSuccess } = useAssets();
 	const { isPopUpOpen, openPopUp, closePopUp } = usePopUp();
 
-	const openAssetEditor = (assetOrType, isEditing) => {
-		logger.log(assetOrType)
+	const openAssetEditor = (
+		assetOrType: AssetProps | string,
+		options?: { isEditing?: boolean }
+	) => {
+		if (options?.isEditing) {
+			setIsEditing(true);
+		} else {
+			setIsEditing(false);
+		}
+
 		if (assetOrType instanceof Object) {
-			if (isEditing) setIsEditing(true);
+			const fullAsset = assetOrType;
 			setAsset((prev) => ({
 				...prev,
-				...assetOrType,
+				...fullAsset,
 			}));
 		}
 
 		if (typeof assetOrType === "string") {
+			const type = assetOrType;
 			setAsset((prev) => ({
 				...prev,
-				type: assetOrType,
+				type
 			}));
 		}
+
 		openPopUp();
 	};
 
@@ -60,14 +68,6 @@ export const AssetProvider: React.FC<{ children: React.ReactNode }> = ({
 			return;
 		}
 	};
-
-	useEffect(() => {
-		logger.log(saveNewAssetSuccess);
-		if (saveNewAssetSuccess) {
-			setAsset(undefined);
-			closePopUp();
-		}
-	}, [saveNewAssetSuccess]);
 
 	useEffect(() => {
 		if (!isPopUpOpen) {

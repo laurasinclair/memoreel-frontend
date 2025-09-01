@@ -77,7 +77,7 @@ export const useAssets = () => {
 					if (!fileUrl) throw new Error("File could not be uploaded");
 					asset.content = fileUrl;
 				} catch (err) {
-					logger.log(err);
+					logger.error(err);
 				}
 			}
 
@@ -93,8 +93,10 @@ export const useAssets = () => {
 			}
 		},
 		onSuccess: (newAsset: AssetProps) => {
-			logger.log("💙 SUCCESS SAVING ASSET", newAsset);
+			logger.log("💙 Success saving asset", newAsset);
 			queryClient.invalidateQueries({ queryKey: ["todaysBoard", userId] });
+			return newAsset;
+
 		},
 		onError: (err) => logger.error(err),
 	});
@@ -112,7 +114,7 @@ export const useAssets = () => {
 			}
 		},
 		onSuccess: (updatedAsset: AssetProps) => {
-			logger.log("❤️ SUCCESS UPDATING ASSET", updatedAsset);
+			logger.log("❤️ Success updating asset", updatedAsset);
 			queryClient.invalidateQueries({ queryKey: ["todaysBoard", userId] });
 		},
 		onError: (err) => logger.error(err),
@@ -121,7 +123,6 @@ export const useAssets = () => {
 	// Deleting an asset
 	const deleteMutateAsset = useMutation<AssetProps, unknown, AssetProps>({
 		mutationFn: async (asset) => {
-			logger.log(asset);
 			if (!asset) throw new Error("Asset missing")
 			if (!asset._id) throw new Error("assetId missing")
 			
@@ -135,7 +136,7 @@ export const useAssets = () => {
 			}
 		},
 		onSuccess: () => {
-			logger.log("💜 SUCCESS DELETING ASSET");
+			logger.log("💜 Success deleting asset");
 			queryClient.invalidateQueries({ queryKey: ["todaysBoard", userId] });
 		},
 		onError: (err) => logger.error(err),
@@ -144,7 +145,8 @@ export const useAssets = () => {
 	// save asset
 	const saveNewAsset = (newAsset: AssetProps) => {
 		if (!newAsset) return;
-		saveMutateAsset.mutate(newAsset);
+		const test = saveMutateAsset.mutate(newAsset);
+		return test
 	};
 
 	// update asset
@@ -162,7 +164,7 @@ export const useAssets = () => {
 	// file upload
 	const uploadFile = async (file: File) => {
 		try {
-			const fileUrl = await uploadService.uploadFile(file);
+			const fileUrl = await fileUploadService.uploadFile(file);
 			return fileUrl;
 		} catch (err) {
 			logger.error(err);
@@ -175,9 +177,6 @@ export const useAssets = () => {
 		todaysBoardStatus,
 		allBoards,
 		allBoardsStatus,
-		saveNewAssetSuccess: saveMutateAsset.isSuccess,
-		updateAssetSuccess: updateMutateAsset.isSuccess,
-		deleteAssetSuccess: deleteMutateAsset.isSuccess,
 
 		// actions
 		uploadFile,
