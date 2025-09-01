@@ -1,27 +1,21 @@
-import { useState } from "react";
 import styles from "./index.module.sass";
-import { MediaItemProps } from "src/types";
+import { AssetComponentProps } from "src/types";
 import { Image, Text, Polaroid, VoiceNote, YoutubeURL } from "./views";
 import { EditButton } from "./AssetActions";
 
-export default function Asset({
-	asset,
-	enableEditing,
-}: MediaItemProps) {
-	const [assetContent, setAssetContent] = useState(asset.content);
-    
+export default function Asset({ asset }: AssetComponentProps) {
 	const renderContent = () => {
 		switch (asset.type) {
 			case "text":
-				return <Text assetContent={assetContent} />;
+				return <Text assetContent={asset.content} />;
 			case "image":
-				return <Image assetContent={assetContent} />;
+				return <Image assetContent={asset.content} />;
 			case "youtubeURL":
-				return <YoutubeURL assetContent={assetContent} />;
+				return <YoutubeURL assetContent={asset.content} />;
 			case "camImage":
-				return <Polaroid assetContent={assetContent} />;
+				return <Polaroid assetContent={asset.content} />;
 			case "audio":
-				return <VoiceNote assetContent={assetContent} />;
+				return <VoiceNote assetContent={asset.content} />;
 			default:
 				return null;
 		}
@@ -29,12 +23,10 @@ export default function Asset({
 
 	return (
 		<div className={styles.assetWrapper}>
-			{enableEditing && (
-				<EditButton
-					asset={asset}
-					className={styles.assetWrapper_editButton}
-				/>
-			)}
+			<EditButton
+				asset={asset}
+				className={styles.assetWrapper_editButton}
+			/>
 			<div className={styles.assetWrapper_body}>{renderContent()}</div>
 		</div>
 	);

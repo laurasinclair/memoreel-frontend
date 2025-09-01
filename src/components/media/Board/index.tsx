@@ -6,10 +6,7 @@ import { formatDate } from 'src/utils';
 function Board({
 	boardContent,
 	isToday,
-	isLoading,
-	editAsset,
-	deleteAsset,
-	enableEditing,
+	status = "pending",
 	...rest
 }: BoardProps) {
 	return (
@@ -18,7 +15,7 @@ function Board({
 				{isToday ? "Today" : formatDate(boardContent.createdAt)}
 			</p>
 
-			{isLoading === "loading" ? (
+			{status === "pending" ? (
 				<Loading />
 			) : (
 				<div className={styles.board_content}>
@@ -26,12 +23,7 @@ function Board({
 						boardContent.assets.map((asset: AssetProps) => {
 							return (
 								<div key={asset?._id}>
-									<Asset
-										asset={asset}
-										editAsset={editAsset}
-										enableEditing={enableEditing}
-										deleteAsset={deleteAsset}
-									/>
+									<Asset asset={asset} />
 								</div>
 							);
 						})}

@@ -1,4 +1,5 @@
-import { ChangeEvent, Dispatch, HTMLAttributes, InputHTMLAttributes, ReactElement, ReactNode, SetStateAction, TextareaHTMLAttributes } from "react";
+import { QueryStatus } from "@tanstack/react-query";
+import { ChangeEvent, Dispatch, HTMLAttributes, ReactElement, ReactNode, SetStateAction } from "react";
 
 export type User = {
 	_id: string;
@@ -36,6 +37,7 @@ export type AssetEditorProps = {
 	verb: string;
 	button: AssetEditorButtonProps;
 	input: AssetInputProps;
+	description?: string;
 };
 
 export type AssetEditorButtonProps = {
@@ -54,8 +56,11 @@ export type AssetProps = {
 	createdAt?: string;
 };
 
-export type AssetTypeProps = "text" | "image" | "youtubeURL" | "camImage" | "audio"
+export type AssetComponentProps = {
+	asset: AssetProps;
+} 
 
+export type AssetTypeProps = "text" | "image" | "youtubeURL" | "camImage" | "audio"
 
 export type MediaTypeButtonProps = {
 	type: AssetTypeProps;
@@ -91,8 +96,8 @@ export type BoardContentProps = {
 }
 export type BoardProps = {
 	boardContent: BoardContentProps;
-	className?: string;
 	isToday?: boolean;
+	status: QueryStatus;
 };
 
 export type UserContextProps = {
@@ -139,3 +144,8 @@ export type AssetContextType = {
 	openAssetEditor: (asset: AssetTypeProps) => void;
 };
 
+export type PopUpContextType = {
+	isPopUpOpen: boolean;
+	openPopUp: () => void;
+	closePopUp: () => void;
+}

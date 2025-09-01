@@ -1,30 +1,30 @@
 import { assetContext } from "src/context/AssetContext";
 import { assetEditorConfig } from "src/config/assetEditorConfig";
-import { useState } from "react";
 import { DeleteButton, SaveButton } from "../AssetActions";
-import logger from "src/utils/logger";
 import { capitalizeString } from "src/utils";
+import { AssetEditorProps, AssetProps } from "src/types";
 
 function AssetEditor() {
 	const { newAssetContent, onChange, isEditing } = assetContext();
-	const type = newAssetContent?.type;
-	const currentAsset = assetEditorConfig[type];
+	if (!newAssetContent) return;
+	const type = newAssetContent.type;
+	const currentAsset: AssetEditorProps = assetEditorConfig[type];
 
 	const renderVerb = () => {
 		if (isEditing) return "edit"
 		return currentAsset.verb || "add";
 	}
 
-	logger.log(newAssetContent, currentAsset);
-
 	return (
 		<>
 			{currentAsset && (
 				<>
-					<h3 className="mb-0">{`${capitalizeString(renderVerb())} ${
+					<h3 className="mb-3">{`${capitalizeString(renderVerb())} ${
 						currentAsset.title
 					}`}</h3>
-					<p className="mt-2">{currentAsset.description}</p>
+					{currentAsset.description && (
+						<p className="mt-2">{currentAsset.description}</p>
+					)}
 					<div className="mb-2">
 						{currentAsset.input({
 							defaultValue: newAssetContent.content || "",

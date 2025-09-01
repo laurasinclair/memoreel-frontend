@@ -1,4 +1,4 @@
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useMemo } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import assetsService from "services/assets.service";
 import usersService from "services/users.service";
@@ -6,7 +6,6 @@ import boardsService from "services/boards.service";
 import type { AssetProps, BoardProps, Status } from "types";
 import logger from "src/utils/logger";
 import { AuthContext } from "src/context";
-import { assetContext } from "src/context/AssetContext";
 
 export const useAssets = () => {
 	const { user } = useContext(AuthContext);

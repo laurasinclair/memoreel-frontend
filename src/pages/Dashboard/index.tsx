@@ -3,7 +3,6 @@ import {
 	MediaMenu,
 	Marquee,
 	Board,
-	Loading,
 	AssetEditor,
 } from "components";
 import { useAssets } from "src/hooks/useAssets";
@@ -17,7 +16,6 @@ import { PopUpProvider } from "src/context/PopUpContext";
 const Dashboard = () => {
 	const { user } = useContext(AuthContext);
 	const { todaysBoard, todaysBoardStatus } = useAssets();
-	
 	return (
 		<>
 			<PopUpProvider>
@@ -40,14 +38,11 @@ const Dashboard = () => {
 							<div className={styles.dashboard_addMedia}>
 								<MediaMenu />
 							</div>
-							{todaysBoardStatus === "pending" ? (
-								<Loading center />
-							) : todaysBoard && todaysBoard?.assets?.length ? (
+							{todaysBoard && todaysBoard.assets?.length ? (
 								<Board
 									boardContent={todaysBoard}
-									enableEditing
 									isToday
-									isLoading={todaysBoardStatus}
+									status={todaysBoardStatus}
 								/>
 							) : (
 								<div className="message">Create content for today!</div>

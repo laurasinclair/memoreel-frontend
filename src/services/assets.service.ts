@@ -16,13 +16,14 @@ class AssetsService {
 		});
 	}
 
-	createAsset = (requestBody: object) => {
-		return this.api.post("/assets", requestBody);
+	createAsset = (newAsset: object) => {
+		return this.api.post("/assets", newAsset);
 	};
 
-	updateAsset = (requestBody: object) => {
-		const assetId = requestBody._id
-		return this.api.put(`/assets/${assetId}`, requestBody);
+	updateAsset = (updatedAsset: object) => {
+		const assetId = updatedAsset._id;
+		if (!assetId) return;
+		return this.api.put(`/assets/${assetId}`, updatedAsset);
 	};
 
 	delete = (id: string) => {
