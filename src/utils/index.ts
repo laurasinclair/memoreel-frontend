@@ -1,25 +1,31 @@
-import { AssetTypeProps } from "src/types";
+import { AssetProps } from "src/types";
+import logger from "./logger";
 
-export const validateContent = (content: any, type?: AssetTypeProps) => { // TODO: improve content type
-	if (!content) return false;
+export const validateContent = (asset: AssetProps) => {
+	if (!asset) return false;
+	const { content, type } = asset;
 
-	if (type === "youtubeURL") {
-		const youtubeUrlRegex =
-			/^(http(s)??\:\/\/)?(www\.)?((youtube\.com\/watch\?v=)|(youtu.be\/))([a-zA-Z0-9\-_])+$/;
-		return youtubeUrlRegex.test(content);
+	switch (type) {
+		case "youtubeURL":
+			const youtubeUrlRegex =
+				/^(http(s)??\:\/\/)?(www\.)?((youtube\.com\/watch\?v=)|(youtu.be\/))([a-zA-Z0-9\-_])+$/;
+			return youtubeUrlRegex.test(content);
+		case "image":
+		case "camImage":
+			return content instanceof Blob || content instanceof File
+				? content.type.startsWith("image/")
+				: false;
+		case "audio":
+			return content instanceof Blob
+				? content.type.startsWith("audio/")
+				: false;
+		case "text":
+			if (typeof content !== "string" || !content.length) return false;
+			const unsafePattern = /[<>]/; // disallow '<' and '>'
+			return !unsafePattern.test(content);
+		default:
+			return false;
 	}
-
-	if (type === "image" || type === "camImage") {
-		return true;
-	}
-
-	if (type === "text") {
-		if (!content.length) return false;
-		const unsafePattern = /[<>]/; // disallow '<' and '>' to prevent potential HTML injection
-		if (unsafePattern.test(content)) return false;
-	}
-
-	return true;
 };
 
 export const formatDate = (inputDate: Date) => {
@@ -47,4 +53,12 @@ export const base64ToBlob = (base64: string): Blob => {
 	}
 
 	return new Blob([array], { type: mime });
+};
+
+export const createEvent = (file) => {
+	return {
+		target: {
+			files: file,
+		},
+	};
 };

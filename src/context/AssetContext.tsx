@@ -30,7 +30,9 @@ export const AssetProvider: React.FC<{ children: React.ReactNode }> = ({
 	const onChange = (
 		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
 	) => {
+		logger.log("onchange")
 		if (e.target && e.target.files) {
+			logger.log(e.target)
 			const file = e.target.files?.[0];
 			setNewAssetContent((prev: AssetProps) => ({
 				...prev,

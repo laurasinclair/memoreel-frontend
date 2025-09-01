@@ -7,7 +7,7 @@ import styles from './index.module.sass';
 import logger from 'logger';
 import Button from 'src/components/elements/Button';
 import { assetContext } from 'src/context/AssetContext';
-import { base64ToBlob } from 'src/utils';
+import { base64ToBlob, createEvent } from "src/utils";
 
 function WebcamCapture() {
 	const camRef = useRef();
@@ -25,13 +25,8 @@ function WebcamCapture() {
 			setPhotoTaken(true);
 
 			const blobImage = base64ToBlob(base64Image);
-			// fakeEvent: to be able to use onChange function
-			const fakeEvent = {
-				target: {
-					files: [blobImage],
-				},
-			};
-			onChange(fakeEvent);
+			const event = createEvent(blobImage)
+			onChange(event);
 			return;
 		} catch (err) {
 			logger.error(err);

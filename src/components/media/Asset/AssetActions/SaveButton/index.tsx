@@ -15,7 +15,7 @@ const SaveButton = () => {
         if (!newAssetContent) return;
 
         try {
-            if (validateContent(newAssetContent.content)) {
+            if (validateContent(newAssetContent)) {
                 if (isEditing) {
                     updateAsset(newAssetContent)
                 } else {
@@ -33,7 +33,7 @@ const SaveButton = () => {
 			<Button
 				onClick={handleSave}
 				variant="primary"
-				disabled={!validateContent(newAssetContent?.content)}
+				disabled={!validateContent(newAssetContent)}
 				// style={{
 				//     display: isEditing && assetType === "camImage" ? "none" : "flex",
 				// }}
