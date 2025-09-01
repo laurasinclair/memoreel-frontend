@@ -1,5 +1,6 @@
 const logLevels = {
     log: "🟢",
+    info: "🟡",
     warn: "🟠",
     error: "❌",
 };
