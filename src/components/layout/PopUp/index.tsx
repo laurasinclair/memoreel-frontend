@@ -6,7 +6,6 @@ import { usePopUp } from "context/PopUpContext";
 
 const PopUp: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 	const { isPopUpOpen, closePopUp } = usePopUp();
-	if (!isPopUpOpen) return null;
 
 	const popUpRef = useRef<HTMLDivElement>(null);
 	useOnClickOutside(popUpRef, closePopUp);
@@ -14,8 +13,10 @@ const PopUp: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 	useEffect(() => {
 		if (isPopUpOpen) document.body.style.overflow = "hidden";
 		else document.body.style.overflow = "initial";
-		return () => document.body.style.overflow = "initial";
+		return () => { document.body.style.overflow = "initial" };
 	}, [isPopUpOpen]);
+
+	if (!isPopUpOpen) return null;
 
 	return (
 		<div className={styles.popUp_overlay}>
