@@ -7,6 +7,7 @@ import type { AssetProps, BoardProps, Status } from "types";
 import logger from "src/utils/logger";
 import { AuthContext } from "src/context";
 import fileUploadService from "services/fileUpload.service";
+import { AxiosError } from "axios";
 
 export const useAssets = () => {
 	const { user } = useContext(AuthContext);
@@ -93,19 +94,45 @@ export const useAssets = () => {
 			}
 		},
 		onSuccess: (newAsset: AssetProps) => {
-			logger.log("💙 Success saving asset", newAsset);
+			logger.log("💚 Success saving asset", newAsset);
 			queryClient.invalidateQueries({ queryKey: ["todaysBoard", userId] });
 			return newAsset;
 
 		},
-		onError: (err) => logger.error(err),
+		onError: (err) => {
+			if (err instanceof AxiosError) {
+				logger.error(err.response?.data.message);
+				return;
+			}
+			logger.error(err);
+		},
 	});
 
 	// Updating an asset
 	const updateMutateAsset = useMutation<AssetProps, unknown, AssetProps>({
 		mutationFn: async (updatedAsset) => {
+			logger.log("updatedAsset", updatedAsset);
+
+
+
+			if (
+				updatedAsset.content instanceof File ||
+				updatedAsset.content instanceof Blob
+			) {
+				try {
+					const file = updatedAsset.content;
+					const fileUrl = await fileUploadService.uploadFile(file);
+					if (!fileUrl) throw new Error("File could not be uploaded");
+					updatedAsset.content = fileUrl;
+				} catch (err) {
+					logger.error(err);
+				}
+			}
+
+			const req: AssetProps = { ...updatedAsset };
+
 			try {
-				const res = await assetsService.updateAsset(updatedAsset);
+				const res = await assetsService.updateAsset(req);
 				const data: AssetProps = await res.data;
 				return data;
 			} catch (err) {
@@ -114,10 +141,16 @@ export const useAssets = () => {
 			}
 		},
 		onSuccess: (updatedAsset: AssetProps) => {
-			logger.log("❤️ Success updating asset", updatedAsset);
+			logger.log("💙 Success updating asset", updatedAsset);
 			queryClient.invalidateQueries({ queryKey: ["todaysBoard", userId] });
 		},
-		onError: (err) => logger.error(err),
+		onError: (err) => {
+			if (err instanceof AxiosError) {
+				logger.error(err.response?.data.message);
+				return;
+			};
+			logger.error(err);
+		},
 	});
 
 	// Deleting an asset
@@ -139,14 +172,19 @@ export const useAssets = () => {
 			logger.log("💜 Success deleting asset");
 			queryClient.invalidateQueries({ queryKey: ["todaysBoard", userId] });
 		},
-		onError: (err) => logger.error(err),
+		onError: (err) => {
+			if (err instanceof AxiosError) {
+				logger.error(err.response?.data.message);
+				return;
+			}
+			logger.error(err);
+		},
 	});
 
 	// save asset
 	const saveNewAsset = (newAsset: AssetProps) => {
 		if (!newAsset) return;
-		const test = saveMutateAsset.mutate(newAsset);
-		return test
+		saveMutateAsset.mutate(newAsset);
 	};
 
 	// update asset
