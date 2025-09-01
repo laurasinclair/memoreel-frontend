@@ -1,5 +1,5 @@
 import { QueryStatus } from "@tanstack/react-query";
-import { ChangeEvent, Dispatch, HTMLAttributes, ReactElement, ReactNode, SetStateAction } from "react";
+import { ChangeEvent, Dispatch, HTMLAttributes, ReactElement, ReactNode } from "react";
 
 export type User = {
 	_id: string;
@@ -68,24 +68,10 @@ export type MediaTypeButtonProps = {
 	verb: string;
 } & AssetEditorButtonProps;
 
-export type AddMediaAllButtonsProps = {
-	mediaUpload: MediaUploadProps;
-	setMediaUpload: AddMediaAllButtonsProps;
-};
-
-export type SetMediaUploadProps = {
-	setMediaUpload: Dispatch<SetStateAction<MediaUploadProps>>;
-};
-
 export type AddMediaButtonProps = {
 	toggleMenu: () => void;
 	isMenuOpen: boolean;
 };
-
-// export type MediaTypeButtonProps = {
-// 	mediaUpload: MediaUploadProps;
-// 	setMediaUpload: Dispatch<SetStateAction<MediaUploadProps>>;
-// };
 
 export type BoardContentProps = {
 	assets: AssetProps[];
