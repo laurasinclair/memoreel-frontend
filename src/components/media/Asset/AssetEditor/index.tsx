@@ -19,18 +19,24 @@ function AssetEditor() {
 		<>
 			{openAsset && (
 				<>
-					<h3 className="mb-3">{`${capitalizeString(renderVerb())} ${
-						openAsset.title
-					}`}</h3>
+					{openAsset.title && (
+						<h3 className="mb-3">{`${capitalizeString(renderVerb())} ${
+							openAsset.title
+						}`}</h3>
+					)}
+
 					{openAsset.description && (
 						<p className="mt-2">{openAsset.description}</p>
 					)}
+
 					<div className="mb-2">
-						{openAsset.input &&
-							openAsset.input({
-								defaultValue: asset.content || "",
-								onChange,
-							})}
+						{openAsset.input({
+							defaultValue:
+								openAsset.title === "image"
+									? ""
+									: asset.content || "",
+							onChange,
+						})}
 					</div>
 					<div>
 						<SaveButton />

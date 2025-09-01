@@ -8,7 +8,7 @@ export const assetEditorConfig: Record<AssetTypeProps, AssetEditorProps> = {
 		verb: "upload",
 		// description: "Description",
 		button: { icon: <Images size={30} /> },
-		input: (props) => <input type="file" accept="image/*" {...props} />,
+		input: (props) => <input type="file" accept="image/*" defaultValue="" {...props} />,
 	},
 	text: {
 		title: "note",
