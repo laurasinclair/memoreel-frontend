@@ -16,8 +16,6 @@ export const AssetProvider: React.FC<{ children: React.ReactNode }> = ({
 	const { saveNewAssetSuccess } = useAssets();
 	const { isPopUpOpen, openPopUp } = usePopUp();
 
-	// logger.log(newAssetContent);
-
 	const openAssetEditor = (asset: AssetTypeProps) => {
 		if (!asset) return;
 		try {
@@ -32,11 +30,23 @@ export const AssetProvider: React.FC<{ children: React.ReactNode }> = ({
 	const onChange = (
 		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
 	) => {
-		const content = e.target.value;
-		setNewAssetContent((prev: AssetProps) => ({
-			...prev,
-			content,
-		}));
+		if (e.target instanceof HTMLInputElement && e.target.files) {
+			const file = e.target.files?.[0];
+			logger.log(file);
+			setNewAssetContent((prev: AssetProps) => ({
+				...prev,
+				content: file,
+			}));
+			return;
+		}
+
+		if (e.target.value) {
+			setNewAssetContent((prev: AssetProps) => ({
+				...prev,
+				content: e.target.value,
+			}));
+			return;
+		}
 	};
 
 	useEffect(() => {

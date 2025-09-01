@@ -26,14 +26,14 @@ function AssetEditor() {
 						<p className="mt-2">{currentAsset.description}</p>
 					)}
 					<div className="mb-2">
-						{currentAsset.input({
+						{currentAsset.input && currentAsset.input({
 							defaultValue: newAssetContent.content || "",
 							onChange,
 						})}
 					</div>
 					<div>
 						<SaveButton />
-						{/* <DeleteButton />  */}
+						{isEditing && <DeleteButton />}
 						{/* {touched && !validateContent(newAssetContent) && <p>Invalid content</p>} // TODO: better error display */}
 					</div>
 				</>

@@ -2,8 +2,8 @@ import { useEffect, useState, useContext, useRef } from 'react';
 import { Pen } from 'react-bootstrap-icons';
 
 import { AuthContext } from 'context';
-import usersService from 'services/users.service.ts';
-import uploadService from 'services/file-upload.service.ts';
+import usersService from 'services/users.service';
+import fileUploadService from 'services/fileUpload.service';
 import styles from './index.module.sass';
 import { Loading, InfoMessage } from 'components';
 import { Status } from 'src/types';
@@ -56,7 +56,7 @@ function UserProfilePage() {
 		if (file) {
 			setUserProfileState({ state: "loading" });
 			try {
-				const fileUrl = await uploadService.uploadFile(file);
+				const fileUrl = await fileUploadService.uploadFile(file);
 				setProfileImg(fileUrl);
 				setUserProfileState({ state: "success" });
 			} catch (err) {

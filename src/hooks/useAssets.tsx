@@ -6,6 +6,7 @@ import boardsService from "services/boards.service";
 import type { AssetProps, BoardProps, Status } from "types";
 import logger from "src/utils/logger";
 import { AuthContext } from "src/context";
+import fileUploadService from "services/fileUpload.service";
 
 export const useAssets = () => {
 	const { user } = useContext(AuthContext);
@@ -69,6 +70,12 @@ export const useAssets = () => {
 				}
 			}
 
+			if (newAsset.type === "image") {
+				const file = newAsset.content;
+				const fileUrl = await fileUploadService.uploadFile(file);
+				newAsset.content = fileUrl;
+			}
+
 			const req: AssetProps = { ...newAsset, userId, boardId };
 
 			try {
@@ -81,7 +88,7 @@ export const useAssets = () => {
 			}
 		},
 		onSuccess: (newAsset: AssetProps) => {
-			logger.log("❤️ SUCCESS", newAsset);
+			logger.log("💙 SUCCESS", newAsset);
 			queryClient.invalidateQueries({ queryKey: ["todaysBoard", userId] });
 		},
 		onError: (err) => logger.error(err),

@@ -5,18 +5,15 @@ import { VoiceNote } from "src/components/media/Asset/views";
 import './index.sass';
 import logger from 'logger';
 
-function AudioCapture({ handleUploadFile, setLoading }) {
+function AudioCapture() {
 	const [audioURL, setAudioURL] = useState('');
 
 	const uploadAudio = async (blob) => {
 		try {
-			setLoading(true);
 			const audioURL = await handleUploadFile(blob);
 			setAudioURL(audioURL);
-			setLoading(false);
 		} catch (err) {
 			logger.error(err);
-			setLoading(false);
 		}
 	};
 

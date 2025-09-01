@@ -149,3 +149,5 @@ export type PopUpContextType = {
 	openPopUp: () => void;
 	closePopUp: () => void;
 }
+
+export type UploadFileType = string | Blob | File;

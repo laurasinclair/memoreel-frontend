@@ -32,9 +32,9 @@ function Login() {
 			})
 			.catch((err) => {
 				logger.error(err);
-				const errorDescription = error.response
-					? error.response.data.message
-					: error.message;
+				const errorDescription = err.response
+					? err.response.data.message
+					: err.message;
 				setErrorMessage("❌ " + errorDescription);
 			});
 	};
