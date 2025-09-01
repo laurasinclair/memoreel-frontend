@@ -6,7 +6,7 @@ import {
 	AssetEditor,
 } from "components";
 import { useAssets } from "src/hooks/useAssets";
-import { AuthContext } from 'context';
+import { AuthContext } from 'context/AuthContext';
 import styles from './index.module.sass';
 import { Container } from 'react-bootstrap';
 import PopUp from "components/layout/PopUp"
@@ -41,7 +41,6 @@ const Dashboard = () => {
 							{todaysBoard && todaysBoard.assets.length ? (
 								<Board
 									boardContent={todaysBoard}
-									isToday
 									status={todaysBoardStatus}
 								/>
 							) : (

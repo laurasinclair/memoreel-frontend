@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { AudioRecorder } from 'react-audio-voice-recorder';
 
 import { VoiceNote } from "src/components/media/Asset/views";
@@ -24,10 +24,7 @@ function AudioCapture() {
 			logger.error(err);
 		}
 		
-		return () => {
-			setAudioUrl(undefined);
-			URL.revokeObjectURL(audioBlob);
-		};
+		return () => URL.revokeObjectURL(audioBlob);
 	};
 
 	return (
@@ -36,6 +33,7 @@ function AudioCapture() {
 
 			<div>
 				<AudioRecorder
+					barColor="red"
 					onRecordingComplete={recordAudio}
 					audioTrackConstraints={{
 						noiseSuppression: true,
@@ -43,6 +41,7 @@ function AudioCapture() {
 					}}
 					onNotAllowedOrFound={(err) => logger.error(err)}
 					downloadOnSavePress={false}
+					showVisualizer={true}
 					downloadFileExtension="webm"
 					mediaRecorderOptions={{
 						audioBitsPerSecond: 128000,

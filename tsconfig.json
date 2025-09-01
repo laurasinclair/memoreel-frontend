@@ -23,7 +23,6 @@
 			"assets/*": ["src/assets/*"],
 			"components": ["src/components/index.tsx"],
 			"components/*": ["src/components/*"],
-			"context": ["src/context/index.tsx"],
 			"context/*": ["src/context/*"],
 			"hooks/*": ["src/hooks/*"],
 			"images/*": ["src/assets/images/*"],

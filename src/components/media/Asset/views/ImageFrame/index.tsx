@@ -1,11 +1,11 @@
 import styles from "./index.module.sass"
 
-const Image = ({ assetContent }) => {
+const ImageFrame = ({ assetContent }) => {
 	return (
-		<div className={styles.image}>
+		<div className={styles.imageFrame}>
 			<img src={assetContent || ""} alt="Uploaded content" />
 		</div>
 	);
 };
 
-export default Image;
+export default ImageFrame;

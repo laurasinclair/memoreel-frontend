@@ -1,13 +1,10 @@
 import axios from "axios";
 import { API_URL } from "src/config";
 import { UploadFileType } from "src/types";
-import logger from "src/utils/logger";
 
 class AssetsService {
 	constructor() {
-		this.api = axios.create({
-			baseURL: API_URL,
-		});
+		this.api = axios.create({ baseURL: API_URL });
 
 		this.api.interceptors.request.use((config) => {
 			const storedToken = localStorage.getItem("authToken");

@@ -4,7 +4,7 @@ import { RouterProvider } from "react-router-dom";
 import Router from "router";
 import './styles/index.sass';
 import React from 'react';
-import { AuthProviderWrapper } from './context';
+import { AuthProviderWrapper } from 'context/AuthContext';
 
 window.name = 'MemoReel';
 const queryClient = new QueryClient();

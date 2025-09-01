@@ -10,17 +10,14 @@ function AssetEditor() {
 	const type = asset.type;
 	const openAsset: AssetEditorProps = assetEditorConfig[type];
 
-	const renderVerb = () => {
-		if (isEditing) return "edit"
-		return openAsset.verb || "add";
-	}
+	const renderVerb = () => (isEditing) ? "edit" : (openAsset.verb || "add");
 
 	return (
 		<>
 			{openAsset && (
 				<>
 					{openAsset.title && (
-						<h3 className="mb-3">{`${capitalizeString(renderVerb())} ${
+						<h3 className="mt-0 mb-3">{`${capitalizeString(renderVerb())} ${
 							openAsset.title
 						}`}</h3>
 					)}
@@ -29,16 +26,15 @@ function AssetEditor() {
 						<p className="mt-2">{openAsset.description}</p>
 					)}
 
-					<div className="mb-2">
-						{openAsset.input({
-							defaultValue:
-								openAsset.title === "image"
-									? ""
-									: asset.content || "",
-							onChange,
-						})}
-					</div>
-					<div>
+					{openAsset.input({
+						defaultValue:
+							openAsset.title === "image"
+								? ""
+								: asset.content || "",
+						onChange,
+					})}
+
+					<div className="mt-2">
 						<SaveButton />
 						{isEditing && <DeleteButton />}
 						{/* {touched && !validateContent(asset) && <p>Invalid content</p>} // TODO: better error display */}

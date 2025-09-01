@@ -28,7 +28,7 @@ export const assetEditorConfig: Record<AssetTypeProps, AssetEditorProps> = {
 			<input type="text" placeholder="Paste Youtube URL here" {...props} />
 		),
 	},
-	camImage: {
+	webcamImage: {
 		title: "selfie",
 		verb: "take",
 		// description: "Description",

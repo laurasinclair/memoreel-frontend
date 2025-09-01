@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { Container, Row } from "react-bootstrap";
 import styles from "./index.module.sass";
-import { AuthContext } from "context";
+import { AuthContext } from "context/AuthContext";
 import landingslide1 from "images/landingpage-slideshow/landingslide1.png";
 import landingslide2 from "images/landingpage-slideshow/landingslide2.png";
 import { Button, Marquee } from "components";

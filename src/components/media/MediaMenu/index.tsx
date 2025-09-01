@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { AddMediaButton, MediaTypeButton } from "./buttons";
 
 export default function MediaMenu() {

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import authService from "services/auth.service";
-import usersService from "services/users.service.ts";
-import boardsService from "services/boards.service.ts";
-import assetsService from "services/assets.service.ts";
+import usersService from "services/users.service";
+import boardsService from "services/boards.service";
+import assetsService from "services/assets.service";
 import type { Status, ChildrenProps, User } from "types";
 
 const AuthContext = React.createContext(undefined);

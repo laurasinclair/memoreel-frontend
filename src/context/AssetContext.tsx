@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
-import logger from "src/utils/logger";
+import logger from "logger";
 import type { AssetContextType, AssetProps, AssetTypeProps } from "types";
 import { usePopUp } from "context/PopUpContext";
 
@@ -10,7 +10,7 @@ export const AssetProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
 	const [asset, setAsset] = useState<AssetProps | undefined>(undefined);
 	const [isEditing, setIsEditing] = useState<boolean>(false);
-	const { isPopUpOpen, openPopUp, closePopUp } = usePopUp();
+	const { isPopUpOpen, openPopUp } = usePopUp();
 
 	const openAssetEditor = (
 		assetOrType: AssetProps | string,

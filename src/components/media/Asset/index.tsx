@@ -1,18 +1,18 @@
 import styles from "./index.module.sass";
 import { AssetComponentProps } from "src/types";
-import { Image, Text, Polaroid, VoiceNote, YoutubeURL } from "./views";
+import { ImageFrame, Note, Polaroid, VoiceNote, VideoFrame } from "./views";
 import { EditButton } from "./AssetActions";
 
 export default function Asset({ asset }: AssetComponentProps) {
 	const renderContent = () => {
 		switch (asset.type) {
 			case "text":
-				return <Text assetContent={asset.content} />;
+				return <Note assetContent={asset.content} />;
 			case "image":
-				return <Image assetContent={asset.content} />;
+				return <ImageFrame assetContent={asset.content} />;
 			case "youtubeURL":
-				return <YoutubeURL assetContent={asset.content} />;
-			case "camImage":
+				return <VideoFrame assetContent={asset.content} />;
+			case "webcamImage":
 				return <Polaroid assetContent={asset.content} />;
 			case "audio":
 				return <VoiceNote assetContent={asset.content} />;

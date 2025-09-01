@@ -1,9 +1,9 @@
 import ReactPlayer from "react-player";
 import styles from "./index.module.sass"
 
-const YoutubeURL = ({ assetContent }) => {
+const VideoFrame = ({ assetContent }) => {
 	return (
-		<div className={styles.youtubeURL}>
+		<div className={styles.videoFrame}>
 			<ReactPlayer
 				url={assetContent || ""}
 				width={550}
@@ -14,4 +14,4 @@ const YoutubeURL = ({ assetContent }) => {
 	);
 };
 
-export default YoutubeURL;
+export default VideoFrame;

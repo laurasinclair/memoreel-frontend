@@ -1,6 +1,6 @@
 import { useContext } from 'react';
-import { useNavigate, Navigate } from "react-router-dom";
-import { AuthContext } from 'context';
+import { Navigate } from "react-router-dom";
+import { AuthContext } from 'context/AuthContext';
 import { Loading } from 'components';
 import { paths } from 'router/paths';
 import type { ChildrenProps, UserContextProps } from "types";

@@ -11,7 +11,7 @@ export const validateContent = (asset: AssetProps) => {
 				/^(http(s)??\:\/\/)?(www\.)?((youtube\.com\/watch\?v=)|(youtu.be\/))([a-zA-Z0-9\-_])+$/;
 			return youtubeUrlRegex.test(content);
 		case "image":
-		case "camImage":
+		case "webcamImage":
 			return content instanceof Blob || content instanceof File
 				? content.type.startsWith("image/")
 				: false;

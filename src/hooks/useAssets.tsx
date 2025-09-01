@@ -4,8 +4,8 @@ import assetsService from "services/assets.service";
 import usersService from "services/users.service";
 import boardsService from "services/boards.service";
 import type { AssetProps, BoardProps, Status } from "types";
-import logger from "src/utils/logger";
-import { AuthContext } from "src/context";
+import logger from "logger";
+import { AuthContext } from "context/AuthContext";
 import fileUploadService from "services/fileUpload.service";
 import { AxiosError } from "axios";
 

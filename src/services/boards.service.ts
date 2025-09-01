@@ -1,11 +1,9 @@
 import axios from "axios";
+import { API_URL } from "src/config";
 
 class BoardsService {
   constructor() {
-    this.api = axios.create({
-      baseURL: "http://localhost:5005",
-      // baseURL: import.meta.env.VITE_API_URL || "http://localhost:5005",
-    });
+		this.api = axios.create({ baseURL: API_URL });
 
     this.api.interceptors.request.use((config) => {
       const storedToken = localStorage.getItem("authToken");

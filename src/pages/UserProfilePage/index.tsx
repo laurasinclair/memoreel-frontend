@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext, useRef } from 'react';
 import { Pen } from 'react-bootstrap-icons';
 
-import { AuthContext } from 'context';
+import { AuthContext } from 'context/AuthContext';
 import usersService from 'services/users.service';
 import fileUploadService from 'services/fileUpload.service';
 import styles from './index.module.sass';

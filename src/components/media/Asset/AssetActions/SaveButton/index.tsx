@@ -1,6 +1,6 @@
 import { CheckLg } from "react-bootstrap-icons";
 import { Button } from "components";
-import logger from "src/utils/logger";
+import logger from "logger";
 import { useAssets } from "src/hooks/useAssets";
 import { assetContext } from "src/context/AssetContext";
 import { validateContent } from "src/utils";
@@ -34,7 +34,7 @@ const SaveButton = () => {
 				variant="primary"
 				disabled={!validateContent(asset)}
 				// style={{
-				//     display: isEditing && assetType === "camImage" ? "none" : "flex",
+				//     display: isEditing && assetType === "webcamImage" ? "none" : "flex",
 				// }}
 			>
 				<CheckLg size="20" />

@@ -60,7 +60,7 @@ export type AssetComponentProps = {
 	asset: AssetProps;
 } 
 
-export type AssetTypeProps = "text" | "image" | "youtubeURL" | "camImage" | "audio"
+export type AssetTypeProps = "text" | "image" | "youtubeURL" | "webcamImage" | "audio"
 
 export type MediaTypeButtonProps = {
 	type: AssetTypeProps;

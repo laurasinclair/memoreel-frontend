@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
 
-import { AuthContext } from 'context';
+import { AuthContext } from 'context/AuthContext';
 import { Button } from 'components';
 import { paths } from 'src/router/paths';
 

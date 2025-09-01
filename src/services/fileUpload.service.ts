@@ -7,9 +7,7 @@ class UploadFileService {
 	private api: AxiosInstance;
 
 	constructor() {
-		this.api = axios.create({
-			baseURL: API_URL,
-		});
+		this.api = axios.create({ baseURL: API_URL });
 
 		this.api.interceptors.request.use((config) => {
 			const storedToken = localStorage.getItem("authToken");

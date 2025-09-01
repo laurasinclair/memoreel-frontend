@@ -1,7 +1,7 @@
-import Image from "./Image";
+import ImageFrame from "./ImageFrame";
 import Polaroid from "./Polaroid";
-import Text from "./Text";
+import Note from "./Note";
 import VoiceNote from "./VoiceNote";
-import YoutubeURL from "./YoutubeURL";
+import VideoFrame from "./VideoFrame";
 
-export { Image, Polaroid, Text, VoiceNote, YoutubeURL };
+export { ImageFrame, Polaroid, Note, VoiceNote, VideoFrame };

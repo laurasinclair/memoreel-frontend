@@ -1,6 +1,6 @@
 import { Container } from "react-bootstrap";
-import { Loading, Board, Button, AssetEditor } from "components";
-import { BoardContentProps, BoardProps, Status } from 'src/types';
+import { Board, Button, AssetEditor } from "components";
+import { BoardContentProps } from 'src/types';
 import { useAssets } from 'src/hooks/useAssets';
 import { PopUpProvider } from "src/context/PopUpContext";
 import { AssetProvider } from "src/context/AssetContext";

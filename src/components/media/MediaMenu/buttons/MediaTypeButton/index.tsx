@@ -4,7 +4,7 @@ import styles from "../index.module.sass";
 import { useEffect, useState } from "react";
 import { assetContext } from "src/context/AssetContext";
 import { usePopUp } from "src/context/PopUpContext";
-import logger from "src/utils/logger";
+import logger from "logger";
 import { assetEditorConfig } from "src/config/assetEditorConfig";
 
 export default function MediaTypeButton() {
@@ -15,19 +15,20 @@ export default function MediaTypeButton() {
 	const handleClick = (type: AssetTypeProps) => {
 		if (!type) return;
 		openAssetEditor(type);
-		setActiveButton((prev) => (prev === type ? null : type));
+		setActiveButton(type);
 	}
 
-	useEffect(() => {
-		if (!isPopUpOpen) setActiveButton(null);
-	}, [isPopUpOpen]);
+	const handleActive = (type: AssetTypeProps) => {
+		setActiveButton(type)
+		setTimeout(() =>setActiveButton(null), 4000);
+	}
 
 	const mediaTypeButtons: MediaTypeButtonProps[] = Object.entries(
 		assetEditorConfig
 	).map(([type, config]) => ({
 		type,
 		title: config.title,
-		verb: config.verb,
+		verb: config.verb || "add",
 		...config.button,
 	}));
 
@@ -35,10 +36,10 @@ export default function MediaTypeButton() {
 		<>
 			{mediaTypeButtons.map(
 				({ type, title, verb, icon }: MediaTypeButtonProps) => {
-					if (!verb) verb = "add"
 					return (
 						<button
 							key={type}
+							onMouseEnter={() => handleActive(type)}
 							onClick={() => handleClick(type)}
 							className={classNames(
 								"button-primary",

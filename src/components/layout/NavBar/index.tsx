@@ -1,7 +1,7 @@
 import { useContext, useState, useEffect } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { useMediaPredicate } from "react-media-hook";
-import { AuthContext } from 'context';
+import { AuthContext } from 'context/AuthContext';
 import { Button, LogoFull, LogoSquare } from "components";
 import styles from './index.module.sass';
 import placeholder from 'images/placeholder.jpg';
