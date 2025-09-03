@@ -6,7 +6,7 @@ Memoreel is a full-stack journal app developed for daily note-taking. It allows 
 
 ## Live demo
 
-[Memoreel | For days worth remembering](https://memoreel-app.netlify.app/)
+[Memoreel | For days worth remembering](https://dev.laurasnclr.com/projects/memoreel/)
 
 ## Features
 
@@ -22,8 +22,8 @@ Memoreel is a full-stack journal app developed for daily note-taking. It allows 
 
 ## Technologies Used
 
--  Express
 -  React
+-  Express
 -  Node.js
 -  MongoDB
 -  Mongoose
@@ -33,3 +33,4 @@ Memoreel is a full-stack journal app developed for daily note-taking. It allows 
 -  Cloudinary integration for media upload
 -  Multer
 -  Cors
+-  SASS
