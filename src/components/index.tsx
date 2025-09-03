@@ -18,7 +18,6 @@ import AudioCapture from './media/Asset/upload/AudioCapture';
 
 // State
 import Loading from "./state/Loading";
-import InfoMessage from './state/InfoMessage';
 
 // Auth
 import IsPrivate from './auth/IsPrivate';
@@ -39,5 +38,4 @@ export {
 	IsAnon,
 	WebcamCapture,
 	AudioCapture,
-	InfoMessage,
 };

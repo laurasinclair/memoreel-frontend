@@ -4,6 +4,7 @@ import { ChangeEvent, Dispatch, HTMLAttributes, ReactElement, ReactNode } from "
 export type User = {
 	_id: string;
 	email: string;
+	displayName?: string;
 	name: string;
 	iat: number | undefined;
 	exp: number | undefined;
@@ -135,6 +136,7 @@ export type AuthContextType = {
 	isLoggedIn: boolean;
 	authStatus: Status;
 	user: User;
+	setUser: React.Dispatch<React.SetStateAction<User>>;
 	storeToken: (token: string) => void;
 	authenticateUser: () => void;
 	logOutUser: () => void;

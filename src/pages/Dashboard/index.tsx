@@ -29,7 +29,7 @@ const Dashboard = () => {
 							phrases={[
 								"For days worth remembering",
 								user
-									? `What's on your mind, ${user.name} ?`
+									? `What's on your mind, ${user.displayName || user.name} ?`
 									: "What's on your mind?",
 								"What made you laugh today?",
 							]}

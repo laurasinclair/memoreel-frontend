@@ -4,6 +4,7 @@ import usersService from "services/users.service";
 import boardsService from "services/boards.service";
 import assetsService from "services/assets.service";
 import type { Status, ChildrenProps, User, AuthContextType } from "types";
+import logger from "src/utils/logger";
 
 const AuthContext = React.createContext<AuthContextType | undefined>(undefined);
 
@@ -16,6 +17,10 @@ function AuthProvider({ children }: ChildrenProps) {
 		localStorage.setItem("authToken", token);
 	};
 
+	useEffect(() => {
+		logger.log(user)
+	}, [user])
+
 	const authenticateUser = () => {
 		setAuthStatus({ state: "loading" });
 		const storedToken = localStorage.getItem("authToken");
@@ -24,8 +29,8 @@ function AuthProvider({ children }: ChildrenProps) {
 			authService
 				.verify()
 				.then((res) => {
-					console.log(res);
 					setIsLoggedIn(true);
+					logger.log(res.data)
 					setUser(res.data);
 				})
 				.then(() => {
@@ -95,6 +100,7 @@ function AuthProvider({ children }: ChildrenProps) {
 				isLoggedIn,
 				user,
 				authStatus,
+				setUser,
 				storeToken,
 				authenticateUser,
 				logOutUser,

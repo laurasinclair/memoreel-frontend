@@ -107,27 +107,21 @@ function NavBar() {
 			</div>
 			{isLoggedIn && (
 				<div className={styles.navbar_bottom}>
-					{user.profileImg ? (
-						<NavLink
-							to={paths.userProfile}
-							className={styles.navbar_bottom_userIcon}
-						>
+					<NavLink
+						to={paths.userProfile}
+						className={styles.navbar_bottom_userIcon}
+					>
+						{user.profileImg ? (
 							<img
 								src={user.profileImg}
-								onError={(e) => {
-									(e.target as HTMLImageElement).src = placeholder;
-								}}
 								alt={user.name || "User"}
-							/>
-						</NavLink>
-					) : (
-						<NavLink
-							to={paths.userProfile}
-							className={styles.navbar_bottom_userIcon}
-						>
-							{user.name.trim().charAt(0)}
-						</NavLink>
-					)}
+							/> ) :
+							<img
+								src={placeholder}
+								alt={user.name || "User"}
+							/> 
+						}
+					</NavLink>
 				</div>
 			)}
 		</div>
