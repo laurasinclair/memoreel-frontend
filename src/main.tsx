@@ -4,7 +4,7 @@ import { RouterProvider } from "react-router-dom";
 import Router from "router";
 import './styles/index.sass';
 import React from 'react';
-import { AuthProviderWrapper } from 'context/AuthContext';
+import { AuthProvider } from 'context/AuthContext';
 
 window.name = 'MemoReel';
 const queryClient = new QueryClient();
@@ -12,9 +12,9 @@ const queryClient = new QueryClient();
 ReactDOM.createRoot(document.getElementById("root")).render(
 	<React.StrictMode>
 		<QueryClientProvider client={queryClient}>
-			<AuthProviderWrapper>
+			<AuthProvider>
 				<RouterProvider router={Router} />
-			</AuthProviderWrapper>
+			</AuthProvider>
 		</QueryClientProvider>
 	</React.StrictMode>
 );

@@ -4,12 +4,12 @@ import { AudioRecorder } from 'react-audio-voice-recorder';
 import { VoiceNote } from "src/components/media/Asset/views";
 import './index.sass';
 import logger from 'logger';
-import { assetContext } from 'src/context/AssetContext';
+import { useAssetContext } from 'src/context/AssetContext';
 import { createEvent } from 'src/utils';
 
 function AudioCapture() {
 	const [audioURL, setAudioUrl] = useState(undefined);
-	const { onChange } = assetContext();
+	const { onChange } = useAssetContext();
 
 	const recordAudio = (e) => {
 		const audioBlob = e;

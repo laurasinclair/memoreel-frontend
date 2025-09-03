@@ -1,13 +1,13 @@
 import { Trash } from "react-bootstrap-icons";
 import { Button } from "components";
 import { useAssets } from "src/hooks/useAssets";
-import { assetContext } from "src/context/AssetContext";
+import { useAssetContext } from "context/AssetContext";
 import logger from "logger";
 import { usePopUp } from "src/context/PopUpContext";
 
 const DeleteButton = () => {
 	const { deleteAsset } = useAssets();
-	const { asset } = assetContext();
+	const { asset } = useAssetContext();
 	const { closePopUp } = usePopUp();
 
 	const handleDelete = () => {

@@ -1,14 +1,13 @@
-import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
 
-import { AuthContext } from 'context/AuthContext';
+import { useAuth } from 'context/AuthContext';
 import { Button } from 'components';
 import { paths } from 'src/router/paths';
 
 function InfoMessage() {
 	const navigate = useNavigate();
-	const { logOutUser } = useContext(AuthContext);
+	const { logOutUser } = useAuth();
 
 	return (
 		<Container fluid>

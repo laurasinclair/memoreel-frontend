@@ -2,13 +2,13 @@ import classNames from "classnames";
 import type { AssetTypeProps, MediaTypeButtonProps } from "types";
 import styles from "../index.module.sass";
 import { useEffect, useState } from "react";
-import { assetContext } from "src/context/AssetContext";
+import { useAssetContext } from "context/AssetContext";
 import { usePopUp } from "src/context/PopUpContext";
 import logger from "logger";
 import { assetEditorConfig } from "src/config/assetEditorConfig";
 
 export default function MediaTypeButton() {
-	const { openAssetEditor } = assetContext();
+	const { openAssetEditor } = useAssetContext();
 	const [activeButton, setActiveButton] = useState(null);
 	const { isPopUpOpen } = usePopUp();
 

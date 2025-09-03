@@ -1,7 +1,7 @@
-import { useEffect, useState, useContext, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Pen } from 'react-bootstrap-icons';
 
-import { AuthContext } from 'context/AuthContext';
+import { useAuth } from "context/AuthContext";
 import usersService from 'services/users.service';
 import fileUploadService from 'services/fileUpload.service';
 import styles from './index.module.sass';
@@ -15,7 +15,7 @@ function UserProfilePage() {
 	const [initialName, setInitialName] = useState('');
 	const [initialEmail, setInitialEmail] = useState('');
 	const [initialProfileImg, setInitialProfileImg] = useState('');
-	const { user, handleDeleteAccount } = useContext(AuthContext);
+	const { user, handleDeleteAccount } = useAuth();
 	const [userProfileState, setUserProfileState] = useState<Status>({state: "idle"});
 
 	const [infoMessage, setInfoMessage] = useState(undefined);

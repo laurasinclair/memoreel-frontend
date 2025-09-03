@@ -1,10 +1,10 @@
 import { Pen } from "react-bootstrap-icons";
 import { Button } from "components";
 import type { AssetProps } from "types";
-import { assetContext } from "src/context/AssetContext";
+import { useAssetContext } from "context/AssetContext";
 
 const EditButton = ({asset, ...rest}: AssetProps & any) => {
-	const { openAssetEditor } = assetContext();
+	const { openAssetEditor } = useAssetContext();
 
 	return (
 		<Button

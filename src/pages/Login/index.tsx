@@ -1,7 +1,7 @@
-import React, { useState, useContext } from 'react';
+import { useState } from 'react';
 import { Container, Row, Col } from "react-bootstrap";
 import { Link, useNavigate } from 'react-router-dom';
-import { AuthContext } from 'context/AuthContext';
+import { useAuth } from "context/AuthContext";
 import authService from 'services/auth.service';
 import loginStyles from './index.module.sass';
 import { paths } from 'router/paths';
@@ -14,7 +14,7 @@ function Login() {
 
 	const navigate = useNavigate();
 
-	const { storeToken, authenticateUser } = useContext(AuthContext);
+	const { storeToken, authenticateUser } = useAuth();
 
 	const handleEmail = (e) => setEmail(e.target.value);
 	const handlePassword = (e) => setPassword(e.target.value);

@@ -2,13 +2,13 @@ import { CheckLg } from "react-bootstrap-icons";
 import { Button } from "components";
 import logger from "logger";
 import { useAssets } from "src/hooks/useAssets";
-import { assetContext } from "src/context/AssetContext";
+import { useAssetContext } from "context/AssetContext";
 import { validateContent } from "src/utils";
 import { usePopUp } from "src/context/PopUpContext";
 
 const SaveButton = () => {
     const { saveNewAsset, updateAsset } = useAssets();
-    const { asset, isEditing } = assetContext();
+    const { asset, isEditing } = useAssetContext();
     const { closePopUp } = usePopUp();
 
     const handleSave = () => {

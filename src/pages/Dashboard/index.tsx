@@ -1,4 +1,3 @@
-import { useContext } from 'react';
 import {
 	MediaMenu,
 	Marquee,
@@ -6,7 +5,7 @@ import {
 	AssetEditor,
 } from "components";
 import { useAssets } from "src/hooks/useAssets";
-import { AuthContext } from 'context/AuthContext';
+import { useAuth } from "context/AuthContext";
 import styles from './index.module.sass';
 import { Container } from 'react-bootstrap';
 import PopUp from "components/layout/PopUp"
@@ -14,8 +13,9 @@ import { AssetProvider } from "src/context/AssetContext";
 import { PopUpProvider } from "src/context/PopUpContext";
 
 const Dashboard = () => {
-	const { user } = useContext(AuthContext);
+	const { user } = useAuth();
 	const { todaysBoard, todaysBoardStatus } = useAssets();
+
 	return (
 		<>
 			<PopUpProvider>

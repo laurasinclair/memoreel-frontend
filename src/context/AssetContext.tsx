@@ -92,7 +92,7 @@ export const AssetProvider: React.FC<{ children: React.ReactNode }> = ({
 	);
 };
 
-export const assetContext = () => {
+export const useAssetContext = (): AssetContextType => {
 	const context = useContext(AssetContext);
 	if (!context)
 		throw new Error("useAssetContext must be used within AssetProvider");

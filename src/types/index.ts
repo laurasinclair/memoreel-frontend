@@ -85,12 +85,6 @@ export type BoardProps = {
 	status: QueryStatus;
 };
 
-export type UserContextProps = {
-	isLoggedIn: boolean;
-	authStatus: Status;
-	user: User;
-};
-
 export type AboutType = {
 	name: string;
 	description: string;
@@ -136,3 +130,19 @@ export type PopUpContextType = {
 }
 
 export type UploadFileType = string | Blob | File;
+
+export type AuthContextType = {
+	isLoggedIn: boolean;
+	authStatus: Status;
+	user: User;
+	storeToken: (token: string) => void;
+	authenticateUser: () => void;
+	logOutUser: () => void;
+	handleDeleteAccount: () => void;
+};
+
+export type UserContextProps = {
+	isLoggedIn: boolean;
+	authStatus: Status;
+	user: User;
+};

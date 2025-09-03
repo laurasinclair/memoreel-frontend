@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import authService from "services/auth.service";
 import usersService from "services/users.service";
 import boardsService from "services/boards.service";
 import assetsService from "services/assets.service";
-import type { Status, ChildrenProps, User } from "types";
+import type { Status, ChildrenProps, User, AuthContextType } from "types";
 
-const AuthContext = React.createContext(undefined);
+const AuthContext = React.createContext<AuthContextType | undefined>(undefined);
 
-function AuthProviderWrapper({ children }: ChildrenProps) {
-	const [isLoggedIn, setIsLoggedIn] = useState<Boolean>(false);
+function AuthProvider({ children }: ChildrenProps) {
+	const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 	const [user, setUser] = useState<User | null>(null);
 	const [authStatus, setAuthStatus] = useState<Status>({ state: "idle" });
 
-	const storeToken = (token) => {
+	const storeToken = (token: string) => {
 		localStorage.setItem("authToken", token);
 	};
 
@@ -24,10 +24,11 @@ function AuthProviderWrapper({ children }: ChildrenProps) {
 			authService
 				.verify()
 				.then((res) => {
+					console.log(res);
 					setIsLoggedIn(true);
 					setUser(res.data);
 				})
-				.then((res) => {
+				.then(() => {
 					setAuthStatus({ state: "success" });
 				})
 				.catch((err) => {
@@ -54,6 +55,7 @@ function AuthProviderWrapper({ children }: ChildrenProps) {
 	};
 
 	const handleDeleteAccount = async () => {
+		if (!user) return;
 		try {
 			const userResponse = await usersService.get(user._id);
 			const boards = userResponse.data.boards;
@@ -63,7 +65,7 @@ function AuthProviderWrapper({ children }: ChildrenProps) {
 				const assets = boardResponse.data.assets;
 
 				for (const assetId of assets) {
-					await assetsService.delete(assetId);
+					await assetsService.deleteAsset(assetId);
 				}
 				await boardsService.delete(boardId);
 			}
@@ -92,10 +94,10 @@ function AuthProviderWrapper({ children }: ChildrenProps) {
 			value={{
 				isLoggedIn,
 				user,
+				authStatus,
 				storeToken,
 				authenticateUser,
 				logOutUser,
-				authStatus,
 				handleDeleteAccount,
 			}}
 		>
@@ -104,4 +106,11 @@ function AuthProviderWrapper({ children }: ChildrenProps) {
 	);
 }
 
-export { AuthProviderWrapper, AuthContext };
+export { AuthProvider, AuthContext };
+
+export const useAuth = (): AuthContextType => {
+	const context = useContext(AuthContext);
+	if (!context)
+		throw new Error("useAuth must be used within AuthProvider");
+	return context;
+};

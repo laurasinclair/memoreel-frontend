@@ -6,14 +6,14 @@ import { Polaroid } from "src/components/media/Asset/views";
 import styles from './index.module.sass';
 import logger from 'logger';
 import Button from 'src/components/elements/Button';
-import { assetContext } from 'src/context/AssetContext';
+import { useAssetContext } from 'src/context/AssetContext';
 import { base64ToBlob, createEvent } from "src/utils";
 
 function WebcamCapture() {
 	const camRef = useRef();
 	const [previewURL, setPreviewURL] = useState(undefined);
 	const [photoTaken, setPhotoTaken] = useState(false);
-	const { onChange } = assetContext();
+	const { onChange } = useAssetContext();
 
 	const takeSelfiePreview = () => {
 		setPreviewURL(undefined);

@@ -1,11 +1,11 @@
-import { assetContext } from "src/context/AssetContext";
+import { useAssetContext } from "context/AssetContext";
 import { assetEditorConfig } from "src/config/assetEditorConfig";
 import { DeleteButton, SaveButton } from "../AssetActions";
 import { capitalizeString } from "src/utils";
 import { AssetEditorProps } from "src/types";
 
 function AssetEditor() {
-	const { asset, onChange, isEditing } = assetContext();
+	const { asset, onChange, isEditing } = useAssetContext();
 	if (!asset) return;
 	const type = asset.type;
 	const openAsset: AssetEditorProps = assetEditorConfig[type];
