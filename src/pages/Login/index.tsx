@@ -6,11 +6,13 @@ import authService from 'services/auth.service';
 import loginStyles from './index.module.sass';
 import { paths } from 'router/paths';
 import logger from 'src/utils/logger';
+import { Loading } from 'src/components';
 
 function Login() {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [errorMessage, setErrorMessage] = useState(undefined);
+	const [loading, setLoading] = useState<boolean>(false);
 
 	const navigate = useNavigate();
 
@@ -21,10 +23,17 @@ function Login() {
 
 	const handleLoginSubmit = (e) => {
 		e.preventDefault();
-		const requestBody = { email, password };
+		setLoading(true);
+		const req = { email, password };
+
+		if (!email || !password) {
+			setErrorMessage("❌ Please add email & password");
+			setLoading(false);
+			return;
+		};
 
 		authService
-			.login(requestBody)
+			.login(req)
 			.then((response) => {
 				storeToken(response.data.authToken);
 				authenticateUser();
@@ -36,7 +45,8 @@ function Login() {
 					? err.response.data.message
 					: err.message;
 				setErrorMessage("❌ " + errorDescription);
-			});
+			})
+			.finally(() => setLoading(false));
 	};
 
 	return (
@@ -75,14 +85,16 @@ function Login() {
 								/>
 							</fieldset>
 
+							{errorMessage && (
+								<p className="error-message">{errorMessage}</p>
+							)}
+
 							<button type="submit" className="button-primary">
-								Login
+								{loading ? <Loading size={20} /> : "Login"}
 							</button>
 						</form>
-						{errorMessage && (
-							<p className="error-message">{errorMessage}</p>
-						)}
-						<p className="">
+
+						<p>
 							Don&apos;t have an account yet?{" "}
 							<Link to={paths.signup} className="underline">
 								Sign up

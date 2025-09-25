@@ -148,3 +148,8 @@ export type UserContextProps = {
 	authStatus: Status;
 	user: User;
 };
+
+export interface LoginType {
+	email: string;
+	password: string;
+}

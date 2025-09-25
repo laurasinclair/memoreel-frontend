@@ -47,6 +47,8 @@ function AuthProvider({ children }: ChildrenProps) {
 					return;
 				});
 		}
+
+		setAuthStatus({ state: "idle" });
 	};
 
 	const removeToken = () => {

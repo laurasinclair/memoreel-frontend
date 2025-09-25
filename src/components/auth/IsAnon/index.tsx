@@ -6,7 +6,7 @@ import { paths } from 'router/paths';
 function IsAnon({ children }) {
 	const { isLoggedIn, authStatus } = useAuth();
 
-	if (authStatus.state === "loading") return <Loading />;
+	if (authStatus.state === "loading") return <Loading center />;
 
 	if (isLoggedIn) {
 		return <Navigate to={paths.dashboard} />;
